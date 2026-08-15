@@ -1,5 +1,8 @@
 /* Run this script from a bookmark on https://leetcode.com/progress/. */
 (async function () {
+  const connectorOrigin = document.currentScript?.src
+    ? new URL(document.currentScript.src).origin
+    : "https://leet-progress-eta.vercel.app";
   const query = `query userProgressQuestionList($filters: UserProgressQuestionListInput) { userProgressQuestionList(filters: $filters) { totalNum questions { frontendId title titleSlug questionStatus } } }`;
   const limit = 50; let skip = 0; let total = Infinity; const all = [];
   try {
@@ -14,8 +17,10 @@
     }
     const problems = [...new Map(all.filter((q) => q.questionStatus === "SOLVED").map((q) => [q.titleSlug || q.frontendId, { id: String(q.frontendId || ""), title: String(q.title || ""), slug: String(q.titleSlug || "") }])).values()];
     if (!window.opener) throw new Error("Open the importer from Leet Progress first");
-    window.opener.postMessage({ type: "LEETCODE_PROGRESS", version: 1, problems }, "http://localhost:3000");
-    window.opener.postMessage({ type: "LEETCODE_PROGRESS", version: 1, problems }, "https://leet-progress.vercel.app");
+    const appOrigins = new Set([connectorOrigin, "http://localhost:3000"]);
+    for (const appOrigin of appOrigins) {
+      window.opener.postMessage({ type: "LEETCODE_PROGRESS", version: 1, problems }, appOrigin);
+    }
     alert(`Imported ${problems.length} solved problems. Return to Leet Progress.`);
   } catch (error) { alert(`Leet Progress import failed: ${error instanceof Error ? error.message : "Unknown error"}`); }
 })();
