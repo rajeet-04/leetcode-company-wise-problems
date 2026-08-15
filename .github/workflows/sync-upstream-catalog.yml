@@ -1,0 +1,73 @@
+name: Sync upstream and rebuild catalog
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.csv"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-upstream-catalog
+  cancel-in-progress: true
+
+jobs:
+  sync-and-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the fork main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync fork main from upstream
+        if: github.event_name != 'push'
+        run: |
+          git remote add upstream https://github.com/liquidslr/leetcode-company-wise-problems.git
+          git fetch upstream main
+          git merge --no-edit upstream/main
+          git push origin main
+
+      - name: Merge main into web
+        run: |
+          git fetch origin main web
+          git switch web
+          git merge --no-edit origin/main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Rebuild merged problem catalog
+        working-directory: frontend
+        run: npm run catalog
+
+      - name: Validate generated catalog
+        working-directory: frontend
+        run: |
+          node -e "const fs=require('fs'); const rows=JSON.parse(fs.readFileSync('src/data/catalog.json','utf8')); const meta=JSON.parse(fs.readFileSync('src/data/catalog-meta.json','utf8')); if(!Array.isArray(rows)||rows.length===0||rows.length!==meta.uniqueProblems) process.exit(1); console.log(meta);"
+
+      - name: Commit generated catalog when changed
+        run: |
+          git add frontend/src/data/catalog.json frontend/src/data/catalog-meta.json
+          if git diff --cached --quiet; then
+            echo "Catalog is already current."
+          else
+            git commit -m "chore: rebuild company problem catalog"
+          fi
+
+      - name: Push the updated web branch
+        run: git push origin web
