@@ -1,4 +1,45 @@
 "use client";
+
 import { useEffect, useState } from "react";
+
 type Theme = "light" | "dark" | "system";
-export function ThemeToggle(){const [theme,setTheme]=useState<Theme>("system");useEffect(()=>{const saved=localStorage.getItem("leet-theme") as Theme|null;const next=saved||"system";setTheme(next);const apply=()=>document.documentElement.classList.toggle("dark",next==="dark"||(next==="system"&&matchMedia("(prefers-color-scheme: dark)").matches));apply();const media=matchMedia("(prefers-color-scheme: dark)");media.addEventListener("change",apply);return()=>media.removeEventListener("change",apply)},[]);const choose=(next:Theme)=>{setTheme(next);localStorage.setItem("leet-theme",next);document.documentElement.classList.toggle("dark",next==="dark"||(next==="system"&&matchMedia("(prefers-color-scheme: dark)").matches))};return <div className="fixed bottom-5 right-5 z-10 flex rounded-full border border-black/10 bg-white/85 p-1 shadow-lg backdrop-blur dark:border-white/10 dark:bg-[#242424]/90" aria-label="Color theme"><button onClick={()=>choose("light")} aria-label="Light theme" className={`rounded-full px-3 py-2 text-[11px] ${theme==="light"?"bg-black text-white dark:bg-white dark:text-black":"text-black/45 dark:text-white/45"}`}>Light</button><button onClick={()=>choose("dark")} aria-label="Dark theme" className={`rounded-full px-3 py-2 text-[11px] ${theme==="dark"?"bg-black text-white dark:bg-white dark:text-black":"text-black/45 dark:text-white/45"}`}>Dark</button><button onClick={()=>choose("system")} aria-label="System theme" className={`rounded-full px-3 py-2 text-[11px] ${theme==="system"?"bg-black text-white dark:bg-white dark:text-black":"text-black/45 dark:text-white/45"}`}>System</button></div>}
+const order: Theme[] = ["light", "dark", "system"];
+
+function applyTheme(theme: Theme) {
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.classList.toggle("dark", theme === "dark" || (theme === "system" && systemDark));
+}
+
+export function ThemeToggle() {
+  const [theme, setTheme] = useState<Theme>("system");
+
+  useEffect(() => {
+    const saved = (localStorage.getItem("leet-theme") as Theme | null) ?? "system";
+    queueMicrotask(() => setTheme(saved));
+    applyTheme(saved);
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const sync = () => {
+      if ((localStorage.getItem("leet-theme") ?? "system") === "system") applyTheme("system");
+    };
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  const cycle = () => {
+    const next = order[(order.indexOf(theme) + 1) % order.length];
+    setTheme(next);
+    localStorage.setItem("leet-theme", next);
+    applyTheme(next);
+  };
+
+  return (
+    <button
+      onClick={cycle}
+      className="theme-cycle rounded-full border px-3.5 py-2.5 text-[11px] font-semibold capitalize backdrop-blur"
+      aria-label={`Theme: ${theme}. Activate to switch theme.`}
+      title={`Theme: ${theme}. Click for ${order[(order.indexOf(theme) + 1) % order.length]}.`}
+    >
+      {theme}
+    </button>
+  );
+}
