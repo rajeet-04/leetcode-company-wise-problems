@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the fork main branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0
@@ -40,7 +40,7 @@ jobs:
           git merge --no-edit upstream/main
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
 
@@ -64,7 +64,9 @@ jobs:
 
       - name: Type-check the frontend
         working-directory: frontend
-        run: bun run typecheck
+        run: |
+          bunx next typegen
+          bun run typecheck
 
       - name: Commit generated catalog when changed
         run: |
