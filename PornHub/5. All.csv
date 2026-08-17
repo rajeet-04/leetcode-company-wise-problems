@@ -1,10 +1,12 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-HARD,Median of Two Sorted Arrays,100.0,0.43814667695055187,https://leetcode.com/problems/median-of-two-sorted-arrays,"Array, Binary Search, Divide and Conquer"
-MEDIUM,Longest Substring Without Repeating Characters,79.3,0.3693614370485206,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
-EASY,Longest Common Prefix,79.3,0.4548317594843367,https://leetcode.com/problems/longest-common-prefix,"String, Trie"
-MEDIUM,Maximum Subarray,79.3,0.5209986094967198,https://leetcode.com/problems/maximum-subarray,"Array, Divide and Conquer, Dynamic Programming"
-MEDIUM,Extra Characters in a String,79.3,0.5705564198111501,https://leetcode.com/problems/extra-characters-in-a-string,"Array, Hash Table, String, Dynamic Programming, Trie"
-EASY,Check if Number Has Equal Digit Count and Digit Value,79.3,0.7244297819277936,https://leetcode.com/problems/check-if-number-has-equal-digit-count-and-digit-value,"Hash Table, String, Counting"
-HARD,Reverse Nodes in k-Group,79.3,0.6304369585397218,https://leetcode.com/problems/reverse-nodes-in-k-group,"Linked List, Recursion"
-HARD,Split Array Largest Sum,79.3,0.5809965654277032,https://leetcode.com/problems/split-array-largest-sum,"Array, Binary Search, Dynamic Programming, Greedy, Prefix Sum"
-MEDIUM,Search in Rotated Sorted Array,79.3,0.4283731267627601,https://leetcode.com/problems/search-in-rotated-sorted-array,"Array, Binary Search"
+MEDIUM,Next Permutation,100.0,0.004595895528905041,https://leetcode.com/problems/next-permutation,"Array, Two Pointers"
+MEDIUM,Longest Substring Without Repeating Characters,86.5,0.003977953357193677,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
+MEDIUM,Coin Change II,86.5,0.00593027269021016,https://leetcode.com/problems/coin-change-ii,"Array, Dynamic Programming, Knapsack Problem, Complete Knapsack"
+MEDIUM,Spiral Matrix,86.5,0.005762717534317604,https://leetcode.com/problems/spiral-matrix,"Array, Matrix, Simulation"
+MEDIUM,Count Salary Categories,86.5,0.006511409185135771,https://leetcode.com/problems/count-salary-categories,Database
+MEDIUM,Valid Parenthesis String,86.5,0.0040403835596524015,https://leetcode.com/problems/valid-parenthesis-string,"String, Dynamic Programming, Stack, Greedy, Bracket Sequences"
+EASY,Palindrome Number,86.5,0.00608745105993423,https://leetcode.com/problems/palindrome-number,Math
+EASY,Majority Element,86.5,0.006648700202458986,https://leetcode.com/problems/majority-element,"Array, Hash Table, Divide and Conquer, Sorting, Counting, Boyer–Moore Majority Vote Algorithm"
+MEDIUM,Container With Most Water,86.5,0.00606483008604204,https://leetcode.com/problems/container-with-most-water,"Array, Two Pointers, Greedy"
+MEDIUM,Longest Palindromic Substring,86.5,0.0038471129830067756,https://leetcode.com/problems/longest-palindromic-substring,"Two Pointers, String, Dynamic Programming, Manacher"
+MEDIUM,Surrounded Regions,86.5,0.004606747042516796,https://leetcode.com/problems/surrounded-regions,"Array, Depth-First Search, Breadth-First Search, Union-Find, Matrix"

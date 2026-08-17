@@ -1,6 +1,5 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Merge Intervals,100.0,0.005211651885832463,https://leetcode.com/problems/merge-intervals,"Array, Sorting"
-HARD,Word Ladder,88.0,0.0045843839633708475,https://leetcode.com/problems/word-ladder,"Hash Table, String, Breadth-First Search"
-MEDIUM,3Sum,88.0,0.003930099286541829,https://leetcode.com/problems/3sum,"Array, Two Pointers, Sorting"
-MEDIUM,Longest Consecutive Sequence,88.0,0.004714858890652096,https://leetcode.com/problems/longest-consecutive-sequence,"Array, Hash Table, Union-Find"
-MEDIUM,Course Schedule II,88.0,0.005574028274042673,https://leetcode.com/problems/course-schedule-ii,"Depth-First Search, Breadth-First Search, Graph Theory, Topological Sort"
+MEDIUM,Group Anagrams,100.0,0.0073128561363822375,https://leetcode.com/problems/group-anagrams,"Array, Hash Table, String, Sorting"
+MEDIUM,Number of Islands,81.7,0.0064959996125990346,https://leetcode.com/problems/number-of-islands,"Array, Depth-First Search, Breadth-First Search, Union-Find, Matrix"
+HARD,LFU Cache,81.7,0.005002874263165587,https://leetcode.com/problems/lfu-cache,"Hash Table, Linked List, Design, Doubly-Linked List"
+MEDIUM,Time Based Key-Value Store,81.7,0.005012873077888558,https://leetcode.com/problems/time-based-key-value-store,"Hash Table, String, Binary Search, Design"

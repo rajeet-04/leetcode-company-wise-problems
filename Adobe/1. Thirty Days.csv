@@ -1,1 +1,4 @@
-Difficulty,Title,Frequency,Acceptance Rate,Link
+Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
+HARD,Count Subarrays With Fixed Bounds,100.0,0.006917435037720032,https://leetcode.com/problems/count-subarrays-with-fixed-bounds,"Array, Queue, Sliding Window, Monotonic Queue"
+MEDIUM,LRU Cache,83.5,0.004786834626576906,https://leetcode.com/problems/lru-cache,"Hash Table, Linked List, Design, Doubly-Linked List"
+MEDIUM,Maximize Distance to Closest Person,83.5,0.004997639294413225,https://leetcode.com/problems/maximize-distance-to-closest-person,Array

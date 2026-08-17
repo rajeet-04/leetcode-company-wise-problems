@@ -1,3 +1,4 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Two Sum,100.0,0.5577709731557225,https://leetcode.com/problems/two-sum,"Array, Hash Table"
-EASY,Count Integers With Even Digit Sum,89.6,0.6878335702551094,https://leetcode.com/problems/count-integers-with-even-digit-sum,"Math, Simulation"
+EASY,Average Time of Process per Machine,100.0,0.006693236986635176,https://leetcode.com/problems/average-time-of-process-per-machine,Database
+EASY,Palindrome Number,89.6,0.006087450999166423,https://leetcode.com/problems/palindrome-number,Math
+EASY,Two Sum,89.6,0.0058009569065051395,https://leetcode.com/problems/two-sum,"Array, Hash Table"

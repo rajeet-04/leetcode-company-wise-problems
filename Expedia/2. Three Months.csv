@@ -1,4 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Remove Stones to Minimize the Total,100.0,0.0065838801577592036,https://leetcode.com/problems/remove-stones-to-minimize-the-total,"Array, Greedy, Heap (Priority Queue)"
-MEDIUM,Basic Calculator II,100.0,0.004697252260549352,https://leetcode.com/problems/basic-calculator-ii,"Math, String, Stack"
-HARD,LFU Cache,100.0,0.004951330792763133,https://leetcode.com/problems/lfu-cache,"Hash Table, Linked List, Design, Doubly-Linked List"
+MEDIUM,Using a Robot to Print the Lexicographically Smallest String,100.0,0.006219648190799613,https://leetcode.com/problems/using-a-robot-to-print-the-lexicographically-smallest-string,"Hash Table, String, Stack, Greedy"

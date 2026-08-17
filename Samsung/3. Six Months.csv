@@ -1,2 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,LRU Cache,100.0,0.004754638885714521,https://leetcode.com/problems/lru-cache,"Hash Table, Linked List, Design, Doubly-Linked List"
+EASY,Two Sum,100.0,0.0058009587458191314,https://leetcode.com/problems/two-sum,"Array, Hash Table"

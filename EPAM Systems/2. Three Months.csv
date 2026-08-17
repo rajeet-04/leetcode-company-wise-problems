@@ -1,3 +1,8 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Merge Sorted Array,100.0,0.005509624174681576,https://leetcode.com/problems/merge-sorted-array,"Array, Two Pointers, Sorting"
-EASY,Move Zeroes,100.0,0.006398869675014033,https://leetcode.com/problems/move-zeroes,"Array, Two Pointers"
+MEDIUM,Decode Ways,100.0,0.003844581633257514,https://leetcode.com/problems/decode-ways,"String, Dynamic Programming"
+EASY,Merge Sorted Array,87.5,0.005552801689926469,https://leetcode.com/problems/merge-sorted-array,"Array, Two Pointers, Sorting"
+EASY,Move Zeroes,87.5,0.0064265424296464195,https://leetcode.com/problems/move-zeroes,"Array, Two Pointers"
+MEDIUM,Query Kth Smallest Trimmed Number,87.5,0.004806396925858951,https://leetcode.com/problems/query-kth-smallest-trimmed-number,"Array, String, Divide and Conquer, Sorting, Heap (Priority Queue), Radix Sort, Quickselect"
+MEDIUM,Max Consecutive Ones III,87.5,0.006827682584635429,https://leetcode.com/problems/max-consecutive-ones-iii,"Array, Binary Search, Sliding Window, Prefix Sum"
+HARD,Longest Increasing Path in a Matrix,77.6,0.005695044086814752,https://leetcode.com/problems/longest-increasing-path-in-a-matrix,"Array, Dynamic Programming, Depth-First Search, Breadth-First Search, Graph Theory, Topological Sort, Memoization, Matrix, Directed Acyclic Graph"
+MEDIUM,Remove K Digits,77.6,0.003749074710202562,https://leetcode.com/problems/remove-k-digits,"String, Stack, Greedy, Monotonic Stack"

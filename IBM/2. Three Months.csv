@@ -1,5 +1,6 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Gray Code,100.0,0.6187231456205623,https://leetcode.com/problems/gray-code,"Math, Backtracking, Bit Manipulation"
-MEDIUM,3Sum,100.0,0.3707096536037866,https://leetcode.com/problems/3sum,"Array, Two Pointers, Sorting"
-MEDIUM,Rotate Image,100.0,0.7790165261990751,https://leetcode.com/problems/rotate-image,"Array, Math, Matrix"
-MEDIUM,Find the Smallest Divisor Given a Threshold,100.0,0.6364613847469199,https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold,"Array, Binary Search"
+MEDIUM,Length of the Longest Alphabetical Continuous Substring,100.0,0.00611036351080971,https://leetcode.com/problems/length-of-the-longest-alphabetical-continuous-substring,String
+MEDIUM,Merge Intervals,100.0,0.005257640819791322,https://leetcode.com/problems/merge-intervals,"Array, Sorting, Quicksort"
+EASY,Longest Common Prefix,100.0,0.004818721224905541,https://leetcode.com/problems/longest-common-prefix,"Array, String, Trie"
+EASY,Valid Anagram,100.0,0.006853253496884522,https://leetcode.com/problems/valid-anagram,"Hash Table, String, Sorting"
+MEDIUM,Integer to Roman,100.0,0.007149616997870125,https://leetcode.com/problems/integer-to-roman,"Hash Table, Math, String"

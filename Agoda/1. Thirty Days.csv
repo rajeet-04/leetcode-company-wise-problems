@@ -1,2 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Subsets,100.0,0.008247560770170463,https://leetcode.com/problems/subsets,"Array, Backtracking, Bit Manipulation"
+HARD,Number of Atoms,100.0,0.006524168993642231,https://leetcode.com/problems/number-of-atoms,"Hash Table, String, Stack, Sorting"

@@ -1,3 +1,5 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,House Robber,100.0,0.005332524663575611,https://leetcode.com/problems/house-robber,"Array, Dynamic Programming"
-MEDIUM,Subsets,100.0,0.008247560770170463,https://leetcode.com/problems/subsets,"Array, Backtracking, Bit Manipulation"
+HARD,Number of Atoms,100.0,0.006524168993642231,https://leetcode.com/problems/number-of-atoms,"Hash Table, String, Stack, Sorting"
+MEDIUM,Remove All Adjacent Duplicates in String II,84.4,0.006175687044307348,https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii,"String, Stack"
+MEDIUM,Subsets,75.3,0.008271543733881505,https://leetcode.com/problems/subsets,"Array, Backtracking, Bit Manipulation"
+EASY,Rank Transform of an Array,75.3,0.007397527786766802,https://leetcode.com/problems/rank-transform-of-an-array,"Array, Hash Table, Sorting"

@@ -1,4 +1,6 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Second Highest Salary,100.0,0.4386517852577502,https://leetcode.com/problems/second-highest-salary,Database
-HARD,Median of Two Sorted Arrays,100.0,0.43814667695055187,https://leetcode.com/problems/median-of-two-sorted-arrays,"Array, Binary Search, Divide and Conquer"
-EASY,Palindrome Number,100.0,0.5922452723221134,https://leetcode.com/problems/palindrome-number,Math
+MEDIUM,Longest Substring Without Repeating Characters,100.0,0.0039778944934471625,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
+EASY,Two Sum,88.7,0.005800925551602618,https://leetcode.com/problems/two-sum,"Array, Hash Table"
+EASY,Find the Index of the First Occurrence in a String,88.7,0.0047167290644853635,https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string,"Two Pointers, String, String Matching, Z Algorithm, Knuth–Morris–Pratt Algorithm, Boyer–Moore String-Search Algorithm"
+MEDIUM,Rank Scores,88.7,0.006853943994516236,https://leetcode.com/problems/rank-scores,Database
+EASY,Move Zeroes,88.7,0.006426519370396749,https://leetcode.com/problems/move-zeroes,"Array, Two Pointers"

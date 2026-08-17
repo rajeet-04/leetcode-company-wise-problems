@@ -1,2 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Container With Most Water,100.0,0.5778291958481471,https://leetcode.com/problems/container-with-most-water,"Array, Two Pointers, Greedy"
+MEDIUM,Group Anagrams,100.0,0.007312899263058849,https://leetcode.com/problems/group-anagrams,"Array, Hash Table, String, Sorting"

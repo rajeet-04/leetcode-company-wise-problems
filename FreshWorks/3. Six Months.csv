@@ -1,2 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Remove Duplicates from Sorted Array II,100.0,0.006485636700976797,https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii,"Array, Two Pointers"
+HARD,Merge k Sorted Lists,100.0,0.006029385659706048,https://leetcode.com/problems/merge-k-sorted-lists,"Linked List, Divide and Conquer, Heap (Priority Queue), Merge Sort, Tournament Sort"

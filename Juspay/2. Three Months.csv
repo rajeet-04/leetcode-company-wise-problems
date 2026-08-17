@@ -1,5 +1,4 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Operations on Tree,100.0,0.43368293750912235,https://leetcode.com/problems/operations-on-tree,"Array, Hash Table, Tree, Depth-First Search, Breadth-First Search, Design"
-HARD,Largest Color Value in a Directed Graph,87.7,0.5767908345021908,https://leetcode.com/problems/largest-color-value-in-a-directed-graph,"Hash Table, Dynamic Programming, Graph, Topological Sort, Memoization, Counting"
-HARD,Shortest Path in a Weighted Tree,87.7,0.3218752658895601,https://leetcode.com/problems/shortest-path-in-a-weighted-tree,"Array, Tree, Depth-First Search, Binary Indexed Tree, Segment Tree"
-HARD,Sliding Window Maximum,87.7,0.47604117337050583,https://leetcode.com/problems/sliding-window-maximum,"Array, Queue, Sliding Window, Heap (Priority Queue), Monotonic Queue"
+MEDIUM,Minimum Cost Homecoming of a Robot in a Grid,100.0,0.005186240939982271,https://leetcode.com/problems/minimum-cost-homecoming-of-a-robot-in-a-grid,"Array, Greedy"
+HARD,Minimum Number of Operations to Make Array Continuous,90.2,0.005176202584074462,https://leetcode.com/problems/minimum-number-of-operations-to-make-array-continuous,"Array, Hash Table, Binary Search, Sliding Window"
+MEDIUM,Operations on Tree,90.2,0.0045780126997418185,https://leetcode.com/problems/operations-on-tree,"Array, Hash Table, Tree, Depth-First Search, Breadth-First Search, Design"

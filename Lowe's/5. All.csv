@@ -1,5 +1,7 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-HARD,The Number of Good Subsets,100.0,0.3594289069955223,https://leetcode.com/problems/the-number-of-good-subsets,"Array, Math, Dynamic Programming, Bit Manipulation, Bitmask"
-HARD,Groups of Strings,100.0,0.26602572044502815,https://leetcode.com/problems/groups-of-strings,"String, Bit Manipulation, Union Find"
-EASY,Find the Original Typed String I,100.0,0.5677986849468383,https://leetcode.com/problems/find-the-original-typed-string-i,String
-EASY,Minimum Operations to Make Array Values Equal to K,100.0,0.7347140308722877,https://leetcode.com/problems/minimum-operations-to-make-array-values-equal-to-k,"Array, Hash Table"
+EASY,Find the Original Typed String I,100.0,0.007209982192679532,https://leetcode.com/problems/find-the-original-typed-string-i,String
+EASY,Minimum Operations to Make Array Values Equal to K,100.0,0.007321668386756889,https://leetcode.com/problems/minimum-operations-to-make-array-values-equal-to-k,"Array, Hash Table"
+HARD,The Number of Good Subsets,95.2,0.0037766456210539478,https://leetcode.com/problems/the-number-of-good-subsets,"Array, Hash Table, Math, Dynamic Programming, Bit Manipulation, Counting, Number Theory, Bitmask, Sieve Theory"
+HARD,Groups of Strings,95.2,0.002818181818181818,https://leetcode.com/problems/groups-of-strings,"Array, Hash Table, String, Bit Manipulation, Union-Find"
+EASY,Two Sum,65.1,0.005800955370218203,https://leetcode.com/problems/two-sum,"Array, Hash Table"
+MEDIUM,LRU Cache,65.1,0.004786878853306251,https://leetcode.com/problems/lru-cache,"Hash Table, Linked List, Design, Doubly-Linked List"

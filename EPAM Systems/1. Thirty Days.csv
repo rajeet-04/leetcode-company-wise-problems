@@ -1,2 +1,3 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Merge Sorted Array,100.0,0.005509624174681576,https://leetcode.com/problems/merge-sorted-array,"Array, Two Pointers, Sorting"
+MEDIUM,Query Kth Smallest Trimmed Number,100.0,0.004806396925858951,https://leetcode.com/problems/query-kth-smallest-trimmed-number,"Array, String, Divide and Conquer, Sorting, Heap (Priority Queue), Radix Sort, Quickselect"
+MEDIUM,Max Consecutive Ones III,89.8,0.006827682584635429,https://leetcode.com/problems/max-consecutive-ones-iii,"Array, Binary Search, Sliding Window, Prefix Sum"

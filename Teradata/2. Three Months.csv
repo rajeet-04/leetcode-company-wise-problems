@@ -1,1 +1,3 @@
-Difficulty,Title,Frequency,Acceptance Rate,Link
+Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
+HARD,Maximize the Minimum Powered City,100.0,0.00614006428369596,https://leetcode.com/problems/maximize-the-minimum-powered-city,"Array, Binary Search, Greedy, Queue, Sliding Window, Prefix Sum"
+HARD,Reducing Dishes,71.9,0.007681388138654052,https://leetcode.com/problems/reducing-dishes,"Array, Dynamic Programming, Greedy, Sorting"

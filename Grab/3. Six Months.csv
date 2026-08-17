@@ -1,3 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Accounts Merge,100.0,0.006152843460256589,https://leetcode.com/problems/accounts-merge,"Array, Hash Table, String, Depth-First Search, Breadth-First Search, Union-Find, Sorting"
-EASY,Repeated Substring Pattern,100.0,0.004841044107743328,https://leetcode.com/problems/repeated-substring-pattern,"String, String Matching"
+MEDIUM,Accounts Merge,100.0,0.006188994327914749,https://leetcode.com/problems/accounts-merge,"Array, Hash Table, String, Depth-First Search, Breadth-First Search, Union-Find, Sorting"

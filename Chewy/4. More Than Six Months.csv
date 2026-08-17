@@ -1,5 +1,5 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Design Tic-Tac-Toe,100.0,0.5860157935441853,https://leetcode.com/problems/design-tic-tac-toe,"Array, Hash Table, Design, Matrix, Simulation"
-MEDIUM,Robot Bounded In Circle,89.5,0.562297474032361,https://leetcode.com/problems/robot-bounded-in-circle,"Math, String, Simulation"
-EASY,Backspace String Compare,89.5,0.49481803728999,https://leetcode.com/problems/backspace-string-compare,"Two Pointers, String, Stack, Simulation"
-EASY,Two Sum,89.5,0.5577703274921263,https://leetcode.com/problems/two-sum,"Array, Hash Table"
+MEDIUM,Top K Frequent Elements,100.0,0.006713872588184193,https://leetcode.com/problems/top-k-frequent-elements,"Array, Hash Table, Divide and Conquer, Sorting, Heap (Priority Queue), Bucket Sort, Counting, Quickselect"
+EASY,Valid Parentheses,100.0,0.004472534241056997,https://leetcode.com/problems/valid-parentheses,"String, Stack, Bracket Sequences"
+MEDIUM,Merge Intervals,100.0,0.005257589399494338,https://leetcode.com/problems/merge-intervals,"Array, Sorting, Quicksort"
+MEDIUM,LRU Cache,100.0,0.004786839258915928,https://leetcode.com/problems/lru-cache,"Hash Table, Linked List, Design, Doubly-Linked List"

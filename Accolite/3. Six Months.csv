@@ -1,3 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Coin Change,100.0,0.004863050091387497,https://leetcode.com/problems/coin-change,"Array, Dynamic Programming, Breadth-First Search"
-MEDIUM,Longest Substring Without Repeating Characters,100.0,0.003929937441226943,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
+EASY,Valid Parentheses,100.0,0.004472528120893722,https://leetcode.com/problems/valid-parentheses,"String, Stack, Bracket Sequences"

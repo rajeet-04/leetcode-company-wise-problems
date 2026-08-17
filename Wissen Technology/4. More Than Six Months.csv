@@ -1,3 +1,9 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Search a 2D Matrix,100.0,0.005416886621504633,https://leetcode.com/problems/search-a-2d-matrix,"Array, Binary Search, Matrix"
-MEDIUM,Longest Consecutive Sequence,100.0,0.0047148605828504645,https://leetcode.com/problems/longest-consecutive-sequence,"Array, Hash Table, Union-Find"
+MEDIUM,Longest Consecutive Sequence,100.0,0.004720837132700632,https://leetcode.com/problems/longest-consecutive-sequence,"Array, Hash Table, Union-Find"
+MEDIUM,Valid Sudoku,100.0,0.006495091088031032,https://leetcode.com/problems/valid-sudoku,"Array, Hash Table, Matrix"
+HARD,Minimum Window Substring,100.0,0.004825516087783337,https://leetcode.com/problems/minimum-window-substring,"Hash Table, String, Sliding Window"
+MEDIUM,Search a 2D Matrix,88.5,0.0054380152401205025,https://leetcode.com/problems/search-a-2d-matrix,"Array, Binary Search, Matrix"
+MEDIUM,Sort Characters By Frequency,88.5,0.007571013739168003,https://leetcode.com/problems/sort-characters-by-frequency,"Hash Table, String, Sorting, Heap (Priority Queue), Bucket Sort, Counting"
+MEDIUM,Remove Duplicates from Sorted Array II,88.5,0.006515557743928588,https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii,"Array, Two Pointers"
+MEDIUM,Spiral Matrix,88.5,0.005762719986148905,https://leetcode.com/problems/spiral-matrix,"Array, Matrix, Simulation"
+EASY,Remove Duplicates from Sorted Array,88.5,0.006356316837597572,https://leetcode.com/problems/remove-duplicates-from-sorted-array,"Array, Two Pointers"

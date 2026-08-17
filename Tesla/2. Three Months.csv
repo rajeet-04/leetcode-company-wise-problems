@@ -1,3 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Rectangle Area,100.0,0.004981015165762343,https://leetcode.com/problems/rectangle-area,"Math, Geometry"
-MEDIUM,Snakes and Ladders,83.0,0.00481567008597349,https://leetcode.com/problems/snakes-and-ladders,"Array, Breadth-First Search, Matrix"
+MEDIUM,Snakes and Ladders,100.0,0.004823435749699539,https://leetcode.com/problems/snakes-and-ladders,"Array, Breadth-First Search, Matrix"

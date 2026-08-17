@@ -1,7 +1,6 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Longest Palindromic Substring,100.0,0.003804649338394558,https://leetcode.com/problems/longest-palindromic-substring,"Two Pointers, String, Dynamic Programming"
-MEDIUM,Multiply Strings,92.3,0.004433661605978072,https://leetcode.com/problems/multiply-strings,"Math, String, Simulation"
-MEDIUM,Group Anagrams,81.6,0.007279892459528706,https://leetcode.com/problems/group-anagrams,"Array, Hash Table, String, Sorting"
-HARD,Best Time to Buy and Sell Stock IV,81.6,0.005047150215733831,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv,"Array, Dynamic Programming"
-EASY,Two Sum,81.6,0.00576889924326376,https://leetcode.com/problems/two-sum,"Array, Hash Table"
-MEDIUM,Jump Game,81.6,0.004106528066517647,https://leetcode.com/problems/jump-game,"Array, Dynamic Programming, Greedy"
+MEDIUM,Longest Palindromic Substring,100.0,0.0038471122158979625,https://leetcode.com/problems/longest-palindromic-substring,"Two Pointers, String, Dynamic Programming, Manacher"
+MEDIUM,Multiply Strings,92.4,0.004462406420935448,https://leetcode.com/problems/multiply-strings,"Math, String, Simulation"
+MEDIUM,Group Anagrams,81.7,0.007312901678615539,https://leetcode.com/problems/group-anagrams,"Array, Hash Table, String, Sorting"
+HARD,Best Time to Buy and Sell Stock IV,81.7,0.005104145455324896,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv,"Array, Dynamic Programming"
+MEDIUM,Jump Game,81.7,0.004138480536187823,https://leetcode.com/problems/jump-game,"Array, Dynamic Programming, Greedy"

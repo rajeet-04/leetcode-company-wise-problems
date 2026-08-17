@@ -1,2 +1,4 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Rotting Oranges,100.0,0.005886900775571508,https://leetcode.com/problems/rotting-oranges,"Array, Breadth-First Search, Matrix"
+HARD,Contain Virus,100.0,0.0055768173320136375,https://leetcode.com/problems/contain-virus,"Array, Depth-First Search, Breadth-First Search, Matrix, Simulation"
+MEDIUM,Cheapest Flights Within K Stops,58.5,0.004241511632931685,https://leetcode.com/problems/cheapest-flights-within-k-stops,"Dynamic Programming, Depth-First Search, Breadth-First Search, Graph Theory, Heap (Priority Queue), Shortest Path"
+MEDIUM,Loud and Rich,58.5,0.006400431982103598,https://leetcode.com/problems/loud-and-rich,"Array, Depth-First Search, Graph Theory, Topological Sort, Directed Acyclic Graph"

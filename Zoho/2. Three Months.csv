@@ -1,2 +1,4 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Angle Between Hands of a Clock,100.0,0.006961926376799551,https://leetcode.com/problems/angle-between-hands-of-a-clock,Math
+MEDIUM,Angle Between Hands of a Clock,100.0,0.006987956660087807,https://leetcode.com/problems/angle-between-hands-of-a-clock,Math
+MEDIUM,Sequential Digits,88.5,0.00686422998610507,https://leetcode.com/problems/sequential-digits,Enumeration
+MEDIUM,Longest Repeating Character Replacement,88.5,0.006043047383632891,https://leetcode.com/problems/longest-repeating-character-replacement,"Hash Table, String, Sliding Window"

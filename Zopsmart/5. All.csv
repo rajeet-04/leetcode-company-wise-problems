@@ -1,18 +1,16 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Zigzag Conversion,100.0,0.0054381493414295354,https://leetcode.com/problems/zigzag-conversion,String
-HARD,Trapping Rain Water,83.7,0.0067615298025363625,https://leetcode.com/problems/trapping-rain-water,"Array, Two Pointers, Dynamic Programming, Stack, Monotonic Stack"
-MEDIUM,Decode String,82.3,0.006278226897777151,https://leetcode.com/problems/decode-string,"String, Stack, Recursion"
-MEDIUM,Reverse Nodes in Even Length Groups,77.4,0.006447893510458794,https://leetcode.com/problems/reverse-nodes-in-even-length-groups,Linked List
-EASY,Hexadecimal and Hexatrigesimal Conversion,77.4,0.008102860683672417,https://leetcode.com/problems/hexadecimal-and-hexatrigesimal-conversion,"Math, String"
-MEDIUM,Bulls and Cows,64.2,0.005261834100358357,https://leetcode.com/problems/bulls-and-cows,"Hash Table, String, Counting"
-MEDIUM,Remove K Digits,60.0,0.0037086822851786715,https://leetcode.com/problems/remove-k-digits,"String, Stack, Greedy, Monotonic Stack"
-MEDIUM,Reverse Words in a String,60.0,0.0056817131906484915,https://leetcode.com/problems/reverse-words-in-a-string,"Two Pointers, String"
-MEDIUM,Letter Combinations of a Phone Number,54.6,0.006627797446695084,https://leetcode.com/problems/letter-combinations-of-a-phone-number,"Hash Table, String, Backtracking"
-MEDIUM,Broken Calculator,54.6,0.005621759792626729,https://leetcode.com/problems/broken-calculator,"Math, Greedy"
-MEDIUM,Fraction Addition and Subtraction,46.9,0.006648646323276357,https://leetcode.com/problems/fraction-addition-and-subtraction,"Math, String, Simulation"
-MEDIUM,Container With Most Water,46.9,0.006024282542399735,https://leetcode.com/problems/container-with-most-water,"Array, Two Pointers, Greedy"
-MEDIUM,Longest Palindromic Substring,46.9,0.003804657301544889,https://leetcode.com/problems/longest-palindromic-substring,"Two Pointers, String, Dynamic Programming"
-EASY,Valid Anagram,46.9,0.006826513874269858,https://leetcode.com/problems/valid-anagram,"Hash Table, String, Sorting"
-EASY,Longest Common Prefix,46.9,0.004778177523381,https://leetcode.com/problems/longest-common-prefix,"Array, String, Trie"
-MEDIUM,Restore IP Addresses,46.9,0.0056299752516782205,https://leetcode.com/problems/restore-ip-addresses,"String, Backtracking"
-HARD,Reverse Nodes in k-Group,46.9,0.006642205309841066,https://leetcode.com/problems/reverse-nodes-in-k-group,"Linked List, Recursion"
+MEDIUM,Zigzag Conversion,100.0,0.005489183399383995,https://leetcode.com/problems/zigzag-conversion,String
+HARD,Trapping Rain Water,83.3,0.006802858934823714,https://leetcode.com/problems/trapping-rain-water,"Array, Two Pointers, Dynamic Programming, Stack, Monotonic Stack"
+MEDIUM,Decode String,83.3,0.006309059424580802,https://leetcode.com/problems/decode-string,"String, Stack, Recursion"
+EASY,Hexadecimal and Hexatrigesimal Conversion,78.3,0.008103356689348138,https://leetcode.com/problems/hexadecimal-and-hexatrigesimal-conversion,"Math, String"
+MEDIUM,Reverse Nodes in Even Length Groups,74.0,0.006495238586137134,https://leetcode.com/problems/reverse-nodes-in-even-length-groups,Linked List
+MEDIUM,Bulls and Cows,65.0,0.005288307195598304,https://leetcode.com/problems/bulls-and-cows,"Hash Table, String, Counting"
+MEDIUM,Remove K Digits,60.8,0.0037491044126562404,https://leetcode.com/problems/remove-k-digits,"String, Stack, Greedy, Monotonic Stack"
+MEDIUM,Reverse Words in a String,60.8,0.005753081584586209,https://leetcode.com/problems/reverse-words-in-a-string,"Two Pointers, String"
+MEDIUM,Letter Combinations of a Phone Number,55.3,0.006666008573295622,https://leetcode.com/problems/letter-combinations-of-a-phone-number,"Hash Table, String, Backtracking"
+MEDIUM,Broken Calculator,55.3,0.0056407654264088065,https://leetcode.com/problems/broken-calculator,"Math, Greedy"
+MEDIUM,Restore IP Addresses,55.3,0.005679403301634236,https://leetcode.com/problems/restore-ip-addresses,"String, Backtracking"
+HARD,Reverse Nodes in k-Group,55.3,0.006696564159240927,https://leetcode.com/problems/reverse-nodes-in-k-group,"Linked List, Recursion"
+MEDIUM,Container With Most Water,47.5,0.006064834109539502,https://leetcode.com/problems/container-with-most-water,"Array, Two Pointers, Greedy"
+MEDIUM,Longest Palindromic Substring,47.5,0.0038471229639906878,https://leetcode.com/problems/longest-palindromic-substring,"Two Pointers, String, Dynamic Programming, Manacher"
+EASY,Valid Anagram,47.5,0.0068532500837229955,https://leetcode.com/problems/valid-anagram,"Hash Table, String, Sorting"

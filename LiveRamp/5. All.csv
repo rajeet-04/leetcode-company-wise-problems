@@ -1,7 +1,7 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Distribute Candies,100.0,0.6959871853952141,https://leetcode.com/problems/distribute-candies,"Array, Hash Table"
-MEDIUM,Shortest Unsorted Continuous Subarray,100.0,0.374372285365029,https://leetcode.com/problems/shortest-unsorted-continuous-subarray,"Array, Two Pointers, Stack, Greedy, Sorting, Monotonic Stack"
-EASY,Longest Harmonious Subsequence,100.0,0.5731264149524798,https://leetcode.com/problems/longest-harmonious-subsequence,"Array, Hash Table, Sliding Window, Sorting, Counting"
-MEDIUM,Largest Time for Given Digits,100.0,0.3552946699381283,https://leetcode.com/problems/largest-time-for-given-digits,"Array, String, Backtracking, Enumeration"
-MEDIUM,Longest Palindromic Substring,65.1,0.35846273258355105,https://leetcode.com/problems/longest-palindromic-substring,"Two Pointers, String, Dynamic Programming"
-MEDIUM,Course Schedule,65.1,0.4923459818443362,https://leetcode.com/problems/course-schedule,"Depth-First Search, Breadth-First Search, Graph, Topological Sort"
+EASY,Longest Harmonious Subsequence,100.0,0.00649919901673503,https://leetcode.com/problems/longest-harmonious-subsequence,"Array, Hash Table, Sliding Window, Sorting, Counting"
+EASY,Distribute Candies,97.4,0.0071538285830308876,https://leetcode.com/problems/distribute-candies,"Array, Hash Table"
+MEDIUM,Shortest Unsorted Continuous Subarray,97.4,0.003853243604157498,https://leetcode.com/problems/shortest-unsorted-continuous-subarray,"Array, Two Pointers, Stack, Greedy, Sorting, Monotonic Stack"
+MEDIUM,Largest Time for Given Digits,97.4,0.0036111451733769327,https://leetcode.com/problems/largest-time-for-given-digits,"Array, String, Backtracking, Enumeration"
+MEDIUM,Course Schedule,66.8,0.005204035041747337,https://leetcode.com/problems/course-schedule,"Depth-First Search, Breadth-First Search, Graph Theory, Topological Sort, Directed Acyclic Graph"
+MEDIUM,Time Based Key-Value Store,66.8,0.005012852742454725,https://leetcode.com/problems/time-based-key-value-store,"Hash Table, String, Binary Search, Design"

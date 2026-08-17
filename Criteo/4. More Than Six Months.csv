@@ -1,5 +1,9 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Intersection of Two Arrays,100.0,0.7647454128954905,https://leetcode.com/problems/intersection-of-two-arrays,"Array, Hash Table, Two Pointers, Binary Search, Sorting"
-EASY,Flood Fill,89.6,0.6647648139762219,https://leetcode.com/problems/flood-fill,"Array, Depth-First Search, Breadth-First Search, Matrix"
-EASY,Valid Parentheses,89.6,0.42322916304897296,https://leetcode.com/problems/valid-parentheses,"String, Stack"
-EASY,Merge Sorted Array,89.6,0.5291971085249642,https://leetcode.com/problems/merge-sorted-array,"Array, Two Pointers, Sorting"
+EASY,Intersection of Two Arrays,100.0,0.007820113059813682,https://leetcode.com/problems/intersection-of-two-arrays,"Array, Hash Table, Two Pointers, Binary Search, Sorting"
+EASY,Flood Fill,81.1,0.006878722063599652,https://leetcode.com/problems/flood-fill,"Array, Depth-First Search, Breadth-First Search, Matrix"
+EASY,Ransom Note,81.1,0.0066313892124181695,https://leetcode.com/problems/ransom-note,"Hash Table, String, Counting"
+EASY,Two Sum,81.1,0.005800928036039174,https://leetcode.com/problems/two-sum,"Array, Hash Table"
+MEDIUM,Search in Rotated Sorted Array,81.1,0.00454620659684972,https://leetcode.com/problems/search-in-rotated-sorted-array,"Array, Binary Search"
+EASY,Intersection of Two Arrays II,81.1,0.006021524732697484,https://leetcode.com/problems/intersection-of-two-arrays-ii,"Array, Hash Table, Two Pointers, Binary Search, Sorting"
+MEDIUM,Random Pick with Weight,72.1,0.004921199117994516,https://leetcode.com/problems/random-pick-with-weight,"Array, Math, Binary Search, Prefix Sum, Randomized"
+MEDIUM,Maximum Subarray,72.1,0.005373530760305162,https://leetcode.com/problems/maximum-subarray,"Array, Divide and Conquer, Dynamic Programming"

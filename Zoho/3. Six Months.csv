@@ -1,11 +1,12 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Longest Substring Without Repeating Characters,100.0,0.003929968979427992,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
-MEDIUM,Angle Between Hands of a Clock,93.8,0.006961926376799551,https://leetcode.com/problems/angle-between-hands-of-a-clock,Math
-MEDIUM,Merge Intervals,85.9,0.005211659924033122,https://leetcode.com/problems/merge-intervals,"Array, Sorting"
-MEDIUM,Decode String,85.9,0.006278226897777151,https://leetcode.com/problems/decode-string,"String, Stack, Recursion"
-MEDIUM,Daily Temperatures,74.8,0.006882789634821882,https://leetcode.com/problems/daily-temperatures,"Array, Stack, Monotonic Stack"
-EASY,Climbing Stairs,74.8,0.005415763415098653,https://leetcode.com/problems/climbing-stairs,"Math, Dynamic Programming, Memoization"
-MEDIUM,Container With Most Water,74.8,0.006024282542399735,https://leetcode.com/problems/container-with-most-water,"Array, Two Pointers, Greedy"
-HARD,Distinct Subsequences,74.8,0.005207558648070825,https://leetcode.com/problems/distinct-subsequences,"String, Dynamic Programming"
-MEDIUM,Partitioning Into Minimum Number Of Deci-Binary Numbers,74.8,0.009046461152209744,https://leetcode.com/problems/partitioning-into-minimum-number-of-deci-binary-numbers,"String, Greedy"
-MEDIUM,Group Anagrams,74.8,0.007279902010228705,https://leetcode.com/problems/group-anagrams,"Array, Hash Table, String, Sorting"
+MEDIUM,Longest Substring Without Repeating Characters,100.0,0.003977960853023439,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
+MEDIUM,Angle Between Hands of a Clock,100.0,0.006987956660087807,https://leetcode.com/problems/angle-between-hands-of-a-clock,Math
+MEDIUM,Decode String,91.5,0.006309059424580802,https://leetcode.com/problems/decode-string,"String, Stack, Recursion"
+MEDIUM,Partitioning Into Minimum Number Of Deci-Binary Numbers,79.6,0.009046862720572445,https://leetcode.com/problems/partitioning-into-minimum-number-of-deci-binary-numbers,"String, Greedy"
+MEDIUM,Group Anagrams,79.6,0.007312908556871405,https://leetcode.com/problems/group-anagrams,"Array, Hash Table, String, Sorting"
+MEDIUM,Sequential Digits,79.6,0.00686422998610507,https://leetcode.com/problems/sequential-digits,Enumeration
+MEDIUM,Zigzag Conversion,79.6,0.005489183399383995,https://leetcode.com/problems/zigzag-conversion,String
+HARD,Median of Two Sorted Arrays,79.6,0.004736988837266392,https://leetcode.com/problems/median-of-two-sorted-arrays,"Array, Binary Search, Divide and Conquer"
+MEDIUM,Merge Intervals,79.6,0.005257666929298673,https://leetcode.com/problems/merge-intervals,"Array, Sorting, Quicksort"
+HARD,First Missing Positive,79.6,0.004354297642349849,https://leetcode.com/problems/first-missing-positive,"Array, Hash Table"
+MEDIUM,Longest Repeating Character Replacement,79.6,0.006043047383632891,https://leetcode.com/problems/longest-repeating-character-replacement,"Hash Table, String, Sliding Window"

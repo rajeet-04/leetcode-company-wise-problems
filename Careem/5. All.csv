@@ -1,4 +1,6 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Two Sum,100.0,0.5577709298430229,https://leetcode.com/problems/two-sum,"Array, Hash Table"
-MEDIUM,3Sum,89.3,0.3707125880508768,https://leetcode.com/problems/3sum,"Array, Two Pointers, Sorting"
-MEDIUM,Design Hit Counter,89.3,0.6920831928267657,https://leetcode.com/problems/design-hit-counter,"Array, Binary Search, Design, Queue, Data Stream"
+MEDIUM,Best Time to Buy and Sell Stock II,100.0,0.007150145044640653,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii,"Array, Dynamic Programming, Greedy"
+MEDIUM,Design Hit Counter,89.1,0.006974266759846454,https://leetcode.com/problems/design-hit-counter,"Array, Binary Search, Design, Queue, Data Stream"
+MEDIUM,Car Pooling,89.1,0.005647517923586532,https://leetcode.com/problems/car-pooling,"Array, Sorting, Heap (Priority Queue), Simulation, Prefix Sum"
+EASY,Max Consecutive Ones,89.1,0.006591762148051581,https://leetcode.com/problems/max-consecutive-ones,Array
+MEDIUM,Container With Most Water,89.1,0.006064805437323167,https://leetcode.com/problems/container-with-most-water,"Array, Two Pointers, Greedy"

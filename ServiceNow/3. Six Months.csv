@@ -1,1 +1,2 @@
-Difficulty,Title,Frequency,Acceptance Rate,Link
+Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
+HARD,Word Break II,100.0,0.005602428181941747,https://leetcode.com/problems/word-break-ii,"Array, Hash Table, String, Dynamic Programming, Backtracking, Trie, Memoization"

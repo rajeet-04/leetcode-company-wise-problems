@@ -1,1 +1,4 @@
-Difficulty,Title,Frequency,Acceptance Rate,Link
+Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
+HARD,Cherry Pickup,100.0,0.0040270487618501005,https://leetcode.com/problems/cherry-pickup,"Array, Dynamic Programming, Matrix"
+HARD,Critical Connections in a Network,93.4,0.006037233009194338,https://leetcode.com/problems/critical-connections-in-a-network,"Depth-First Search, Graph Theory, Biconnected Component, Bridge (Graph)"
+HARD,Lexicographically Maximum MEX Array,84.0,0.005711650347665674,https://leetcode.com/problems/lexicographically-maximum-mex-array,"Array, Hash Table, Greedy, Queue"

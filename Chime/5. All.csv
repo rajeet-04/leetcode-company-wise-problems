@@ -1,3 +1,4 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Detonate the Maximum Bombs,100.0,0.492066898115528,https://leetcode.com/problems/detonate-the-maximum-bombs,"Array, Math, Depth-First Search, Breadth-First Search, Graph, Geometry"
-MEDIUM,Letter Combinations of a Phone Number,66.5,0.6385773668705915,https://leetcode.com/problems/letter-combinations-of-a-phone-number,"Hash Table, String, Backtracking"
+MEDIUM,Design Browser History,100.0,0.007844289892866441,https://leetcode.com/problems/design-browser-history,"Array, Linked List, Stack, Design, Doubly-Linked List, Data Stream"
+MEDIUM,Detonate the Maximum Bombs,85.1,0.0050379069262269805,https://leetcode.com/problems/detonate-the-maximum-bombs,"Array, Math, Depth-First Search, Breadth-First Search, Graph Theory, Geometry"
+MEDIUM,Daily Temperatures,68.5,0.006905662988356332,https://leetcode.com/problems/daily-temperatures,"Array, Stack, Monotonic Stack"

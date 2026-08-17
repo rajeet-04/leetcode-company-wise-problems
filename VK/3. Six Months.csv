@@ -1,2 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Permutation in String,100.0,0.004911065453851941,https://leetcode.com/problems/permutation-in-string,"Hash Table, Two Pointers, String, Sliding Window"
+MEDIUM,Maximize Distance to Closest Person,100.0,0.004997681957791178,https://leetcode.com/problems/maximize-distance-to-closest-person,Array

@@ -1,1 +1,4 @@
-Difficulty,Title,Frequency,Acceptance Rate,Link
+Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
+HARD,LFU Cache,100.0,0.005002941079759891,https://leetcode.com/problems/lfu-cache,"Hash Table, Linked List, Design, Doubly-Linked List"
+HARD,Special Binary String,79.7,0.007943574057109139,https://leetcode.com/problems/special-binary-string,"String, Divide and Conquer, Sorting"
+MEDIUM,Unique Paths II,79.7,0.004494318441548559,https://leetcode.com/problems/unique-paths-ii,"Array, Dynamic Programming, Matrix"

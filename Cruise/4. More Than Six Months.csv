@@ -1,3 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Synonymous Sentences,100.0,0.005740917235332241,https://leetcode.com/problems/synonymous-sentences,"Array, Hash Table, String, Backtracking, Sort, Union-Find"
-MEDIUM,Course Schedule,100.0,0.005164932279730536,https://leetcode.com/problems/course-schedule,"Depth-First Search, Breadth-First Search, Graph Theory, Topological Sort"
+MEDIUM,Course Schedule,100.0,0.005204020517708486,https://leetcode.com/problems/course-schedule,"Depth-First Search, Breadth-First Search, Graph Theory, Topological Sort, Directed Acyclic Graph"

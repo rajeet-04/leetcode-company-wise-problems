@@ -1,4 +1,6 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-HARD,Remove Boxes,100.0,0.004947802282780167,https://leetcode.com/problems/remove-boxes,"Array, Dynamic Programming, Memoization"
-MEDIUM,Minimum Operations to Make Binary Palindrome,95.3,0.005208437088032811,https://leetcode.com/problems/minimum-operations-to-make-binary-palindrome,"Array, Two Pointers, Binary Search, Bit Manipulation"
-MEDIUM,Count Pairs in Two Arrays,66.0,0.006031761688695996,https://leetcode.com/problems/count-pairs-in-two-arrays,"Array, Two Pointers, Binary Search, Sorting"
+HARD,Maximize the Minimum Powered City,100.0,0.00614006428369596,https://leetcode.com/problems/maximize-the-minimum-powered-city,"Array, Binary Search, Greedy, Queue, Sliding Window, Prefix Sum"
+HARD,Remove Boxes,94.5,0.004964726764037846,https://leetcode.com/problems/remove-boxes,"Array, Dynamic Programming, Memoization"
+MEDIUM,Minimum Operations to Make Binary Palindrome,89.8,0.005230962366971954,https://leetcode.com/problems/minimum-operations-to-make-binary-palindrome,"Array, Two Pointers, Binary Search, Bit Manipulation"
+HARD,Reducing Dishes,69.1,0.007681388138654052,https://leetcode.com/problems/reducing-dishes,"Array, Dynamic Programming, Greedy, Sorting"
+MEDIUM,Count Pairs in Two Arrays,60.6,0.0060234948604992655,https://leetcode.com/problems/count-pairs-in-two-arrays,"Array, Two Pointers, Binary Search, Sorting"

@@ -1,1 +1,4 @@
-Difficulty,Title,Frequency,Acceptance Rate,Link
+Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
+EASY,Longest Common Prefix,100.0,0.0048187172930107955,https://leetcode.com/problems/longest-common-prefix,"Array, String, Trie"
+MEDIUM,Longest Word in Dictionary through Deleting,88.6,0.005295085372906384,https://leetcode.com/problems/longest-word-in-dictionary-through-deleting,"Array, Two Pointers, String, Sorting"
+EASY,Valid Parentheses,79.6,0.004472570758542255,https://leetcode.com/problems/valid-parentheses,"String, Stack, Bracket Sequences"

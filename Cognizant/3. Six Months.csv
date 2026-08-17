@@ -1,9 +1,10 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Count Subarrays of Length Three With a Condition,100.0,0.6194995076327956,https://leetcode.com/problems/count-subarrays-of-length-three-with-a-condition,Array
-MEDIUM,Longest Palindromic Substring,73.7,0.3584617777962999,https://leetcode.com/problems/longest-palindromic-substring,"Two Pointers, String, Dynamic Programming"
-EASY,Remove Duplicates from Sorted Array,64.9,0.6035567421385941,https://leetcode.com/problems/remove-duplicates-from-sorted-array,"Array, Two Pointers"
-MEDIUM,Longest Substring Without Repeating Characters,64.9,0.3693614804892,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
-EASY,Valid Anagram,64.9,0.6666100681122782,https://leetcode.com/problems/valid-anagram,"Hash Table, String, Sorting"
-MEDIUM,Second Highest Salary,64.9,0.4386517852577502,https://leetcode.com/problems/second-highest-salary,Database
-HARD,Median of Two Sorted Arrays,64.9,0.43814667695055187,https://leetcode.com/problems/median-of-two-sorted-arrays,"Array, Binary Search, Divide and Conquer"
-EASY,Palindrome Number,64.9,0.5922452723221134,https://leetcode.com/problems/palindrome-number,Math
+MEDIUM,Longest Substring Without Repeating Characters,100.0,0.0039778944934471625,https://leetcode.com/problems/longest-substring-without-repeating-characters,"Hash Table, String, Sliding Window"
+EASY,Move Zeroes,86.8,0.006426519370396749,https://leetcode.com/problems/move-zeroes,"Array, Two Pointers"
+EASY,Palindrome Number,76.3,0.006087443332110619,https://leetcode.com/problems/palindrome-number,Math
+EASY,Two Sum,76.3,0.005800925551602618,https://leetcode.com/problems/two-sum,"Array, Hash Table"
+EASY,Valid Palindrome,76.3,0.005407010473118114,https://leetcode.com/problems/valid-palindrome,"Two Pointers, String"
+EASY,Find Total Time Spent by Each Employee,76.3,0.008640132909043077,https://leetcode.com/problems/find-total-time-spent-by-each-employee,Database
+EASY,Find the Index of the First Occurrence in a String,76.3,0.0047167290644853635,https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string,"Two Pointers, String, String Matching, Z Algorithm, Knuth–Morris–Pratt Algorithm, Boyer–Moore String-Search Algorithm"
+MEDIUM,Rank Scores,76.3,0.006853943994516236,https://leetcode.com/problems/rank-scores,Database
+MEDIUM,Rotting Oranges,76.3,0.005927600289835979,https://leetcode.com/problems/rotting-oranges,"Array, Breadth-First Search, Matrix"

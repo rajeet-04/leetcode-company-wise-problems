@@ -1,3 +1,8 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-HARD,Trapping Rain Water,100.0,0.6510221504452247,https://leetcode.com/problems/trapping-rain-water,"Array, Two Pointers, Dynamic Programming, Stack, Monotonic Stack"
-MEDIUM,Sort an Array,100.0,0.5664710269583224,https://leetcode.com/problems/sort-an-array,"Array, Divide and Conquer, Sorting, Heap (Priority Queue), Merge Sort, Bucket Sort, Radix Sort, Counting Sort"
+MEDIUM,Number of Islands,100.0,0.006496040637974149,https://leetcode.com/problems/number-of-islands,"Array, Depth-First Search, Breadth-First Search, Union-Find, Matrix"
+HARD,Serialize and Deserialize Binary Tree,87.4,0.006102863643728873,https://leetcode.com/problems/serialize-and-deserialize-binary-tree,"String, Tree, Depth-First Search, Breadth-First Search, Design, Binary Tree"
+MEDIUM,As Far from Land as Possible,87.4,0.00524903222288861,https://leetcode.com/problems/as-far-from-land-as-possible,"Array, Dynamic Programming, Breadth-First Search, Matrix"
+HARD,Trapping Rain Water,87.4,0.0068028473122123435,https://leetcode.com/problems/trapping-rain-water,"Array, Two Pointers, Dynamic Programming, Stack, Monotonic Stack"
+MEDIUM,Sort an Array,77.5,0.005579252072864468,https://leetcode.com/problems/sort-an-array,"Array, Divide and Conquer, Sorting, Heap (Priority Queue), Merge Sort, Bucket Sort, Radix Sort, Counting Sort"
+HARD,Text Justification,77.5,0.0051897776670601515,https://leetcode.com/problems/text-justification,"Array, String, Simulation"
+HARD,Find Median from Data Stream,77.5,0.005487679835331043,https://leetcode.com/problems/find-median-from-data-stream,"Two Pointers, Design, Sorting, Heap (Priority Queue), Data Stream"

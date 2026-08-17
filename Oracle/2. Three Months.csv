@@ -1,2 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Number of Islands,100.0,0.006459359294752796,https://leetcode.com/problems/number-of-islands,"Array, Depth-First Search, Breadth-First Search, Union-Find, Matrix"
+MEDIUM,Search in Rotated Sorted Array,100.0,0.004546230134566589,https://leetcode.com/problems/search-in-rotated-sorted-array,"Array, Binary Search"

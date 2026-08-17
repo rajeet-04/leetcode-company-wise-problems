@@ -1,1 +1,2 @@
-Difficulty,Title,Frequency,Acceptance Rate,Link
+Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
+MEDIUM,Wiggle Sort II,100.0,0.0038041109376960864,https://leetcode.com/problems/wiggle-sort-ii,"Array, Divide and Conquer, Greedy, Sorting, Quickselect"

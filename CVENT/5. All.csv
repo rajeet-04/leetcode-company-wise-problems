@@ -1,3 +1,2 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Copy List with Random Pointer,100.0,0.006314230435869385,https://leetcode.com/problems/copy-list-with-random-pointer,"Hash Table, Linked List"
-MEDIUM,Largest Number,100.0,0.004323274239036048,https://leetcode.com/problems/largest-number,"Array, String, Greedy, Sorting"
+MEDIUM,Copy List with Random Pointer,100.0,0.00635090996757327,https://leetcode.com/problems/copy-list-with-random-pointer,"Hash Table, Linked List"

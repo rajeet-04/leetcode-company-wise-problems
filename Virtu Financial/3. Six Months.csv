@@ -1,2 +1,3 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Array Transformation,100.0,0.005381702857512703,https://leetcode.com/problems/array-transformation,"Array, Simulation"
+EASY,Array Transformation,100.0,0.005384713824103401,https://leetcode.com/problems/array-transformation,"Array, Simulation"
+EASY,Valid Parentheses,100.0,0.004472571670857033,https://leetcode.com/problems/valid-parentheses,"String, Stack, Bracket Sequences"

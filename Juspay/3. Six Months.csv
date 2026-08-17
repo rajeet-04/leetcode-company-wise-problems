@@ -1,6 +1,6 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-MEDIUM,Longest Subsequence With Decreasing Adjacent Difference,100.0,0.14664225321772847,https://leetcode.com/problems/longest-subsequence-with-decreasing-adjacent-difference,"Array, Dynamic Programming"
-MEDIUM,Operations on Tree,92.2,0.43368293750912235,https://leetcode.com/problems/operations-on-tree,"Array, Hash Table, Tree, Depth-First Search, Breadth-First Search, Design"
-HARD,Largest Color Value in a Directed Graph,73.6,0.5767908345021908,https://leetcode.com/problems/largest-color-value-in-a-directed-graph,"Hash Table, Dynamic Programming, Graph, Topological Sort, Memoization, Counting"
-HARD,Shortest Path in a Weighted Tree,73.6,0.3218752658895601,https://leetcode.com/problems/shortest-path-in-a-weighted-tree,"Array, Tree, Depth-First Search, Binary Indexed Tree, Segment Tree"
-HARD,Sliding Window Maximum,73.6,0.47604117337050583,https://leetcode.com/problems/sliding-window-maximum,"Array, Queue, Sliding Window, Heap (Priority Queue), Monotonic Queue"
+HARD,Minimum Number of Operations to Make Array Continuous,100.0,0.005176202584074462,https://leetcode.com/problems/minimum-number-of-operations-to-make-array-continuous,"Array, Hash Table, Binary Search, Sliding Window"
+MEDIUM,Minimum Cost Homecoming of a Robot in a Grid,100.0,0.005186240939982271,https://leetcode.com/problems/minimum-cost-homecoming-of-a-robot-in-a-grid,"Array, Greedy"
+MEDIUM,Maximum Product Subarray,89.4,0.003689225221573429,https://leetcode.com/problems/maximum-product-subarray,"Array, Dynamic Programming"
+MEDIUM,Operations on Tree,89.4,0.0045780126997418185,https://leetcode.com/problems/operations-on-tree,"Array, Hash Table, Tree, Depth-First Search, Breadth-First Search, Design"
+HARD,Sliding Window Maximum,89.4,0.004910891835136791,https://leetcode.com/problems/sliding-window-maximum,"Array, Queue, Sliding Window, Heap (Priority Queue), Monotonic Queue, Range Minimum/Maximum Query"

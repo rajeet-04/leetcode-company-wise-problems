@@ -1,2 +1,3 @@
 Difficulty,Title,Frequency,Acceptance Rate,Link,Topics
-EASY,Two Sum,100.0,0.005768899030607455,https://leetcode.com/problems/two-sum,"Array, Hash Table"
+EASY,Two Sum,100.0,0.0058009511386919775,https://leetcode.com/problems/two-sum,"Array, Hash Table"
+MEDIUM,Wiggle Sort II,88.8,0.0038041109376960864,https://leetcode.com/problems/wiggle-sort-ii,"Array, Divide and Conquer, Greedy, Sorting, Quickselect"
