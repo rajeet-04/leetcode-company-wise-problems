@@ -35,6 +35,7 @@
       "version": "0.1.0",
       "dependencies": {
         "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/plans": "workspace:*",
         "@leet-progress/progress": "workspace:*",
         "@leet-progress/recommendations": "workspace:*",
         "@leet-progress/sync": "workspace:*",
