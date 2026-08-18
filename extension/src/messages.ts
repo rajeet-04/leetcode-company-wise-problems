@@ -1,3 +1,4 @@
+import type { CompanyReadiness } from "@leet-progress/analytics";
 import type { ProblemIntelligence } from "@leet-progress/intelligence";
 import type { AdaptivePlan, InterviewPlan } from "@leet-progress/plans";
 import type { Recommendation } from "@leet-progress/recommendations";
@@ -21,6 +22,7 @@ export type ProblemPayload = {
   priority: ProblemIntelligence["priority"];
   recommendations: Recommendation[];
   plan: ProblemPlanContext;
+  targetReadiness: CompanyReadiness[];
 };
 
 export type ExtensionResponse =
