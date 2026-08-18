@@ -1,4 +1,5 @@
 import type { ProblemIntelligence } from "@leet-progress/intelligence";
+import type { AdaptivePlan, InterviewPlan } from "@leet-progress/plans";
 import type { Recommendation } from "@leet-progress/recommendations";
 import type { CatalogProblem } from "@leet-progress/types";
 import type { ProgressMutation } from "@leet-progress/sync";
@@ -12,11 +13,14 @@ export type SyncExchangeRequest = { type: "sync:exchange"; protocolVersion: numb
 export type SubmissionRequest = { type: "progress:submission"; slug: string; outcome: SubmissionOutcome; fingerprint: string; observedAt: string };
 export type ExtensionRequest = LookupRequest | SetCurrentRequest | GetCurrentRequest | OpenPanelRequest | SyncExchangeRequest | SubmissionRequest;
 
+export type ProblemPlanContext = { definition: InterviewPlan; adaptive: AdaptivePlan } | null;
+
 export type ProblemPayload = {
   problem: CatalogProblem;
   intelligence: ProblemIntelligence;
   priority: ProblemIntelligence["priority"];
   recommendations: Recommendation[];
+  plan: ProblemPlanContext;
 };
 
 export type ExtensionResponse =

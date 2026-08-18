@@ -1,6 +1,7 @@
 import { buildProblemIntelligence } from "@leet-progress/intelligence";
+import { buildAdaptivePlan } from "@leet-progress/plans";
 import { recommendProblems } from "@leet-progress/recommendations";
-import { SYNC_PROTOCOL_VERSION, validateMutation } from "@leet-progress/sync";
+import { SYNC_PROTOCOL_VERSION, deriveInterviewPlans, validateMutation } from "@leet-progress/sync";
 import type { CatalogProblem } from "@leet-progress/types";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
 import { isAllowedLeetCodeUrl } from "./leetcode-origin";
@@ -19,20 +20,48 @@ async function catalogIndex() {
   return catalogPromise;
 }
 
+function planSlugs(adaptive: ReturnType<typeof buildAdaptivePlan>): string[] {
+  return [...new Set([
+    ...adaptive.dailyQueue,
+    ...adaptive.buckets.mustSolve,
+    ...adaptive.buckets.highPriority,
+    ...adaptive.buckets.revision,
+    ...adaptive.buckets.weakArea,
+  ])];
+}
+
 async function problemPayload(slug: string) {
   const index = await catalogIndex();
+  const catalog = [...index.values()];
   const problem = lookupCatalogProblem(index, slug);
   if (!problem) return null;
   const local = await getExtensionSyncState();
   const progress = local.progress.find((item) => item.slug === slug) ?? null;
-  const intelligence = buildProblemIntelligence(problem, { targetCompanies: local.targetCompanies, progress });
-  const recommendations = recommendProblems([...index.values()], {
+  const plans = deriveInterviewPlans(local.mutations);
+  const definition = plans[0] ?? null;
+  const adaptive = definition ? buildAdaptivePlan(catalog, local.progress, definition, new Date().toISOString()) : null;
+  const relevantSlugs = adaptive ? planSlugs(adaptive) : [];
+  const intelligence = buildProblemIntelligence(problem, {
+    targetCompanies: local.targetCompanies,
+    progress,
+    planRelevant: relevantSlugs.includes(slug),
+    weakTopicMatches: adaptive?.weakTopics.filter((topic) => problem.topics.includes(topic)).length ?? 0,
+  });
+  const recommendations = recommendProblems(catalog, {
     targetCompanies: local.targetCompanies,
     progress: local.progress,
     currentProblem: problem,
+    weakTopics: adaptive?.weakTopics ?? [],
+    planSlugs: relevantSlugs,
     limit: 5,
   });
-  return { problem, intelligence, priority: intelligence.priority, recommendations };
+  return {
+    problem,
+    intelligence,
+    priority: intelligence.priority,
+    recommendations,
+    plan: definition && adaptive ? { definition, adaptive } : null,
+  };
 }
 
 chrome.runtime.onInstalled.addListener(() => { void chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" }); });

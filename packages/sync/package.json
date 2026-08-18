@@ -5,6 +5,7 @@
   "type": "module",
   "exports": "./src/index.ts",
   "dependencies": {
+    "@leet-progress/plans": "workspace:*",
     "@leet-progress/progress": "workspace:*"
   }
 }
