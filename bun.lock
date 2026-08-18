@@ -59,6 +59,11 @@
     "packages/analytics": {
       "name": "@leet-progress/analytics",
       "version": "0.0.0",
+      "dependencies": {
+        "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/progress": "workspace:*",
+        "@leet-progress/types": "workspace:*",
+      },
     },
     "packages/catalog": {
       "name": "@leet-progress/catalog",
