@@ -22,6 +22,7 @@
       "dependencies": {
         "@leet-progress/intelligence": "workspace:*",
         "@leet-progress/progress": "workspace:*",
+        "@leet-progress/recommendations": "workspace:*",
         "@leet-progress/sync": "workspace:*",
         "@leet-progress/types": "workspace:*",
       },
