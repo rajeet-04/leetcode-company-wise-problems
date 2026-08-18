@@ -73,6 +73,16 @@
         "@leet-progress/types": "workspace:*",
       },
     },
+    "packages/plans": {
+      "name": "@leet-progress/plans",
+      "version": "0.0.0",
+      "dependencies": {
+        "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/progress": "workspace:*",
+        "@leet-progress/recommendations": "workspace:*",
+        "@leet-progress/types": "workspace:*",
+      },
+    },
     "packages/progress": {
       "name": "@leet-progress/progress",
       "version": "0.0.0",
@@ -249,6 +259,8 @@
     "@leet-progress/extension": ["@leet-progress/extension@workspace:extension"],
 
     "@leet-progress/intelligence": ["@leet-progress/intelligence@workspace:packages/intelligence"],
+
+    "@leet-progress/plans": ["@leet-progress/plans@workspace:packages/plans"],
 
     "@leet-progress/progress": ["@leet-progress/progress@workspace:packages/progress"],
 
