@@ -28,3 +28,7 @@ export async function exchangeExtensionMutations(incoming: readonly ProgressMuta
   await chrome.storage.local.set({ [MUTATIONS_KEY]: merged, [PROGRESS_KEY]: progress });
   return { mutations: merged, progress, outgoing: missingMutations(merged, remoteKnownIds) };
 }
+
+export async function appendExtensionMutation(mutation: ProgressMutation) {
+  return exchangeExtensionMutations([mutation], []);
+}

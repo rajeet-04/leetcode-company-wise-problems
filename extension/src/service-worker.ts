@@ -2,9 +2,11 @@ import { scoreProblemPriority } from "@leet-progress/intelligence";
 import { SYNC_PROTOCOL_VERSION, validateMutation } from "@leet-progress/sync";
 import type { CatalogProblem } from "@leet-progress/types";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
+import { isAllowedLeetCodeUrl } from "./leetcode-origin";
 import { isExtensionRequest, type ExtensionResponse } from "./messages";
 import { getCurrentProblemSlug, getTargetCompanies, setCurrentProblemSlug } from "./storage";
-import { exchangeExtensionMutations, getExtensionInstallationId } from "./sync-storage";
+import { createSubmissionMutation } from "./submission-mutation";
+import { appendExtensionMutation, exchangeExtensionMutations, getExtensionInstallationId } from "./sync-storage";
 import { isAllowedWebsiteUrl } from "./website-bridge-policy";
 
 let catalogPromise: Promise<ReadonlyMap<string, CatalogProblem>> | null = null;
@@ -32,6 +34,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (!Array.isArray(message.mutations) || !message.mutations.every(validateMutation)) return { ok: false, error: "Invalid sync mutation batch" };
       const state = await exchangeExtensionMutations(message.mutations, message.knownMutationIds);
       return { ok: true, installationId: await getExtensionInstallationId(), mutations: state.outgoing };
+    }
+    if (message.type === "progress:submission") {
+      if (!isAllowedLeetCodeUrl(sender.url)) return { ok: false, error: "Submission origin rejected" };
+      if (!message.outcome || (message.outcome.kind !== "accepted" && message.outcome.kind !== "failed")) return { ok: false, error: "Invalid submission outcome" };
+      const installationId = await getExtensionInstallationId();
+      const mutation = createSubmissionMutation({ slug: message.slug, outcome: message.outcome, fingerprint: message.fingerprint, installationId, at: message.observedAt });
+      await appendExtensionMutation(mutation);
+      return { ok: true };
     }
     if (message.type === "state:set-current") { await setCurrentProblemSlug(message.slug); return { ok: true, slug: message.slug }; }
     if (message.type === "problem:lookup") { const data = await problemPayload(message.slug); return data ? { ok: true, data } : { ok: false, error: "Problem not found in catalog" }; }

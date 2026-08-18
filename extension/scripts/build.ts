@@ -4,12 +4,10 @@ import path from "node:path";
 const extensionRoot = path.resolve(import.meta.dir, "..");
 const repoRoot = path.resolve(extensionRoot, "..");
 const outdir = path.join(extensionRoot, "dist");
-
 await rm(outdir, { recursive: true, force: true });
 await mkdir(outdir, { recursive: true });
-
 const result = await Bun.build({
-  entrypoints: ["content", "service-worker", "popup", "sidepanel", "website-bridge"].map((name) => path.join(extensionRoot, `src/${name}.ts`)),
+  entrypoints: ["content", "service-worker", "popup", "sidepanel", "website-bridge", "page-submission-hook"].map((name) => path.join(extensionRoot, `src/${name}.ts`)),
   outdir,
   target: "browser",
   format: "iife",
