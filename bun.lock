@@ -27,6 +27,34 @@
         "typescript": "^5",
       },
     },
+    "packages/analytics": {
+      "name": "@leet-progress/analytics",
+      "version": "0.0.0",
+    },
+    "packages/catalog": {
+      "name": "@leet-progress/catalog",
+      "version": "0.0.0",
+    },
+    "packages/intelligence": {
+      "name": "@leet-progress/intelligence",
+      "version": "0.0.0",
+    },
+    "packages/progress": {
+      "name": "@leet-progress/progress",
+      "version": "0.0.0",
+    },
+    "packages/recommendations": {
+      "name": "@leet-progress/recommendations",
+      "version": "0.0.0",
+    },
+    "packages/storage": {
+      "name": "@leet-progress/storage",
+      "version": "0.0.0",
+    },
+    "packages/types": {
+      "name": "@leet-progress/types",
+      "version": "0.0.0",
+    },
   },
   "trustedDependencies": [
     "sharp",
@@ -164,6 +192,20 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
+
+    "@leet-progress/analytics": ["@leet-progress/analytics@workspace:packages/analytics"],
+
+    "@leet-progress/catalog": ["@leet-progress/catalog@workspace:packages/catalog"],
+
+    "@leet-progress/intelligence": ["@leet-progress/intelligence@workspace:packages/intelligence"],
+
+    "@leet-progress/progress": ["@leet-progress/progress@workspace:packages/progress"],
+
+    "@leet-progress/recommendations": ["@leet-progress/recommendations@workspace:packages/recommendations"],
+
+    "@leet-progress/storage": ["@leet-progress/storage@workspace:packages/storage"],
+
+    "@leet-progress/types": ["@leet-progress/types@workspace:packages/types"],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.2.3", "", { "dependencies": { "@tybys/wasm-util": "^0.10.3" }, "peerDependencies": { "@emnapi/core": "^1.7.1 || ^2.0.0-alpha.4", "@emnapi/runtime": "^1.7.1 || ^2.0.0-alpha.4" } }, "sha512-UMduMbqO5s5zF2NkNacMT/yK5Y5QiKvWr2+50bzIIxFDwVJ2h49b+oyjaCGPhJxd2/gC2x39EHv/gHVuu36x2Q=="],
 
