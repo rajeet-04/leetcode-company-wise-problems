@@ -17,7 +17,7 @@ async function refresh() {
     root.innerHTML = `<p class="eyebrow">Leet Progress</p><h1>Open a LeetCode problem</h1><p>The panel will follow the current problem in this browser profile.</p>`;
     return;
   }
-  const { problem, intelligence } = response.data;
+  const { problem, intelligence, recommendations } = response.data;
   const companies = [...new Set(problem.observations.map((item) => item.company))].sort();
   root.replaceChildren();
   const eyebrow = document.createElement("p"); eyebrow.className = "eyebrow"; eyebrow.textContent = "Current problem";
@@ -34,10 +34,22 @@ async function refresh() {
   const reasonsTitle = document.createElement("p"); reasonsTitle.className = "eyebrow"; reasonsTitle.textContent = "Why it matters";
   const reasons = document.createElement("div"); reasons.className = "chips";
   for (const reason of intelligence.priority.reasons.slice(0, 6)) { const chip = document.createElement("span"); chip.textContent = reason.code.replaceAll("-", " "); reasons.append(chip); }
+
+  const nextTitle = document.createElement("p"); nextTitle.className = "eyebrow"; nextTitle.textContent = "Recommended next";
+  const next = document.createElement("section");
+  for (const recommendation of recommendations.slice(0, 5)) {
+    const item = document.createElement("div"); item.className = "metric";
+    const left = document.createElement("span"); left.textContent = recommendation.title;
+    const right = document.createElement("strong"); right.textContent = String(recommendation.priorityScore);
+    item.title = recommendation.reasons.join(", ");
+    item.append(left, right);
+    next.append(item);
+  }
+
   const listTitle = document.createElement("p"); listTitle.className = "eyebrow"; listTitle.textContent = "Companies";
   const list = document.createElement("div"); list.className = "chips";
   for (const company of companies.slice(0, 20)) { const chip = document.createElement("span"); chip.textContent = company; list.append(chip); }
-  root.append(eyebrow, h1, score, meta, metrics, reasonsTitle, reasons, listTitle, list);
+  root.append(eyebrow, h1, score, meta, metrics, reasonsTitle, reasons, nextTitle, next, listTitle, list);
 }
 
 void refresh();
