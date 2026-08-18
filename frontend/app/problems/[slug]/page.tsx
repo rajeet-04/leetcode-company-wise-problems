@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { problems } from "@/src/data/catalog";
 
+export const instant = false;
+
 export default async function ProblemPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const problem = problems.find((item) => item.slug === slug);
