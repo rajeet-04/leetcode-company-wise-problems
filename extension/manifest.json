@@ -3,7 +3,7 @@
   "name": "Leet Progress",
   "version": "0.1.0",
   "description": "Local-first company intelligence while solving LeetCode problems.",
-  "permissions": ["storage", "sidePanel"],
+  "permissions": ["storage", "sidePanel", "alarms"],
   "host_permissions": ["https://leetcode.com/*", "https://leet-progress-eta.vercel.app/*"],
   "background": { "service_worker": "service-worker.js" },
   "action": { "default_title": "Leet Progress", "default_popup": "popup.html" },
