@@ -35,6 +35,7 @@
       "name": "frontend",
       "version": "0.1.0",
       "dependencies": {
+        "@leet-progress/analytics": "workspace:*",
         "@leet-progress/intelligence": "workspace:*",
         "@leet-progress/plans": "workspace:*",
         "@leet-progress/progress": "workspace:*",
