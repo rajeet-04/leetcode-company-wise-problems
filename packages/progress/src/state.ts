@@ -18,6 +18,7 @@ export type ProgressEvent =
   | { type: "ATTEMPT"; slug: string; at: string }
   | { type: "SOLVE"; slug: string; at: string }
   | { type: "REVISION_DUE"; slug: string; at: string; dueAt: string }
+  | { type: "REVISION_COMPLETE"; slug: string; at: string; nextDueAt: string }
   | { type: "REVISIT"; slug: string; at: string }
   | { type: "MASTER"; slug: string; at: string }
   | { type: "SET_CONFIDENCE"; slug: string; at: string; confidence: 1 | 2 | 3 | 4 | 5 }
@@ -25,39 +26,20 @@ export type ProgressEvent =
   | { type: "SET_STATUS"; slug: string; at: string; status: ProgressStatus };
 
 export function createProgress(slug: string, at?: string): ProblemProgress {
-  return {
-    slug,
-    status: "unseen",
-    attempts: 0,
-    revisitCount: 0,
-    ...(at ? { firstSeenAt: at } : {}),
-  };
+  return { slug, status: "unseen", attempts: 0, revisitCount: 0, ...(at ? { firstSeenAt: at } : {}) };
 }
 
-export function reduceProgress(
-  current: ProblemProgress | undefined,
-  event: ProgressEvent,
-): ProblemProgress {
+export function reduceProgress(current: ProblemProgress | undefined, event: ProgressEvent): ProblemProgress {
   const base = current ? { ...current } : createProgress(event.slug, event.at);
-
   switch (event.type) {
     case "ATTEMPT":
-      return {
-        ...base,
-        status: base.status === "unseen" ? "attempted" : base.status,
-        attempts: base.attempts + 1,
-        lastAttemptAt: event.at,
-      };
+      return { ...base, status: base.status === "unseen" ? "attempted" : base.status, attempts: base.attempts + 1, lastAttemptAt: event.at };
     case "SOLVE":
-      return {
-        ...base,
-        status: "solved",
-        attempts: Math.max(1, base.attempts),
-        lastAttemptAt: event.at,
-        solvedAt: base.solvedAt ?? event.at,
-      };
+      return { ...base, status: "solved", attempts: Math.max(1, base.attempts), lastAttemptAt: event.at, solvedAt: base.solvedAt ?? event.at };
     case "REVISION_DUE":
       return { ...base, status: "revision_due", revisionDueAt: event.dueAt };
+    case "REVISION_COMPLETE":
+      return { ...base, status: "solved", revisitCount: base.revisitCount + 1, lastAttemptAt: event.at, revisionDueAt: event.nextDueAt };
     case "REVISIT":
       return { ...base, revisitCount: base.revisitCount + 1, lastAttemptAt: event.at };
     case "MASTER":
