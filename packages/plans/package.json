@@ -1,0 +1,13 @@
+{
+  "name": "@leet-progress/plans",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@leet-progress/intelligence": "workspace:*",
+    "@leet-progress/progress": "workspace:*",
+    "@leet-progress/recommendations": "workspace:*",
+    "@leet-progress/types": "workspace:*"
+  }
+}
