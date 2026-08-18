@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - feat/phase-00-foundation
+  pull_request:
+    branches:
+      - docs/agentic-roadmap
   workflow_dispatch:
 
 permissions:
