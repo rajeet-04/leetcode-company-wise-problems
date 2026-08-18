@@ -55,8 +55,9 @@ export class IndexedDbProgressStore implements BrowserProgressStore {
     const database = await openDatabase();
     try {
       const transaction = database.transaction(PROGRESS_STORE, "readonly");
+      const done = transactionDone(transaction);
       const rows = await requestResult(transaction.objectStore(PROGRESS_STORE).getAll() as IDBRequest<ProblemProgress[]>);
-      await transactionDone(transaction);
+      await done;
       return rows.sort((a, b) => a.slug.localeCompare(b.slug));
     } finally {
       database.close();
@@ -67,8 +68,9 @@ export class IndexedDbProgressStore implements BrowserProgressStore {
     const database = await openDatabase();
     try {
       const transaction = database.transaction(PROGRESS_STORE, "readwrite");
+      const done = transactionDone(transaction);
       transaction.objectStore(PROGRESS_STORE).put(progress);
-      await transactionDone(transaction);
+      await done;
     } finally {
       database.close();
     }
@@ -78,8 +80,9 @@ export class IndexedDbProgressStore implements BrowserProgressStore {
     const database = await openDatabase();
     try {
       const transaction = database.transaction(PROGRESS_STORE, "readwrite");
+      const done = transactionDone(transaction);
       transaction.objectStore(PROGRESS_STORE).delete(slug);
-      await transactionDone(transaction);
+      await done;
     } finally {
       database.close();
     }
@@ -89,8 +92,9 @@ export class IndexedDbProgressStore implements BrowserProgressStore {
     const database = await openDatabase();
     try {
       const transaction = database.transaction(PREFERENCES_STORE, "readonly");
+      const done = transactionDone(transaction);
       const value = await requestResult(transaction.objectStore(PREFERENCES_STORE).get("user") as IDBRequest<LocalPreferences | undefined>);
-      await transactionDone(transaction);
+      await done;
       return value ?? { targetCompanies: [] };
     } finally {
       database.close();
@@ -101,8 +105,9 @@ export class IndexedDbProgressStore implements BrowserProgressStore {
     const database = await openDatabase();
     try {
       const transaction = database.transaction(PREFERENCES_STORE, "readwrite");
+      const done = transactionDone(transaction);
       transaction.objectStore(PREFERENCES_STORE).put(preferences, "user");
-      await transactionDone(transaction);
+      await done;
     } finally {
       database.close();
     }
