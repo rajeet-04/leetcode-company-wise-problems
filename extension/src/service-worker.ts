@@ -1,3 +1,4 @@
+import { calculateCompanyReadiness } from "@leet-progress/analytics";
 import { buildProblemIntelligence } from "@leet-progress/intelligence";
 import { buildAdaptivePlan } from "@leet-progress/plans";
 import { recommendProblems } from "@leet-progress/recommendations";
@@ -21,13 +22,7 @@ async function catalogIndex() {
 }
 
 function planSlugs(adaptive: ReturnType<typeof buildAdaptivePlan>): string[] {
-  return [...new Set([
-    ...adaptive.dailyQueue,
-    ...adaptive.buckets.mustSolve,
-    ...adaptive.buckets.highPriority,
-    ...adaptive.buckets.revision,
-    ...adaptive.buckets.weakArea,
-  ])];
+  return [...new Set([...adaptive.dailyQueue, ...adaptive.buckets.mustSolve, ...adaptive.buckets.highPriority, ...adaptive.buckets.revision, ...adaptive.buckets.weakArea])];
 }
 
 async function problemPayload(slug: string) {
@@ -39,7 +34,8 @@ async function problemPayload(slug: string) {
   const progress = local.progress.find((item) => item.slug === slug) ?? null;
   const plans = deriveInterviewPlans(local.mutations);
   const definition = plans[0] ?? null;
-  const adaptive = definition ? buildAdaptivePlan(catalog, local.progress, definition, new Date().toISOString()) : null;
+  const now = new Date().toISOString();
+  const adaptive = definition ? buildAdaptivePlan(catalog, local.progress, definition, now) : null;
   const relevantSlugs = adaptive ? planSlugs(adaptive) : [];
   const intelligence = buildProblemIntelligence(problem, {
     targetCompanies: local.targetCompanies,
@@ -55,12 +51,14 @@ async function problemPayload(slug: string) {
     planSlugs: relevantSlugs,
     limit: 5,
   });
+  const targetReadiness = local.targetCompanies.slice(0, 5).map((company) => calculateCompanyReadiness(catalog, local.progress, company, now));
   return {
     problem,
     intelligence,
     priority: intelligence.priority,
     recommendations,
     plan: definition && adaptive ? { definition, adaptive } : null,
+    targetReadiness,
   };
 }
 
