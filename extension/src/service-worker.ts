@@ -1,12 +1,12 @@
-import { scoreProblemPriority } from "@leet-progress/intelligence";
+import { buildProblemIntelligence } from "@leet-progress/intelligence";
 import { SYNC_PROTOCOL_VERSION, validateMutation } from "@leet-progress/sync";
 import type { CatalogProblem } from "@leet-progress/types";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
 import { isAllowedLeetCodeUrl } from "./leetcode-origin";
 import { isExtensionRequest, type ExtensionResponse } from "./messages";
-import { getCurrentProblemSlug, getTargetCompanies, setCurrentProblemSlug } from "./storage";
+import { getCurrentProblemSlug, setCurrentProblemSlug } from "./storage";
 import { createSubmissionMutation } from "./submission-mutation";
-import { appendExtensionMutation, exchangeExtensionMutations, getExtensionInstallationId } from "./sync-storage";
+import { appendExtensionMutation, exchangeExtensionMutations, getExtensionInstallationId, getExtensionSyncState } from "./sync-storage";
 import { isAllowedWebsiteUrl } from "./website-bridge-policy";
 
 let catalogPromise: Promise<ReadonlyMap<string, CatalogProblem>> | null = null;
@@ -17,10 +17,14 @@ async function catalogIndex() {
   }).then(createCatalogIndex);
   return catalogPromise;
 }
+
 async function problemPayload(slug: string) {
   const problem = lookupCatalogProblem(await catalogIndex(), slug);
   if (!problem) return null;
-  return { problem, priority: scoreProblemPriority(problem, { targetCompanies: await getTargetCompanies() }) };
+  const local = await getExtensionSyncState();
+  const progress = local.progress.find((item) => item.slug === slug) ?? null;
+  const intelligence = buildProblemIntelligence(problem, { targetCompanies: local.targetCompanies, progress });
+  return { problem, intelligence, priority: intelligence.priority };
 }
 
 chrome.runtime.onInstalled.addListener(() => { void chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" }); });
