@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AppShell } from "./app-shell";
 import { ProgressProvider } from "./progress-provider";
 import "./globals.css";
 
@@ -16,14 +17,16 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Leet Progress — Company-wise LeetCode prep",
-  description: "Search, filter, and track company-wise LeetCode questions locally.",
+  description: "Local-first company intelligence, progress, plans, and analytics for LeetCode preparation.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <ProgressProvider>{children}</ProgressProvider>
+        <ProgressProvider>
+          <AppShell>{children}</AppShell>
+        </ProgressProvider>
       </body>
     </html>
   );
