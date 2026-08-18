@@ -80,6 +80,13 @@
         "@leet-progress/progress": "workspace:*",
       },
     },
+    "packages/sync": {
+      "name": "@leet-progress/sync",
+      "version": "0.0.0",
+      "dependencies": {
+        "@leet-progress/progress": "workspace:*",
+      },
+    },
     "packages/types": {
       "name": "@leet-progress/types",
       "version": "0.0.0",
@@ -235,6 +242,8 @@
     "@leet-progress/recommendations": ["@leet-progress/recommendations@workspace:packages/recommendations"],
 
     "@leet-progress/storage": ["@leet-progress/storage@workspace:packages/storage"],
+
+    "@leet-progress/sync": ["@leet-progress/sync@workspace:packages/sync"],
 
     "@leet-progress/types": ["@leet-progress/types@workspace:packages/types"],
 
