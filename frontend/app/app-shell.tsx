@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { ThemeToggle } from "./theme-toggle";
 
 const navItems = [
@@ -19,9 +19,38 @@ function active(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function AppShell({ children }: { children: ReactNode }) {
+function NavLinks() {
   const pathname = usePathname();
+  return navItems.map((item) => {
+    const isActive = active(pathname, item.href);
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        aria-current={isActive ? "page" : undefined}
+        className={`shrink-0 rounded-full px-3 py-2 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#6878e8] ${
+          isActive ? "bg-[#171717] text-white" : "text-black/55 hover:bg-black/[.05] hover:text-black"
+        }`}
+      >
+        {item.label}
+      </Link>
+    );
+  });
+}
 
+function NavFallback() {
+  return navItems.map((item) => (
+    <Link
+      key={item.href}
+      href={item.href}
+      className="shrink-0 rounded-full px-3 py-2 text-xs font-semibold text-black/55 transition focus:outline-none focus:ring-2 focus:ring-[#6878e8]"
+    >
+      {item.label}
+    </Link>
+  ));
+}
+
+export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#f7f7f5] text-[#171717]">
       <header className="sticky top-0 z-30 border-b border-black/10 bg-[#f7f7f5]/95 backdrop-blur">
@@ -35,21 +64,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           </Link>
 
           <nav aria-label="Primary" className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto px-1">
-            {navItems.map((item) => {
-              const isActive = active(pathname, item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`shrink-0 rounded-full px-3 py-2 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#6878e8] ${
-                    isActive ? "bg-[#171717] text-white" : "text-black/55 hover:bg-black/[.05] hover:text-black"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            <Suspense fallback={<NavFallback />}>
+              <NavLinks />
+            </Suspense>
           </nav>
 
           <ThemeToggle />
