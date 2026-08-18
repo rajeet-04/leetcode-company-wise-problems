@@ -35,12 +35,16 @@ jobs:
           run_check() {
             label="$1"
             shift
-            "$@"
+            "$@" > /tmp/phase00-command.log 2>&1
             code=$?
             if [ "$code" -eq 0 ]; then
               echo "- PASS: $label" >> /tmp/phase00-results.txt
             else
               echo "- FAIL($code): $label" >> /tmp/phase00-results.txt
+              echo "" >> /tmp/phase00-results.txt
+              echo "  Last output:" >> /tmp/phase00-results.txt
+              tail -n 30 /tmp/phase00-command.log | sed 's/^/    /' >> /tmp/phase00-results.txt
+              echo "" >> /tmp/phase00-results.txt
               overall=$code
             fi
           }
