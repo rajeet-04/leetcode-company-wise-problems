@@ -4,6 +4,7 @@
   "private": true,
   "scripts": { "dev": "next dev", "build": "next build", "start": "next start", "lint": "eslint", "catalog": "node scripts/build-catalog.mjs", "typecheck": "tsc --noEmit" },
   "dependencies": {
+    "@leet-progress/analytics": "workspace:*",
     "@leet-progress/intelligence": "workspace:*",
     "@leet-progress/plans": "workspace:*",
     "@leet-progress/progress": "workspace:*",

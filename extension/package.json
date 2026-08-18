@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": { "build": "bun run scripts/build.ts", "test": "vitest run --config vitest.config.ts" },
   "dependencies": {
+    "@leet-progress/analytics": "workspace:*",
     "@leet-progress/intelligence": "workspace:*",
     "@leet-progress/plans": "workspace:*",
     "@leet-progress/progress": "workspace:*",
