@@ -107,6 +107,7 @@
       "name": "@leet-progress/sync",
       "version": "0.0.0",
       "dependencies": {
+        "@leet-progress/plans": "workspace:*",
         "@leet-progress/progress": "workspace:*",
       },
     },
