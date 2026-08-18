@@ -2,7 +2,7 @@ declare const chrome: {
   runtime: {
     getURL(path: string): string;
     sendMessage(message: unknown): Promise<unknown>;
-    onMessage: { addListener(listener: (message: unknown, sender: { tab?: { id?: number } }, sendResponse: (response: unknown) => void) => boolean | void): void };
+    onMessage: { addListener(listener: (message: unknown, sender: { tab?: { id?: number }; url?: string }, sendResponse: (response: unknown) => void) => boolean | void): void };
     onInstalled: { addListener(listener: () => void): void };
   };
   storage: {

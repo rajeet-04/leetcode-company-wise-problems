@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@leet-progress/intelligence": "workspace:*",
+    "@leet-progress/progress": "workspace:*",
+    "@leet-progress/sync": "workspace:*",
     "@leet-progress/types": "workspace:*"
   },
-  "devDependencies": {
-    "vitest": "4.1.10"
-  }
+  "devDependencies": { "vitest": "4.1.10" }
 }
