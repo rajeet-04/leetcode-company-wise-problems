@@ -1,6 +1,10 @@
 {
+  "schemaVersion": 2,
+  "catalogVersion": "v2-17e01e676ae684f7",
+  "generatedAt": "2026-08-18T18:16:16.648Z",
   "sourceRows": 37714,
   "uniqueProblems": 3392,
-  "mergedDuplicates": 34322,
-  "companies": 429
+  "companies": 429,
+  "checksum": "17e01e676ae684f7d2f902ec141ee5640951fae1b56427d4f04d8681d1e806a1",
+  "mergedDuplicates": 34322
 }
