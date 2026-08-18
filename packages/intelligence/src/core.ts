@@ -34,12 +34,7 @@ export function companyOverlap(
   const askedBy = new Set(problem.observations.map((observation) => observation.company));
   const uniqueTargets = [...new Set(targetCompanies)].sort((a, b) => a.localeCompare(b));
   const matchingCompanies = uniqueTargets.filter((company) => askedBy.has(company));
-  return {
-    matchingCompanies,
-    count: matchingCompanies.length,
-    total: uniqueTargets.length,
-    ratio: uniqueTargets.length === 0 ? 0 : matchingCompanies.length / uniqueTargets.length,
-  };
+  return { matchingCompanies, count: matchingCompanies.length, total: uniqueTargets.length, ratio: uniqueTargets.length === 0 ? 0 : matchingCompanies.length / uniqueTargets.length };
 }
 
 export function recencyScore(observations: readonly CompanyObservation[]): number {
@@ -55,9 +50,7 @@ function averageFinite(values: Array<number | null>): number | null {
 
 export function trendScore(observations: readonly CompanyObservation[]): number {
   const recent = averageFinite(observations.filter((o) => o.window === "30d").map((o) => o.frequency));
-  const baseline = averageFinite(
-    observations.filter((o) => o.window === "90d" || o.window === "6m" || o.window === "older").map((o) => o.frequency),
-  );
+  const baseline = averageFinite(observations.filter((o) => o.window === "90d" || o.window === "6m" || o.window === "older").map((o) => o.frequency));
   if (recent === null || baseline === null || recent === baseline) return 50;
   const denominator = Math.max(Math.abs(recent), Math.abs(baseline), 1);
   const normalized = (recent - baseline) / denominator;
@@ -67,8 +60,7 @@ export function trendScore(observations: readonly CompanyObservation[]): number 
 export function sourceFrequencyScore(observations: readonly CompanyObservation[]): number {
   const values = observations.map((o) => o.frequency).filter((value): value is number => value !== null && Number.isFinite(value));
   if (values.length === 0) return 0;
-  const max = Math.max(...values);
-  return Math.max(0, Math.min(100, Math.round(max)));
+  return Math.max(0, Math.min(100, Math.round(Math.max(...values))));
 }
 
 function companyReachScore(problem: CatalogProblem): number {
@@ -97,7 +89,7 @@ export function scoreProblemPriority(problem: CatalogProblem, context: PriorityC
     weakTopic: Math.min(100, Math.max(0, (context.weakTopicMatches ?? 0) * 25)),
   };
 
-  const weights = {
+  const weights: Record<keyof typeof components, number> = {
     companyReach: 0.1,
     targetOverlap: context.targetCompanies?.length ? 0.2 : 0,
     recency: 0.15,
@@ -107,12 +99,9 @@ export function scoreProblemPriority(problem: CatalogProblem, context: PriorityC
     revisionUrgency: 0.05,
     planRelevance: 0.05,
     weakTopic: 0.05,
-  } as const;
+  };
   const weightTotal = Object.values(weights).reduce((sum, value) => sum + value, 0);
-  const raw = Object.entries(weights).reduce(
-    (sum, [key, weight]) => sum + components[key as keyof typeof components] * weight,
-    0,
-  );
+  const raw = Object.entries(weights).reduce((sum, [key, weight]) => sum + components[key as keyof typeof components] * weight, 0);
   const score = Math.max(0, Math.min(100, Math.round(raw / weightTotal)));
 
   const reasons: ScoreReason[] = [];
