@@ -4,6 +4,7 @@ import { problems, type Problem } from "@/src/data/catalog";
 import { filterProblems, type Filters } from "@/src/lib/search";
 import { ImportGuide } from "./import-guide";
 import { MultiSelect } from "./multi-select";
+import { useProgress } from "./progress-provider";
 import { ThemeToggle } from "./theme-toggle";
 
 const initial: Filters = {
@@ -19,15 +20,7 @@ export default function Home() {
   const [filters, setFilters] = useState<Filters>(initial);
   const [detail, setDetail] = useState<Problem | null>(null);
   const [importing, setImporting] = useState(false);
-  const [solved, setSolved] = useState<Set<string>>(() => {
-    if (typeof window === "undefined") return new Set();
-    try {
-      const x = localStorage.getItem("leet-progress-solved");
-      return x ? new Set(JSON.parse(x)) : new Set();
-    } catch {
-      return new Set();
-    }
-  });
+  const { solved, toggleSolved, importSolved } = useProgress();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const companies = useMemo(
@@ -52,13 +45,7 @@ export default function Home() {
   );
   const update = (key: keyof Filters, value: string | string[]) =>
     setFilters((f) => ({ ...f, [key]: value }) as Filters);
-  const toggle = (p: Problem) => {
-    const next = new Set(solved);
-    if (next.has(p.slug)) next.delete(p.slug);
-    else next.add(p.slug);
-    setSolved(next);
-    localStorage.setItem("leet-progress-solved", JSON.stringify([...next]));
-  };
+  const toggle = (p: Problem) => toggleSolved(p.slug);
   return (
     <main className="min-h-screen bg-[#f7f7f5] text-[#171717]">
       <header className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-5 lg:px-10">
@@ -199,12 +186,7 @@ export default function Home() {
         <ImportGuide
           onClose={() => setImporting(false)}
           onImport={(ids) => {
-            const next = new Set([...solved, ...ids]);
-            setSolved(next);
-            localStorage.setItem(
-              "leet-progress-solved",
-              JSON.stringify([...next]),
-            );
+            importSolved(ids);
             setImporting(false);
           }}
         />

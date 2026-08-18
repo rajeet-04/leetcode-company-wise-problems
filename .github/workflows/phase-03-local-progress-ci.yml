@@ -1,0 +1,63 @@
+name: Phase 03 Local Progress CI
+
+on:
+  push:
+    branches:
+      - feat/phase-03-local-progress-model
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: feat/phase-03-local-progress-model
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - name: Verify phase and persist checkpoint
+        shell: bash
+        run: |
+          set +e
+          mkdir -p docs/agentic/implementation
+          : > /tmp/results
+          : > /tmp/failures
+          overall=0
+          check() {
+            label="$1"; shift
+            : > /tmp/check.log
+            "$@" > /tmp/check.log 2>&1
+            code=$?
+            if [ "$code" -eq 0 ]; then echo "- PASS: $label" >> /tmp/results; else
+              echo "- FAIL($code): $label" >> /tmp/results
+              { echo "### $label"; tail -100 /tmp/check.log; } >> /tmp/failures
+              overall=$code
+            fi
+          }
+          check "workspace install" bun install
+          check "shared tests including migration and backup" bun run test
+          check "page no direct legacy solved persistence" bash -lc '! grep -q "localStorage.*leet-progress-solved\|setItem.*leet-progress-solved" frontend/app/page.tsx'
+          check "frontend Next route types" bash -lc 'cd frontend && bunx next typegen'
+          check "frontend typecheck" bash -lc 'cd frontend && bun run typecheck'
+          check "frontend production build" bash -lc 'cd frontend && bun run build'
+          cat > docs/agentic/implementation/CI_STATUS_PHASE_03.md <<EOF
+          # Phase 03 CI checkpoint
+
+          Verified source commit: ${GITHUB_SHA}
+
+          $(cat /tmp/results)
+
+          $(if [ -s /tmp/failures ]; then printf '%s\n' '## Failure output' '```text'; cat /tmp/failures; printf '%s\n' '```'; fi)
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bun.lock docs/agentic/implementation/CI_STATUS_PHASE_03.md
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: record phase 03 verification"
+            git push origin HEAD:feat/phase-03-local-progress-model
+          fi
+          exit "$overall"
