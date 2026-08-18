@@ -1,64 +1,13 @@
-name: Phase 02 Shared Domain Core CI
+name: Phase 02 Shared Domain Core CI (retired)
 
 on:
-  push:
-    branches:
-      - feat/phase-02-shared-domain-core
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  verify:
-    if: github.actor != 'github-actions[bot]'
+  note:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: feat/phase-02-shared-domain-core
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.3.14
-      - name: Verify and persist checkpoint
-        shell: bash
-        run: |
-          set +e
-          mkdir -p docs/agentic/implementation
-          : > /tmp/results
-          : > /tmp/failures
-          overall=0
-          run_check() {
-            label="$1"; shift
-            : > /tmp/check.log
-            "$@" > /tmp/check.log 2>&1
-            code=$?
-            if [ "$code" -eq 0 ]; then echo "- PASS: $label" >> /tmp/results; else
-              echo "- FAIL($code): $label" >> /tmp/results
-              { echo "### $label"; tail -80 /tmp/check.log; } >> /tmp/failures
-              overall=$code
-            fi
-          }
-          run_check "workspace install" bun install
-          run_check "shared unit tests" bun run test
-          run_check "frontend Next route types" bash -lc 'cd frontend && bunx next typegen'
-          run_check "frontend typecheck" bash -lc 'cd frontend && bun run typecheck'
-          run_check "frontend production build" bash -lc 'cd frontend && bun run build'
-          run_check "frontend search is shared-only" bash -lc 'test "$(wc -l < frontend/src/lib/search.ts)" -le 3 && grep -q "@leet-progress/intelligence" frontend/src/lib/search.ts'
-          cat > docs/agentic/implementation/CI_STATUS_PHASE_02.md <<EOF
-          # Phase 02 CI checkpoint
-
-          Verified source commit: ${GITHUB_SHA}
-
-          $(cat /tmp/results)
-
-          $(if [ -s /tmp/failures ]; then printf '%s\n' '## Failure output' '```text'; cat /tmp/failures; printf '%s\n' '```'; fi)
-          EOF
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bun.lock docs/agentic/implementation/CI_STATUS_PHASE_02.md
-          if ! git diff --cached --quiet; then
-            git commit -m "ci: record phase 02 verification"
-            git push origin HEAD:feat/phase-02-shared-domain-core
-          fi
-          exit "$overall"
+      - run: echo "Phase 02 verification is handled by .github/workflows/agentic-pr-ci.yml on pull requests."
