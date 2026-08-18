@@ -1,0 +1,46 @@
+name: Phase 00 Foundation CI
+
+on:
+  push:
+    branches:
+      - feat/phase-00-foundation
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v5
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install current frontend dependencies
+        working-directory: frontend
+        run: bun install --frozen-lockfile
+
+      - name: Generate Next route types
+        working-directory: frontend
+        run: bunx next typegen
+
+      - name: Type-check frontend
+        working-directory: frontend
+        run: bun run typecheck
+
+      - name: Build frontend
+        working-directory: frontend
+        run: bun run build
+
+      - name: Install root workspace when present
+        if: ${{ hashFiles('package.json') != '' }}
+        run: bun install
+
+      - name: Run shared tests when configured
+        if: ${{ hashFiles('vitest.config.ts') != '' }}
+        run: bun run test
