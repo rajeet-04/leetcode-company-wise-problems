@@ -1,0 +1,3 @@
+export default function PlansPage() {
+  return <main className="mx-auto w-full max-w-[1440px] px-6 py-12 lg:px-10"><p className="text-xs font-semibold uppercase tracking-[.18em] text-[#6878e8]">Plans</p><h1 className="mt-4 text-4xl font-semibold tracking-[-.05em] sm:text-5xl">Interview plans</h1><div className="mt-8 max-w-2xl rounded-2xl border border-black/10 bg-white p-6"><h2 className="text-xl font-semibold">Local adaptive planning foundation</h2><p className="mt-3 text-sm leading-6 text-black/55">This route is reserved for company targets, interview dates, daily workload and adaptive queues. The planning engine is intentionally not duplicated here before the shared recommendations and revision phases are implemented.</p></div></main>;
+}
