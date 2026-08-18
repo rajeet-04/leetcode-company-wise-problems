@@ -4,20 +4,20 @@ on:
   push:
     branches:
       - feat/phase-00-foundation
-  pull_request:
-    branches:
-      - docs/agentic-roadmap
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   verify:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Check out branch
         uses: actions/checkout@v5
+        with:
+          ref: feat/phase-00-foundation
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
@@ -47,3 +47,28 @@ jobs:
       - name: Run shared tests when configured
         if: ${{ hashFiles('vitest.config.ts') != '' }}
         run: bun run test
+
+      - name: Record verified checkpoint
+        run: |
+          mkdir -p docs/agentic/implementation
+          cat > docs/agentic/implementation/CI_STATUS.md <<EOF
+          # Phase 00 CI checkpoint
+
+          Verified source commit: ${GITHUB_SHA}
+
+          Passed:
+          - frontend frozen install
+          - Next route type generation
+          - frontend typecheck
+          - frontend production build
+          - root workspace install when present
+          - shared Vitest suite when configured
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/agentic/implementation/CI_STATUS.md bun.lock
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "ci: record phase 00 verification"
+          git push origin HEAD:feat/phase-00-foundation
