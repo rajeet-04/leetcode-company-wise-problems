@@ -1,0 +1,13 @@
+name: Phase 02 Shared Domain Core CI (retired)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  note:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Phase 02 verification is handled by .github/workflows/agentic-pr-ci.yml on pull requests."
