@@ -49,18 +49,20 @@ jobs:
         with:
           bun-version: 1.3.14
 
-      - name: Install frontend dependencies
-        working-directory: frontend
+      - name: Install workspace dependencies
         run: bun install --frozen-lockfile
 
-      - name: Rebuild merged problem catalog
+      - name: Rebuild compatibility and Catalog V2 artifacts
         working-directory: frontend
         run: npm run catalog
 
-      - name: Validate generated catalog
+      - name: Validate legacy compatibility catalog
         working-directory: frontend
         run: |
           node -e "const fs=require('fs'); const rows=JSON.parse(fs.readFileSync('src/data/catalog.json','utf8')); const meta=JSON.parse(fs.readFileSync('src/data/catalog-meta.json','utf8')); if(!Array.isArray(rows)||rows.length===0||rows.length!==meta.uniqueProblems) process.exit(1); console.log(meta);"
+
+      - name: Validate Catalog V2 artifact
+        run: bun packages/catalog/src/validate-cli.ts
 
       - name: Type-check the frontend
         working-directory: frontend
@@ -68,9 +70,13 @@ jobs:
           bunx next typegen
           bun run typecheck
 
+      - name: Build the frontend
+        working-directory: frontend
+        run: bun run build
+
       - name: Commit generated catalog when changed
         run: |
-          git add frontend/src/data/catalog.json frontend/src/data/catalog-meta.json
+          git add frontend/src/data/catalog.json frontend/src/data/catalog-v2.json frontend/src/data/catalog-meta.json artifacts/catalog/extension-catalog.json
           if git diff --cached --quiet; then
             echo "Catalog is already current."
           else
