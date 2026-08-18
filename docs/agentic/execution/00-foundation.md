@@ -4,9 +4,9 @@
 
 **Goal:** Prepare the repository for shared packages, website rework, and extension construction without changing current user-visible behavior.
 
-**Architecture:** Introduce a Bun workspace at the repository root, move no production UI yet, add shared package scaffolds with explicit exports, and make current `frontend/` continue building while it begins consuming workspace packages.
+**Architecture:** Introduce a Bun workspace at the repository root, add a shared test harness, then create shared package boundaries. Keep the current `frontend/` application operational throughout this phase.
 
-**Tech Stack:** Bun 1.3.14, TypeScript 5, Next.js 16.3.1, React 19.2.8.
+**Tech Stack:** Bun 1.3.14, TypeScript 5, Next.js 16.3.1, React 19.2.8, Vitest.
 
 **Spec:** `docs/agentic/PLAN.md`, `docs/agentic/shared/PLAN.md`.
 
@@ -25,7 +25,6 @@
 **Files:**
 - Create: `package.json`
 - Create: `tsconfig.base.json`
-- Modify: `frontend/package.json`
 - Test: existing frontend build/typecheck commands
 
 **Interfaces:**
@@ -99,95 +98,30 @@ Expected: PASS with no behavior-related code changes.
 - [ ] **Step 6: Commit**
 
 ```bash
-git add package.json tsconfig.base.json frontend/package.json bun.lock frontend/bun.lock
+git add package.json tsconfig.base.json bun.lock
 git commit -m "build: establish leet progress workspace"
 ```
 
-### Task 2: Create shared package shells
+### Task 2: Add shared test harness
 
 **Files:**
-- Create: `packages/types/package.json`
+- Modify: `package.json`
+- Create: `vitest.config.ts`
 - Create: `packages/types/src/index.ts`
-- Create: `packages/catalog/package.json`
-- Create: `packages/catalog/src/index.ts`
-- Create: `packages/intelligence/package.json`
-- Create: `packages/intelligence/src/index.ts`
-- Create: `packages/progress/package.json`
-- Create: `packages/progress/src/index.ts`
-- Create: `packages/recommendations/package.json`
-- Create: `packages/recommendations/src/index.ts`
-- Create: `packages/analytics/package.json`
-- Create: `packages/analytics/src/index.ts`
-- Create: `packages/storage/package.json`
-- Create: `packages/storage/src/index.ts`
+- Create: `packages/types/src/index.test.ts`
 
 **Interfaces:**
-- Produces: importable browser-safe package boundaries; no production logic yet beyond exported version constants.
+- Produces: root `bun run test` command and the first shared package export.
 
-- [ ] **Step 1: Write a workspace import smoke test**
+- [ ] **Step 1: Create the first shared export**
 
-Create `packages/types/src/index.ts` with:
+Create `packages/types/src/index.ts`:
 
 ```ts
 export const DOMAIN_SCHEMA_VERSION = 1 as const;
 ```
 
-Then temporarily import it from a new lightweight script or test under `frontend/src/lib/__tests__/workspace-smoke.test.ts` using the repository's chosen test runner introduced in Task 3.
-
-Expected assertion:
-
-```ts
-expect(DOMAIN_SCHEMA_VERSION).toBe(1);
-```
-
-- [ ] **Step 2: Add package manifests**
-
-Each package manifest must be private, ESM, and export `./src/index.ts`. Example:
-
-```json
-{
-  "name": "@leet-progress/types",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "exports": "./src/index.ts"
-}
-```
-
-Repeat with the matching package name for each package.
-
-- [ ] **Step 3: Create empty typed exports for remaining packages**
-
-Each `src/index.ts` should export one package version constant only, e.g.:
-
-```ts
-export const CATALOG_PACKAGE_VERSION = 1 as const;
-```
-
-Do not add domain logic in this task.
-
-- [ ] **Step 4: Verify workspace resolution**
-
-Run root install and the smoke test after Task 3 test harness exists.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add packages
- git commit -m "build: add shared package boundaries"
-```
-
-### Task 3: Add shared test harness
-
-**Files:**
-- Modify: root `package.json`
-- Create: `vitest.config.ts`
-- Create: `packages/types/src/index.test.ts`
-
-**Interfaces:**
-- Produces: root `bun run test` command for shared package unit tests.
-
-- [ ] **Step 1: Add failing shared test**
+- [ ] **Step 2: Write the failing shared test**
 
 Create:
 
@@ -210,9 +144,9 @@ bun run test
 
 Expected: command missing/fails.
 
-- [ ] **Step 2: Add Vitest dev dependency and root scripts**
+- [ ] **Step 3: Add Vitest dev dependency and root scripts**
 
-Root scripts:
+Update root `package.json` scripts to include:
 
 ```json
 {
@@ -229,7 +163,20 @@ Install:
 bun add -d vitest
 ```
 
-- [ ] **Step 3: Run shared test**
+Create `vitest.config.ts`:
+
+```ts
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  test: {
+    environment: "node",
+    include: ["packages/**/*.test.ts"]
+  }
+});
+```
+
+- [ ] **Step 4: Run shared test**
 
 ```bash
 bun run test
@@ -237,7 +184,7 @@ bun run test
 
 Expected: PASS.
 
-- [ ] **Step 4: Verify frontend remains healthy**
+- [ ] **Step 5: Verify frontend remains healthy**
 
 ```bash
 cd frontend
@@ -248,11 +195,91 @@ bun run build
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add package.json bun.lock vitest.config.ts packages/types/src/index.test.ts
+git add package.json bun.lock vitest.config.ts packages/types/src/index.ts packages/types/src/index.test.ts
 git commit -m "test: add shared package test harness"
+```
+
+### Task 3: Create shared package shells
+
+**Files:**
+- Create: `packages/types/package.json`
+- Create: `packages/catalog/package.json`
+- Create: `packages/catalog/src/index.ts`
+- Create: `packages/intelligence/package.json`
+- Create: `packages/intelligence/src/index.ts`
+- Create: `packages/progress/package.json`
+- Create: `packages/progress/src/index.ts`
+- Create: `packages/recommendations/package.json`
+- Create: `packages/recommendations/src/index.ts`
+- Create: `packages/analytics/package.json`
+- Create: `packages/analytics/src/index.ts`
+- Create: `packages/storage/package.json`
+- Create: `packages/storage/src/index.ts`
+- Create: `packages/types/src/workspace-smoke.test.ts`
+
+**Interfaces:**
+- Produces: importable browser-safe package boundaries; no production logic beyond version constants.
+
+- [ ] **Step 1: Add package manifests**
+
+Each package manifest must be private, ESM, and export `./src/index.ts`. Example:
+
+```json
+{
+  "name": "@leet-progress/types",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts"
+}
+```
+
+Repeat with the matching package name for each package.
+
+- [ ] **Step 2: Create typed exports for remaining packages**
+
+Each `src/index.ts` exports one version constant only. Example:
+
+```ts
+export const CATALOG_PACKAGE_VERSION = 1 as const;
+```
+
+Use corresponding constant names for intelligence, progress, recommendations, analytics, and storage. Do not add domain logic in this task.
+
+- [ ] **Step 3: Add workspace smoke test**
+
+Create `packages/types/src/workspace-smoke.test.ts` that imports all package version constants by package name and asserts each equals `1`.
+
+- [ ] **Step 4: Verify workspace package resolution**
+
+Run:
+
+```bash
+bun install
+bun run test
+```
+
+Expected: PASS including workspace smoke test.
+
+- [ ] **Step 5: Verify frontend remains healthy**
+
+```bash
+cd frontend
+bunx next typegen
+bun run typecheck
+bun run build
+```
+
+Expected: PASS.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add packages bun.lock
+git commit -m "build: add shared package boundaries"
 ```
 
 ## Phase exit verification
