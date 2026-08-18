@@ -19,6 +19,7 @@
       "name": "frontend",
       "version": "0.1.0",
       "dependencies": {
+        "@leet-progress/intelligence": "workspace:*",
         "next": "16.3.1",
         "react": "19.2.8",
         "react-dom": "19.2.8",
@@ -48,6 +49,9 @@
     "packages/intelligence": {
       "name": "@leet-progress/intelligence",
       "version": "0.0.0",
+      "dependencies": {
+        "@leet-progress/types": "workspace:*",
+      },
     },
     "packages/progress": {
       "name": "@leet-progress/progress",
@@ -60,6 +64,9 @@
     "packages/storage": {
       "name": "@leet-progress/storage",
       "version": "0.0.0",
+      "dependencies": {
+        "@leet-progress/progress": "workspace:*",
+      },
     },
     "packages/types": {
       "name": "@leet-progress/types",
