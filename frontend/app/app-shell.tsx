@@ -1,0 +1,61 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
+import { ThemeToggle } from "./theme-toggle";
+
+const navItems = [
+  { href: "/", label: "Today" },
+  { href: "/explore", label: "Explore" },
+  { href: "/companies", label: "Companies" },
+  { href: "/topics", label: "Topics" },
+  { href: "/plans", label: "Plans" },
+  { href: "/insights", label: "Insights" },
+] as const;
+
+function active(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export function AppShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
+  return (
+    <div className="min-h-screen bg-[#f7f7f5] text-[#171717]">
+      <header className="sticky top-0 z-30 border-b border-black/10 bg-[#f7f7f5]/95 backdrop-blur">
+        <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-6 lg:px-10">
+          <Link href="/" className="flex shrink-0 items-center gap-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6878e8]">
+            <span className="grid size-9 place-items-center rounded-xl bg-[#171717] text-sm font-bold text-white">LP</span>
+            <span className="hidden sm:block">
+              <span className="block text-sm font-semibold">Leet Progress</span>
+              <span className="block text-[11px] text-black/45">Local-first interview intelligence</span>
+            </span>
+          </Link>
+
+          <nav aria-label="Primary" className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto px-1">
+            {navItems.map((item) => {
+              const isActive = active(pathname, item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`shrink-0 rounded-full px-3 py-2 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#6878e8] ${
+                    isActive ? "bg-[#171717] text-white" : "text-black/55 hover:bg-black/[.05] hover:text-black"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <ThemeToggle />
+        </div>
+      </header>
+      {children}
+    </div>
+  );
+}
