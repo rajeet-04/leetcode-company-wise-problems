@@ -11,6 +11,7 @@
         "@leet-progress/progress": "workspace:*",
         "@leet-progress/recommendations": "workspace:*",
         "@leet-progress/storage": "workspace:*",
+        "@leet-progress/sync": "workspace:*",
         "@leet-progress/types": "workspace:*",
         "vitest": "4.1.10",
       },
@@ -20,6 +21,8 @@
       "version": "0.1.0",
       "dependencies": {
         "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/progress": "workspace:*",
+        "@leet-progress/sync": "workspace:*",
         "@leet-progress/types": "workspace:*",
       },
       "devDependencies": {
@@ -32,6 +35,7 @@
       "dependencies": {
         "@leet-progress/intelligence": "workspace:*",
         "@leet-progress/progress": "workspace:*",
+        "@leet-progress/sync": "workspace:*",
         "next": "16.3.1",
         "react": "19.2.8",
         "react-dom": "19.2.8",
