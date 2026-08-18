@@ -1,0 +1,42 @@
+name: Agentic Phase PR CI
+
+on:
+  pull_request:
+    branches:
+      - docs/agentic-roadmap
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - name: Install workspace
+        run: bun install --frozen-lockfile
+      - name: Shared tests
+        run: bun run test
+      - name: Validate Catalog V2
+        if: ${{ hashFiles('frontend/src/data/catalog-v2.json') != '' }}
+        run: bun packages/catalog/src/validate-cli.ts
+      - name: Generate Next route types
+        working-directory: frontend
+        run: bunx next typegen
+      - name: Typecheck frontend
+        working-directory: frontend
+        run: bun run typecheck
+      - name: Build frontend
+        working-directory: frontend
+        run: bun run build
+      - name: Extension tests
+        if: ${{ hashFiles('extension/package.json') != '' }}
+        working-directory: extension
+        run: bun run test
+      - name: Extension build
+        if: ${{ hashFiles('extension/package.json') != '' }}
+        working-directory: extension
+        run: bun run build
