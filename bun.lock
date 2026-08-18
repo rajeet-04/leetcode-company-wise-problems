@@ -78,6 +78,11 @@
     "packages/recommendations": {
       "name": "@leet-progress/recommendations",
       "version": "0.0.0",
+      "dependencies": {
+        "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/progress": "workspace:*",
+        "@leet-progress/types": "workspace:*",
+      },
     },
     "packages/storage": {
       "name": "@leet-progress/storage",
