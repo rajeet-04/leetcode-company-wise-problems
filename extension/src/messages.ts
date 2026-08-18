@@ -1,4 +1,5 @@
 import type { ProblemIntelligence } from "@leet-progress/intelligence";
+import type { Recommendation } from "@leet-progress/recommendations";
 import type { CatalogProblem } from "@leet-progress/types";
 import type { ProgressMutation } from "@leet-progress/sync";
 import type { SubmissionOutcome } from "./submission-observer";
@@ -15,6 +16,7 @@ export type ProblemPayload = {
   problem: CatalogProblem;
   intelligence: ProblemIntelligence;
   priority: ProblemIntelligence["priority"];
+  recommendations: Recommendation[];
 };
 
 export type ExtensionResponse =

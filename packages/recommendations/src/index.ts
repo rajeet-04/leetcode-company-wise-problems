@@ -1,1 +1,2 @@
 export const RECOMMENDATIONS_PACKAGE_VERSION = 1 as const;
+export * from "./recommend";

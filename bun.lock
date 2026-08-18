@@ -22,6 +22,7 @@
       "dependencies": {
         "@leet-progress/intelligence": "workspace:*",
         "@leet-progress/progress": "workspace:*",
+        "@leet-progress/recommendations": "workspace:*",
         "@leet-progress/sync": "workspace:*",
         "@leet-progress/types": "workspace:*",
       },
@@ -35,6 +36,7 @@
       "dependencies": {
         "@leet-progress/intelligence": "workspace:*",
         "@leet-progress/progress": "workspace:*",
+        "@leet-progress/recommendations": "workspace:*",
         "@leet-progress/sync": "workspace:*",
         "@leet-progress/types": "workspace:*",
         "next": "16.3.1",
@@ -78,6 +80,11 @@
     "packages/recommendations": {
       "name": "@leet-progress/recommendations",
       "version": "0.0.0",
+      "dependencies": {
+        "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/progress": "workspace:*",
+        "@leet-progress/types": "workspace:*",
+      },
     },
     "packages/storage": {
       "name": "@leet-progress/storage",
