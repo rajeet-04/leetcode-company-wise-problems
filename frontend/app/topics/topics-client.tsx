@@ -3,18 +3,20 @@
 import { buildProblemIntelligence, calculateTopicReadiness } from "@leet-progress/intelligence";
 import { isRevisionDue } from "@leet-progress/progress";
 import { catalogV2BySlug, catalogV2Problems } from "@/src/data/catalog-v2";
+import { useEffect, useState } from "react";
 import { useProgress } from "../progress-provider";
 
 export function TopicsClient() {
   const { progress, targetCompanies, completeRevision } = useProgress();
+  const [now, setNow] = useState<string | null>(null);
+  useEffect(() => setNow(new Date().toISOString()), []);
   const readiness = calculateTopicReadiness(catalogV2Problems, progress, targetCompanies);
-  const now = new Date().toISOString();
-  const due = progress.filter((item) => isRevisionDue(item, now)).flatMap((item) => {
+  const due = now ? progress.filter((item) => isRevisionDue(item, now)).flatMap((item) => {
     const problem = catalogV2BySlug.get(item.slug);
     if (!problem) return [];
     const intelligence = buildProblemIntelligence(problem, { targetCompanies, progress: item });
     return [{ item, problem, priority: intelligence.priority.score }];
-  }).sort((a, b) => (a.item.revisionDueAt ?? "").localeCompare(b.item.revisionDueAt ?? "") || b.priority - a.priority);
+  }).sort((a, b) => (a.item.revisionDueAt ?? "").localeCompare(b.item.revisionDueAt ?? "") || b.priority - a.priority) : [];
 
   return (
     <main className="mx-auto w-full max-w-[1440px] px-6 py-12 lg:px-10">
@@ -33,7 +35,7 @@ export function TopicsClient() {
       </section>
 
       <section className="mt-10 rounded-2xl border border-black/10 bg-white p-5 sm:p-6">
-        <div className="flex items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[.14em] text-black/40">Revision queue</p><h2 className="mt-2 text-2xl font-semibold">{due.length} due now</h2></div></div>
+        <div className="flex items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[.14em] text-black/40">Revision queue</p><h2 className="mt-2 text-2xl font-semibold">{now ? `${due.length} due now` : "Checking local schedule…"}</h2></div></div>
         <div className="mt-4 divide-y divide-black/[.06]">
           {due.map(({ item, problem, priority }) => (
             <div key={item.slug} className="flex flex-wrap items-center justify-between gap-3 py-4">
@@ -41,7 +43,7 @@ export function TopicsClient() {
               <button type="button" onClick={() => completeRevision(item.slug, priority)} className="rounded-full bg-[#171717] px-4 py-2 text-xs font-semibold text-white">Review completed</button>
             </div>
           ))}
-          {!due.length && <p className="py-8 text-center text-sm text-black/45">No revisions are due right now.</p>}
+          {now && !due.length && <p className="py-8 text-center text-sm text-black/45">No revisions are due right now.</p>}
         </div>
       </section>
     </main>
