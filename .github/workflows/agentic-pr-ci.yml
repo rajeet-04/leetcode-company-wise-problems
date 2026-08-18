@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   verify:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -22,16 +21,19 @@ jobs:
       - name: Normalize workspace lockfile
         run: bun install
       - name: Commit normalized lockfile when changed
+        if: github.event.pull_request.head.repo.full_name == github.repository
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add bun.lock
           if ! git diff --cached --quiet; then
-            git commit -m "build: refresh workspace lockfile"
+            git commit -m "chore: refresh workspace lockfile"
             git push origin HEAD:${{ github.head_ref }}
           fi
       - name: Shared tests
         run: bun run test
+      - name: Local-first privacy audit
+        run: bun run privacy:audit
       - name: Validate Catalog V2
         if: ${{ hashFiles('frontend/src/data/catalog-v2.json') != '' }}
         run: bun packages/catalog/src/validate-cli.ts
