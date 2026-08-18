@@ -1,0 +1,99 @@
+name: Phase 01 Catalog V2 CI
+
+on:
+  push:
+    branches:
+      - feat/phase-01-catalog-v2
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v5
+        with:
+          ref: feat/phase-01-catalog-v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Run Phase 01 verification and persist result
+        shell: bash
+        run: |
+          set +e
+          mkdir -p docs/agentic/implementation artifacts/catalog
+          : > /tmp/phase01-results.txt
+          : > /tmp/phase01-last.log
+          overall=0
+
+          run_check() {
+            label="$1"
+            shift
+            : > /tmp/check.log
+            "$@" > /tmp/check.log 2>&1
+            code=$?
+            if [ "$code" -eq 0 ]; then
+              echo "- PASS: $label" >> /tmp/phase01-results.txt
+            else
+              echo "- FAIL($code): $label" >> /tmp/phase01-results.txt
+              overall=$code
+              {
+                echo "### $label"
+                tail -80 /tmp/check.log
+              } >> /tmp/phase01-last.log
+            fi
+          }
+
+          run_check "root workspace install" bun install
+          run_check "shared unit test suite" bun run test
+          run_check "Catalog V2 build" bash -lc 'cd frontend && npm run catalog'
+          if [ -f frontend/src/data/catalog-v2.json ]; then
+            cp frontend/src/data/catalog-v2.json /tmp/catalog-v2-first.json
+          fi
+          run_check "Catalog V2 validator" bun packages/catalog/src/validate-cli.ts
+          run_check "second Catalog V2 build" bash -lc 'cd frontend && npm run catalog'
+          if [ -f /tmp/catalog-v2-first.json ] && [ -f frontend/src/data/catalog-v2.json ]; then
+            run_check "deterministic canonical output" cmp /tmp/catalog-v2-first.json frontend/src/data/catalog-v2.json
+          else
+            echo "- FAIL(1): deterministic canonical output" >> /tmp/phase01-results.txt
+            overall=1
+          fi
+          run_check "frontend Next route type generation" bash -lc 'cd frontend && bunx next typegen'
+          run_check "frontend typecheck" bash -lc 'cd frontend && bun run typecheck'
+          run_check "frontend production build" bash -lc 'cd frontend && bun run build'
+
+          cat > docs/agentic/implementation/CI_STATUS_PHASE_01.md <<EOF
+          # Phase 01 CI checkpoint
+
+          Verified source commit: ${GITHUB_SHA}
+
+          $(cat /tmp/phase01-results.txt)
+
+          $(if [ -s /tmp/phase01-last.log ]; then printf '%s\n' '## Failure output' '```text'; cat /tmp/phase01-last.log; printf '%s\n' '```'; fi)
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bun.lock docs/agentic/implementation/CI_STATUS_PHASE_01.md
+          if [ -f frontend/src/data/catalog.json ]; then git add frontend/src/data/catalog.json; fi
+          if [ -f frontend/src/data/catalog-v2.json ]; then git add frontend/src/data/catalog-v2.json; fi
+          if [ -f frontend/src/data/catalog-meta.json ]; then git add frontend/src/data/catalog-meta.json; fi
+          if [ -f artifacts/catalog/extension-catalog.json ]; then git add artifacts/catalog/extension-catalog.json; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: record phase 01 verification"
+            git push origin HEAD:feat/phase-01-catalog-v2
+          fi
+
+          exit "$overall"
