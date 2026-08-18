@@ -28,7 +28,8 @@ export type ProgressMutation =
   | MutationEnvelope<"CONFIDENCE_SET", { slug: string; confidence: 1 | 2 | 3 | 4 | 5 }>
   | MutationEnvelope<"NOTE_SET", { slug: string; note: string }>
   | MutationEnvelope<"REVISION_DUE", { slug: string; dueAt: string }>
-  | MutationEnvelope<"PROBLEM_MASTERED", { slug: string }>;
+  | MutationEnvelope<"PROBLEM_MASTERED", { slug: string }>
+  | MutationEnvelope<"TARGETS_SET", { targetCompanies: string[] }>;
 
 export type SyncHello = {
   protocolVersion: typeof SYNC_PROTOCOL_VERSION;
@@ -54,15 +55,11 @@ function validBase(value: Record<string, unknown>): boolean {
   return (
     value.protocolVersion === SYNC_PROTOCOL_VERSION &&
     value.schemaVersion === SYNC_SCHEMA_VERSION &&
-    typeof value.mutationId === "string" &&
-    value.mutationId.length > 0 &&
-    typeof value.installationId === "string" &&
-    value.installationId.length > 0 &&
+    typeof value.mutationId === "string" && value.mutationId.length > 0 &&
+    typeof value.installationId === "string" && value.installationId.length > 0 &&
     (value.source === "web" || value.source === "extension") &&
-    typeof value.occurredAt === "string" &&
-    !Number.isNaN(Date.parse(value.occurredAt)) &&
-    typeof value.type === "string" &&
-    isRecord(value.payload)
+    typeof value.occurredAt === "string" && !Number.isNaN(Date.parse(value.occurredAt)) &&
+    typeof value.type === "string" && isRecord(value.payload)
   );
 }
 
@@ -72,12 +69,14 @@ function validSlug(value: unknown): value is string {
 
 function validProgress(value: unknown): value is ProblemProgress {
   if (!isRecord(value)) return false;
-  return (
-    validSlug(value.slug) &&
+  return validSlug(value.slug) &&
     ["unseen", "attempted", "solved", "revision_due", "mastered"].includes(String(value.status)) &&
     typeof value.attempts === "number" && Number.isFinite(value.attempts) && value.attempts >= 0 &&
-    typeof value.revisitCount === "number" && Number.isFinite(value.revisitCount) && value.revisitCount >= 0
-  );
+    typeof value.revisitCount === "number" && Number.isFinite(value.revisitCount) && value.revisitCount >= 0;
+}
+
+function normalizeTargets(values: readonly string[]): string[] {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
 
 export function validateMutation(value: unknown): value is ProgressMutation {
@@ -98,6 +97,8 @@ export function validateMutation(value: unknown): value is ProgressMutation {
       return validSlug(payload.slug) && typeof payload.note === "string";
     case "REVISION_DUE":
       return validSlug(payload.slug) && typeof payload.dueAt === "string" && !Number.isNaN(Date.parse(payload.dueAt));
+    case "TARGETS_SET":
+      return Array.isArray(payload.targetCompanies) && payload.targetCompanies.every((company) => typeof company === "string" && company.trim().length > 0);
     default:
       return false;
   }
@@ -119,6 +120,7 @@ export function mergeMutations(current: readonly ProgressMutation[], incoming: r
 export function applyProgressMutations(existing: readonly ProblemProgress[], mutations: readonly ProgressMutation[]): ProblemProgress[] {
   const bySlug = new Map(existing.map((progress) => [progress.slug, { ...progress }]));
   for (const mutation of mergeMutations([], mutations)) {
+    if (mutation.type === "TARGETS_SET") continue;
     if (mutation.type === "PROBLEM_STATE_SET") {
       bySlug.set(mutation.payload.progress.slug, { ...mutation.payload.progress });
       continue;
@@ -126,30 +128,21 @@ export function applyProgressMutations(existing: readonly ProblemProgress[], mut
     const slug = mutation.payload.slug;
     const current = bySlug.get(slug);
     switch (mutation.type) {
-      case "PROBLEM_ATTEMPTED":
-        bySlug.set(slug, reduceProgress(current, { type: "ATTEMPT", slug, at: mutation.occurredAt }));
-        break;
-      case "PROBLEM_SOLVED":
-        bySlug.set(slug, reduceProgress(current, { type: "SOLVE", slug, at: mutation.occurredAt }));
-        break;
-      case "PROBLEM_STATUS_SET":
-        bySlug.set(slug, reduceProgress(current, { type: "SET_STATUS", slug, at: mutation.occurredAt, status: mutation.payload.status }));
-        break;
-      case "CONFIDENCE_SET":
-        bySlug.set(slug, reduceProgress(current, { type: "SET_CONFIDENCE", slug, at: mutation.occurredAt, confidence: mutation.payload.confidence }));
-        break;
-      case "NOTE_SET":
-        bySlug.set(slug, reduceProgress(current, { type: "SET_NOTE", slug, at: mutation.occurredAt, note: mutation.payload.note }));
-        break;
-      case "REVISION_DUE":
-        bySlug.set(slug, reduceProgress(current, { type: "REVISION_DUE", slug, at: mutation.occurredAt, dueAt: mutation.payload.dueAt }));
-        break;
-      case "PROBLEM_MASTERED":
-        bySlug.set(slug, reduceProgress(current, { type: "MASTER", slug, at: mutation.occurredAt }));
-        break;
+      case "PROBLEM_ATTEMPTED": bySlug.set(slug, reduceProgress(current, { type: "ATTEMPT", slug, at: mutation.occurredAt })); break;
+      case "PROBLEM_SOLVED": bySlug.set(slug, reduceProgress(current, { type: "SOLVE", slug, at: mutation.occurredAt })); break;
+      case "PROBLEM_STATUS_SET": bySlug.set(slug, reduceProgress(current, { type: "SET_STATUS", slug, at: mutation.occurredAt, status: mutation.payload.status })); break;
+      case "CONFIDENCE_SET": bySlug.set(slug, reduceProgress(current, { type: "SET_CONFIDENCE", slug, at: mutation.occurredAt, confidence: mutation.payload.confidence })); break;
+      case "NOTE_SET": bySlug.set(slug, reduceProgress(current, { type: "SET_NOTE", slug, at: mutation.occurredAt, note: mutation.payload.note })); break;
+      case "REVISION_DUE": bySlug.set(slug, reduceProgress(current, { type: "REVISION_DUE", slug, at: mutation.occurredAt, dueAt: mutation.payload.dueAt })); break;
+      case "PROBLEM_MASTERED": bySlug.set(slug, reduceProgress(current, { type: "MASTER", slug, at: mutation.occurredAt })); break;
     }
   }
   return [...bySlug.values()].sort((a, b) => a.slug.localeCompare(b.slug));
+}
+
+export function deriveTargetCompanies(mutations: readonly ProgressMutation[], fallback: readonly string[] = []): string[] {
+  const latest = mergeMutations([], mutations).filter((mutation): mutation is Extract<ProgressMutation, { type: "TARGETS_SET" }> => mutation.type === "TARGETS_SET").at(-1);
+  return normalizeTargets(latest?.payload.targetCompanies ?? fallback);
 }
 
 export function missingMutations(mutations: readonly ProgressMutation[], knownMutationIds: readonly string[]): ProgressMutation[] {
@@ -160,15 +153,10 @@ export function missingMutations(mutations: readonly ProgressMutation[], knownMu
 export function bootstrapProgressMutations(progress: readonly ProblemProgress[], installationId: string, source: SyncSource): ProgressMutation[] {
   return progress.map((record) => {
     const occurredAt = record.lastAttemptAt ?? record.solvedAt ?? record.masteredAt ?? record.firstSeenAt ?? new Date(0).toISOString();
-    return {
-      protocolVersion: SYNC_PROTOCOL_VERSION,
-      schemaVersion: SYNC_SCHEMA_VERSION,
-      mutationId: `${source}:bootstrap:${record.slug}:${occurredAt}`,
-      installationId,
-      source,
-      type: "PROBLEM_STATE_SET",
-      occurredAt,
-      payload: { progress: { ...record } },
-    };
+    return { protocolVersion: SYNC_PROTOCOL_VERSION, schemaVersion: SYNC_SCHEMA_VERSION, mutationId: `${source}:bootstrap:${record.slug}:${occurredAt}`, installationId, source, type: "PROBLEM_STATE_SET", occurredAt, payload: { progress: { ...record } } };
   });
+}
+
+export function createTargetsMutation(targetCompanies: readonly string[], installationId: string, source: SyncSource, occurredAt: string, mutationId: string): ProgressMutation {
+  return { protocolVersion: SYNC_PROTOCOL_VERSION, schemaVersion: SYNC_SCHEMA_VERSION, mutationId, installationId, source, type: "TARGETS_SET", occurredAt, payload: { targetCompanies: normalizeTargets(targetCompanies) } };
 }
