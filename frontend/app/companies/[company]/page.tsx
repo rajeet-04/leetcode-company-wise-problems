@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { problems } from "@/src/data/catalog";
 
+export const instant = false;
+
 export default async function CompanyPage({ params }: { params: Promise<{ company: string }> }) {
   const { company: rawCompany } = await params;
   const company = decodeURIComponent(rawCompany);
