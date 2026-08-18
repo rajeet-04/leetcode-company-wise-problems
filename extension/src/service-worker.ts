@@ -4,6 +4,8 @@ import { buildAdaptivePlan } from "@leet-progress/plans";
 import { recommendProblems } from "@leet-progress/recommendations";
 import { SYNC_PROTOCOL_VERSION, deriveInterviewPlans, validateMutation } from "@leet-progress/sync";
 import type { CatalogProblem } from "@leet-progress/types";
+import { loadCachedCatalog } from "./catalog-cache";
+import { CATALOG_REFRESH_ALARM, refreshPublicCatalog } from "./catalog-refresh";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
 import { isAllowedLeetCodeUrl } from "./leetcode-origin";
 import { isExtensionRequest, type ExtensionResponse } from "./messages";
@@ -13,12 +15,38 @@ import { appendExtensionMutation, exchangeExtensionMutations, getExtensionInstal
 import { isAllowedWebsiteUrl } from "./website-bridge-policy";
 
 let catalogPromise: Promise<ReadonlyMap<string, CatalogProblem>> | null = null;
+
+async function packagedCatalog(): Promise<CatalogProblem[]> {
+  const response = await fetch(chrome.runtime.getURL("catalog.json"));
+  if (!response.ok) throw new Error(`Packaged catalog load failed: ${response.status}`);
+  return response.json() as Promise<CatalogProblem[]>;
+}
+
 async function catalogIndex() {
-  catalogPromise ??= fetch(chrome.runtime.getURL("catalog.json")).then((response) => {
-    if (!response.ok) throw new Error(`Catalog load failed: ${response.status}`);
-    return response.json() as Promise<CatalogProblem[]>;
-  }).then(createCatalogIndex);
+  catalogPromise ??= (async () => {
+    try {
+      const cached = await loadCachedCatalog();
+      if (cached?.problems.length) return createCatalogIndex(cached.problems);
+    } catch (error) {
+      console.warn("Leet Progress cached catalog unavailable", error);
+    }
+    return createCatalogIndex(await packagedCatalog());
+  })();
   return catalogPromise;
+}
+
+async function refreshCatalogSafely() {
+  try {
+    const problems = await refreshPublicCatalog();
+    if (problems?.length) catalogPromise = Promise.resolve(createCatalogIndex(problems));
+  } catch (error) {
+    console.warn("Leet Progress public catalog refresh failed; keeping last known good snapshot", error);
+  }
+}
+
+async function ensureCatalogAlarm() {
+  const existing = await chrome.alarms.get(CATALOG_REFRESH_ALARM);
+  if (!existing) await chrome.alarms.create(CATALOG_REFRESH_ALARM, { delayInMinutes: 5, periodInMinutes: 360 });
 }
 
 function planSlugs(adaptive: ReturnType<typeof buildAdaptivePlan>): string[] {
@@ -37,32 +65,15 @@ async function problemPayload(slug: string) {
   const now = new Date().toISOString();
   const adaptive = definition ? buildAdaptivePlan(catalog, local.progress, definition, now) : null;
   const relevantSlugs = adaptive ? planSlugs(adaptive) : [];
-  const intelligence = buildProblemIntelligence(problem, {
-    targetCompanies: local.targetCompanies,
-    progress,
-    planRelevant: relevantSlugs.includes(slug),
-    weakTopicMatches: adaptive?.weakTopics.filter((topic) => problem.topics.includes(topic)).length ?? 0,
-  });
-  const recommendations = recommendProblems(catalog, {
-    targetCompanies: local.targetCompanies,
-    progress: local.progress,
-    currentProblem: problem,
-    weakTopics: adaptive?.weakTopics ?? [],
-    planSlugs: relevantSlugs,
-    limit: 5,
-  });
+  const intelligence = buildProblemIntelligence(problem, { targetCompanies: local.targetCompanies, progress, planRelevant: relevantSlugs.includes(slug), weakTopicMatches: adaptive?.weakTopics.filter((topic) => problem.topics.includes(topic)).length ?? 0 });
+  const recommendations = recommendProblems(catalog, { targetCompanies: local.targetCompanies, progress: local.progress, currentProblem: problem, weakTopics: adaptive?.weakTopics ?? [], planSlugs: relevantSlugs, limit: 5 });
   const targetReadiness = local.targetCompanies.slice(0, 5).map((company) => calculateCompanyReadiness(catalog, local.progress, company, now));
-  return {
-    problem,
-    intelligence,
-    priority: intelligence.priority,
-    recommendations,
-    plan: definition && adaptive ? { definition, adaptive } : null,
-    targetReadiness,
-  };
+  return { problem, intelligence, priority: intelligence.priority, recommendations, plan: definition && adaptive ? { definition, adaptive } : null, targetReadiness };
 }
 
-chrome.runtime.onInstalled.addListener(() => { void chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" }); });
+void ensureCatalogAlarm().catch((error) => console.warn("Leet Progress catalog alarm setup failed", error));
+chrome.alarms.onAlarm.addListener((alarm) => { if (alarm.name === CATALOG_REFRESH_ALARM) void refreshCatalogSafely(); });
+chrome.runtime.onInstalled.addListener(() => { void chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" }); void refreshCatalogSafely(); });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!isExtensionRequest(message)) { sendResponse({ ok: false, error: "Unsupported message" } satisfies ExtensionResponse); return; }
