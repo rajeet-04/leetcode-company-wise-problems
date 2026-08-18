@@ -1,11 +1,9 @@
 # Phase 00 CI checkpoint
 
-Verified source commit: b429c1b18416cc6bfc008e9d1c21608c73f547cb
+Verified source commit: 2122fe13f6f1b58553d6c860e5f0ec8c54a56ed6
 
-Passed:
-- frontend frozen install
-- Next route type generation
-- frontend typecheck
-- frontend production build
-- root workspace install when present
-- shared Vitest suite when configured
+- PASS: frontend frozen install
+- PASS: Next route type generation
+- PASS: frontend typecheck
+- PASS: frontend production build
+- PASS: root workspace install
