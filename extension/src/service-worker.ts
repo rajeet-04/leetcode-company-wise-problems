@@ -1,4 +1,5 @@
 import { buildProblemIntelligence } from "@leet-progress/intelligence";
+import { recommendProblems } from "@leet-progress/recommendations";
 import { SYNC_PROTOCOL_VERSION, validateMutation } from "@leet-progress/sync";
 import type { CatalogProblem } from "@leet-progress/types";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
@@ -19,12 +20,19 @@ async function catalogIndex() {
 }
 
 async function problemPayload(slug: string) {
-  const problem = lookupCatalogProblem(await catalogIndex(), slug);
+  const index = await catalogIndex();
+  const problem = lookupCatalogProblem(index, slug);
   if (!problem) return null;
   const local = await getExtensionSyncState();
   const progress = local.progress.find((item) => item.slug === slug) ?? null;
   const intelligence = buildProblemIntelligence(problem, { targetCompanies: local.targetCompanies, progress });
-  return { problem, intelligence, priority: intelligence.priority };
+  const recommendations = recommendProblems([...index.values()], {
+    targetCompanies: local.targetCompanies,
+    progress: local.progress,
+    currentProblem: problem,
+    limit: 5,
+  });
+  return { problem, intelligence, priority: intelligence.priority, recommendations };
 }
 
 chrome.runtime.onInstalled.addListener(() => { void chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" }); });
