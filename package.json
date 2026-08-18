@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "packageManager": "bun@1.3.14",
-  "workspaces": ["frontend", "packages/*"],
+  "workspaces": ["frontend", "extension", "packages/*"],
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest"

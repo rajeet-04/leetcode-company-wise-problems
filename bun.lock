@@ -15,6 +15,17 @@
         "vitest": "4.1.10",
       },
     },
+    "extension": {
+      "name": "@leet-progress/extension",
+      "version": "0.1.0",
+      "dependencies": {
+        "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/types": "workspace:*",
+      },
+      "devDependencies": {
+        "vitest": "4.1.10",
+      },
+    },
     "frontend": {
       "name": "frontend",
       "version": "0.1.0",
@@ -214,6 +225,8 @@
     "@leet-progress/analytics": ["@leet-progress/analytics@workspace:packages/analytics"],
 
     "@leet-progress/catalog": ["@leet-progress/catalog@workspace:packages/catalog"],
+
+    "@leet-progress/extension": ["@leet-progress/extension@workspace:extension"],
 
     "@leet-progress/intelligence": ["@leet-progress/intelligence@workspace:packages/intelligence"],
 
