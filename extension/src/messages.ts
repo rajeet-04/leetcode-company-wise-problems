@@ -1,5 +1,5 @@
+import type { ProblemIntelligence } from "@leet-progress/intelligence";
 import type { CatalogProblem } from "@leet-progress/types";
-import type { ScoreResult } from "@leet-progress/intelligence";
 import type { ProgressMutation } from "@leet-progress/sync";
 import type { SubmissionOutcome } from "./submission-observer";
 
@@ -11,7 +11,12 @@ export type SyncExchangeRequest = { type: "sync:exchange"; protocolVersion: numb
 export type SubmissionRequest = { type: "progress:submission"; slug: string; outcome: SubmissionOutcome; fingerprint: string; observedAt: string };
 export type ExtensionRequest = LookupRequest | SetCurrentRequest | GetCurrentRequest | OpenPanelRequest | SyncExchangeRequest | SubmissionRequest;
 
-export type ProblemPayload = { problem: CatalogProblem; priority: ScoreResult };
+export type ProblemPayload = {
+  problem: CatalogProblem;
+  intelligence: ProblemIntelligence;
+  priority: ProblemIntelligence["priority"];
+};
+
 export type ExtensionResponse =
   | { ok: true; data?: ProblemPayload; slug?: string | null; installationId?: string; mutations?: ProgressMutation[] }
   | { ok: false; error: string };

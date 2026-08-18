@@ -13,13 +13,14 @@ async function renderForSlug(slug: string | null) {
   if (!response.ok || !response.data) { removeBadge(); return; }
   let root = document.getElementById(ROOT_ID);
   if (!root) { root = document.createElement("aside"); root.id = ROOT_ID; document.documentElement.append(root); }
-  const { problem, priority } = response.data;
+  const { problem, intelligence } = response.data;
   const companies = [...new Set(problem.observations.map((item) => item.company))];
   root.replaceChildren();
   const heading = document.createElement("strong"); heading.textContent = "Leet Progress";
-  const score = document.createElement("span"); score.className = "lp-score"; score.textContent = `${priority.score}`;
+  const score = document.createElement("span"); score.className = "lp-score"; score.textContent = `${intelligence.priority.score}`;
   const title = document.createElement("div"); title.className = "lp-title"; title.textContent = problem.title;
-  const meta = document.createElement("div"); meta.className = "lp-meta"; meta.textContent = `${problem.difficulty || "—"} · ${companies.length} ${companies.length === 1 ? "company" : "companies"}`;
+  const overlap = intelligence.targetOverlap.total ? ` · ${intelligence.targetOverlap.count}/${intelligence.targetOverlap.total} targets` : "";
+  const meta = document.createElement("div"); meta.className = "lp-meta"; meta.textContent = `${problem.difficulty || "—"} · ${companies.length} ${companies.length === 1 ? "company" : "companies"}${overlap}`;
   const button = document.createElement("button"); button.type = "button"; button.textContent = "Open panel"; button.addEventListener("click", () => void chrome.runtime.sendMessage({ type: "panel:open" }));
   root.append(heading, score, title, meta, button);
 }
