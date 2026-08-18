@@ -5,6 +5,13 @@
     "": {
       "name": "leet-progress-workspace",
       "devDependencies": {
+        "@leet-progress/analytics": "workspace:*",
+        "@leet-progress/catalog": "workspace:*",
+        "@leet-progress/intelligence": "workspace:*",
+        "@leet-progress/progress": "workspace:*",
+        "@leet-progress/recommendations": "workspace:*",
+        "@leet-progress/storage": "workspace:*",
+        "@leet-progress/types": "workspace:*",
         "vitest": "4.1.10",
       },
     },
