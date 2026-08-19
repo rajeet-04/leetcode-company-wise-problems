@@ -28,16 +28,25 @@ export type FirefoxManifest = Omit<ChromiumManifest, "background" | "side_panel"
   browser_specific_settings: { gecko: { id: string } };
 };
 
+const MAIN_WORLD_LOADERS: Record<string, string> = {
+  "page-submission-hook.js": "page-hook-loader.js",
+  "page-history-import-hook.js": "page-history-hook-loader.js",
+};
+
 export function toFirefoxManifest(input: ChromiumManifest): FirefoxManifest {
   const copy = structuredClone(input);
   const serviceWorker = copy.background.service_worker;
   const panelPath = copy.side_panel?.default_path ?? "sidepanel.html";
 
   const contentScripts = copy.content_scripts.map((script) => {
-    if (script.world === "MAIN" && script.js.includes("page-submission-hook.js")) {
+    if (script.world === "MAIN") {
+      if (script.js.length !== 1) throw new Error("Firefox MAIN-world adapter requires one packaged script per content-script entry");
+      const packagedScript = script.js[0]!;
+      const loader = MAIN_WORLD_LOADERS[packagedScript];
+      if (!loader) throw new Error(`No Firefox page-world loader registered for ${packagedScript}`);
       return {
         matches: [...script.matches],
-        js: ["page-hook-loader.js"],
+        js: [loader],
         ...(script.run_at ? { run_at: script.run_at } : {}),
       };
     }
@@ -60,7 +69,10 @@ export function toFirefoxManifest(input: ChromiumManifest): FirefoxManifest {
     sidebar_action: { default_panel: panelPath, default_title: copy.name },
     content_scripts: contentScripts,
     web_accessible_resources: [
-      { resources: ["page-submission-hook.js"], matches: ["https://leetcode.com/*"] },
+      {
+        resources: ["page-submission-hook.js", "page-history-import-hook.js"],
+        matches: ["https://leetcode.com/*"],
+      },
     ],
     browser_specific_settings: {
       gecko: { id: "leet-progress@rajeet-04.github.io" },

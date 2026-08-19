@@ -19,11 +19,19 @@ describe("Firefox manifest transformation", () => {
     expect(JSON.stringify(firefox)).not.toContain("side_panel");
     expect(JSON.stringify(firefox)).not.toContain("sidePanel");
 
-    const loader = firefox.content_scripts.find((script) => script.js.includes("page-hook-loader.js"));
-    expect(loader?.matches).toEqual(["https://leetcode.com/problems/*"]);
-    expect(loader).not.toHaveProperty("world");
+    const submissionLoader = firefox.content_scripts.find((script) => script.js.includes("page-hook-loader.js"));
+    expect(submissionLoader?.matches).toEqual(["https://leetcode.com/problems/*"]);
+    expect(submissionLoader).not.toHaveProperty("world");
+
+    const historyLoader = firefox.content_scripts.find((script) => script.js.includes("page-history-hook-loader.js"));
+    expect(historyLoader?.matches).toEqual(["https://leetcode.com/progress/*"]);
+    expect(historyLoader).not.toHaveProperty("world");
+
     expect(firefox.web_accessible_resources).toEqual([
-      { resources: ["page-submission-hook.js"], matches: ["https://leetcode.com/*"] },
+      {
+        resources: ["page-submission-hook.js", "page-history-import-hook.js"],
+        matches: ["https://leetcode.com/*"],
+      },
     ]);
   });
 
