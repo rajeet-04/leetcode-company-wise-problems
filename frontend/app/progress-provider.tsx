@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { InterviewPlan } from "@leet-progress/plans";
-import { LEGACY_SOLVED_STORAGE_KEY, migrateLegacySolved, scheduleNextRevision, solvedSlugs, type ProblemProgress } from "@leet-progress/progress";
+import { applyBackup, createBackup, LEGACY_SOLVED_STORAGE_KEY, migrateLegacySolved, parseBackup, scheduleNextRevision, solvedSlugs, type LeetProgressBackup, type ProblemProgress } from "@leet-progress/progress";
 import { SYNC_PROTOCOL_VERSION, SYNC_SCHEMA_VERSION, applyProgressMutations, bootstrapProgressMutations, createTargetsMutation, deriveInterviewPlans, deriveTargetCompanies, mergeMutations, type ProgressMutation } from "@leet-progress/sync";
 import { chooseProgressStore, type BrowserProgressStore } from "@/src/local/progress-store";
 
@@ -21,6 +21,8 @@ type ProgressContextValue = {
   completeRevision(slug: string, priorityScore: number): void;
   savePlan(plan: InterviewPlan): void;
   deletePlan(planId: string): void;
+  createLocalBackup(): LeetProgressBackup;
+  mergeLocalBackup(value: unknown): void;
   applyRemoteMutations(mutations: readonly ProgressMutation[]): void;
 };
 
@@ -179,9 +181,36 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     commitMutations([{ protocolVersion: 1, schemaVersion: 1, mutationId: mutationId(installationId, at), installationId, source: "web", type: "PLAN_DELETE", occurredAt: at, payload: { planId } }]);
   }, [commitMutations, installationId, ready]);
 
+  const createLocalBackup = useCallback(() => createBackup(progress, { targetCompanies }, new Date().toISOString()), [progress, targetCompanies]);
+
+  const mergeLocalBackup = useCallback((value: unknown) => {
+    if (!ready || !installationId) throw new Error("Local progress store is not ready");
+    const backup = parseBackup(value);
+    const mergedState = applyBackup(progress, { targetCompanies }, backup, "merge");
+    const currentBySlug = new Map(progress.map((item) => [item.slug, item]));
+    const changed = mergedState.progress.filter((item) => JSON.stringify(currentBySlug.get(item.slug) ?? null) !== JSON.stringify(item));
+    const at = new Date().toISOString();
+    const incoming: ProgressMutation[] = changed.map((item, index) => ({
+      protocolVersion: SYNC_PROTOCOL_VERSION,
+      schemaVersion: SYNC_SCHEMA_VERSION,
+      mutationId: mutationId(installationId, `${at}:backup:${index}`),
+      installationId,
+      source: "web",
+      type: "PROBLEM_STATE_SET",
+      occurredAt: at,
+      payload: { progress: item },
+    }));
+    const currentTargets = [...targetCompanies].sort((a, b) => a.localeCompare(b));
+    const backupTargets = [...mergedState.preferences.targetCompanies].sort((a, b) => a.localeCompare(b));
+    if (JSON.stringify(currentTargets) !== JSON.stringify(backupTargets)) {
+      incoming.push(createTargetsMutation(backupTargets, installationId, "web", at, mutationId(installationId, `${at}:backup:targets`)));
+    }
+    commitMutations(incoming);
+  }, [commitMutations, installationId, progress, ready, targetCompanies]);
+
   const applyRemoteMutations = useCallback((incoming: readonly ProgressMutation[]) => commitMutations(incoming), [commitMutations]);
   const solved = useMemo(() => solvedSlugs(progress), [progress]);
-  const value = useMemo(() => ({ progress, mutations, solved, targetCompanies, plans, ready, installationId, toggleSolved, importSolved, toggleTargetCompany, setTargetCompanies, completeRevision, savePlan, deletePlan, applyRemoteMutations }), [progress, mutations, solved, targetCompanies, plans, ready, installationId, toggleSolved, importSolved, toggleTargetCompany, setTargetCompanies, completeRevision, savePlan, deletePlan, applyRemoteMutations]);
+  const value = useMemo(() => ({ progress, mutations, solved, targetCompanies, plans, ready, installationId, toggleSolved, importSolved, toggleTargetCompany, setTargetCompanies, completeRevision, savePlan, deletePlan, createLocalBackup, mergeLocalBackup, applyRemoteMutations }), [progress, mutations, solved, targetCompanies, plans, ready, installationId, toggleSolved, importSolved, toggleTargetCompany, setTargetCompanies, completeRevision, savePlan, deletePlan, createLocalBackup, mergeLocalBackup, applyRemoteMutations]);
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
 }
