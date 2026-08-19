@@ -12,6 +12,7 @@ await mkdir(outdir, { recursive: true });
 
 const entryNames = [
   "content",
+  "panel-scope",
   "service-worker",
   "popup",
   "sidepanel",

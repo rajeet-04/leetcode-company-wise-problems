@@ -1,6 +1,20 @@
+import { panelOptionsForUrl } from "./panel-lifecycle";
+
 export async function restrictExtensionStorageAccess(): Promise<void> {
   if (chrome.storage.local.setAccessLevel) {
     await chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" });
+  }
+}
+
+export async function disableGlobalExtensionPanel(): Promise<void> {
+  if (chrome.sidePanel?.setOptions) {
+    await chrome.sidePanel.setOptions({ enabled: false });
+  }
+}
+
+export async function configureExtensionPanel(tabId: number, url: string | undefined): Promise<void> {
+  if (chrome.sidePanel?.setOptions) {
+    await chrome.sidePanel.setOptions({ tabId, ...panelOptionsForUrl(url) });
   }
 }
 

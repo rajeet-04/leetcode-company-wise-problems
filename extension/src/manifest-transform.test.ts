@@ -24,8 +24,11 @@ describe("Firefox manifest transformation", () => {
     expect(submissionLoader).not.toHaveProperty("world");
 
     const historyLoader = firefox.content_scripts.find((script) => script.js.includes("page-history-hook-loader.js"));
-    expect(historyLoader?.matches).toEqual(["https://leetcode.com/progress/*"]);
+    expect(historyLoader?.matches).toEqual(["https://leetcode.com/*"]);
     expect(historyLoader).not.toHaveProperty("world");
+
+    const scope = firefox.content_scripts.find((script) => script.js.includes("panel-scope.js"));
+    expect(scope?.matches).toEqual(["https://leetcode.com/*"]);
 
     expect(firefox.web_accessible_resources).toEqual([
       {
@@ -43,6 +46,6 @@ describe("Firefox manifest transformation", () => {
     expect(first).toEqual(second);
     expect(source.background).toEqual({ service_worker: "service-worker.js" });
     expect(source.permissions).toContain("sidePanel");
-    expect(source.content_scripts[0]?.world).toBe("MAIN");
+    expect(source.content_scripts[1]?.world).toBe("MAIN");
   });
 });
