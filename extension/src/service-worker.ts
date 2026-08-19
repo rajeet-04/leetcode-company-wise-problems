@@ -8,6 +8,7 @@ import { openExtensionPanel, restrictExtensionStorageAccess } from "./browser-ru
 import { loadCachedCatalog } from "./catalog-cache";
 import { CATALOG_REFRESH_ALARM, refreshPublicCatalog } from "./catalog-refresh";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
+import { createHistoryImportMutations } from "./history-import";
 import { isAllowedLeetCodeUrl } from "./leetcode-origin";
 import { isExtensionRequest, type ExtensionResponse } from "./messages";
 import { getCurrentProblemSlug, setCurrentProblemSlug } from "./storage";
@@ -89,6 +90,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (!Array.isArray(message.mutations) || !message.mutations.every(validateMutation)) return { ok: false, error: "Invalid sync mutation batch" };
       const state = await exchangeExtensionMutations(message.mutations, message.knownMutationIds);
       return { ok: true, installationId: await getExtensionInstallationId(), mutations: state.outgoing };
+    }
+    if (message.type === "progress:history-import") {
+      if (!isAllowedLeetCodeUrl(sender.url)) return { ok: false, error: "History import origin rejected" };
+      if (!Array.isArray(message.slugs) || message.slugs.length > 10_000 || typeof message.observedAt !== "string" || Number.isNaN(Date.parse(message.observedAt))) {
+        return { ok: false, error: "Invalid history import payload" };
+      }
+      const installationId = await getExtensionInstallationId();
+      const current = await getExtensionSyncState();
+      const incoming = createHistoryImportMutations(message.slugs, installationId, message.observedAt);
+      const existingIds = new Set(current.mutations.map((mutation) => mutation.mutationId));
+      const imported = incoming.filter((mutation) => !existingIds.has(mutation.mutationId)).length;
+      await exchangeExtensionMutations(incoming, []);
+      return { ok: true, imported };
     }
     if (message.type === "progress:submission") {
       if (!isAllowedLeetCodeUrl(sender.url)) return { ok: false, error: "Submission origin rejected" };
