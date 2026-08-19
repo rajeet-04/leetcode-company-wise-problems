@@ -4,6 +4,7 @@ import { buildAdaptivePlan } from "@leet-progress/plans";
 import { recommendProblems } from "@leet-progress/recommendations";
 import { SYNC_PROTOCOL_VERSION, deriveInterviewPlans, validateMutation } from "@leet-progress/sync";
 import type { CatalogProblem } from "@leet-progress/types";
+import { openExtensionPanel, restrictExtensionStorageAccess } from "./browser-runtime";
 import { loadCachedCatalog } from "./catalog-cache";
 import { CATALOG_REFRESH_ALARM, refreshPublicCatalog } from "./catalog-refresh";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
@@ -72,8 +73,12 @@ async function problemPayload(slug: string) {
 }
 
 void ensureCatalogAlarm().catch((error) => console.warn("Leet Progress catalog alarm setup failed", error));
+void restrictExtensionStorageAccess().catch((error) => console.warn("Leet Progress storage access hardening unavailable", error));
 chrome.alarms.onAlarm.addListener((alarm) => { if (alarm.name === CATALOG_REFRESH_ALARM) void refreshCatalogSafely(); });
-chrome.runtime.onInstalled.addListener(() => { void chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" }); void refreshCatalogSafely(); });
+chrome.runtime.onInstalled.addListener(() => {
+  void restrictExtensionStorageAccess().catch((error) => console.warn("Leet Progress storage access hardening unavailable", error));
+  void refreshCatalogSafely();
+});
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!isExtensionRequest(message)) { sendResponse({ ok: false, error: "Unsupported message" } satisfies ExtensionResponse); return; }
@@ -96,9 +101,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "state:set-current") { await setCurrentProblemSlug(message.slug); return { ok: true, slug: message.slug }; }
     if (message.type === "problem:lookup") { const data = await problemPayload(message.slug); return data ? { ok: true, data } : { ok: false, error: "Problem not found in catalog" }; }
     if (message.type === "state:get-current") { const slug = await getCurrentProblemSlug(); if (!slug) return { ok: true, slug: null }; const data = await problemPayload(slug); return { ok: true, slug, ...(data ? { data } : {}) }; }
-    const tabId = sender.tab?.id;
-    if (!tabId) return { ok: false, error: "No active LeetCode tab" };
-    await chrome.sidePanel.open({ tabId });
+    await openExtensionPanel(sender.tab?.id);
     return { ok: true };
   })().then(sendResponse, (error) => sendResponse({ ok: false, error: error instanceof Error ? error.message : "Extension error" } satisfies ExtensionResponse));
   return true;
