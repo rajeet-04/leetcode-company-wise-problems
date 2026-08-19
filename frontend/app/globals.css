@@ -38,6 +38,15 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   transition: background-color 240ms ease, color 180ms ease;
 }
+.app-shell {
+  background: var(--canvas);
+  color: var(--ink);
+}
+.app-shell-header {
+  background-color: var(--canvas);
+  background: color-mix(in srgb, var(--canvas) 94%, transparent);
+  border-color: var(--line);
+}
 body::before {
   content: "";
   position: fixed;
