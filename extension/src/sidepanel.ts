@@ -1,5 +1,7 @@
 import type { ExtensionResponse } from "./messages";
 
+const WEBSITE_URL = "https://leet-progress-eta.vercel.app/";
+
 function row(label: string, value: string) {
   const element = document.createElement("div"); element.className = "metric";
   const left = document.createElement("span"); left.textContent = label;
@@ -7,10 +9,24 @@ function row(label: string, value: string) {
   element.append(left, right); return element;
 }
 
+function websiteLink() {
+  const link = document.createElement("a");
+  link.className = "website-link";
+  link.href = WEBSITE_URL;
+  link.target = "_blank";
+  link.rel = "noreferrer";
+  link.textContent = "Open Leet Progress ↗";
+  return link;
+}
+
 async function refresh() {
   const root = document.querySelector<HTMLElement>("#app"); if (!root) return;
   const response = await chrome.runtime.sendMessage({ type: "state:get-current" }) as ExtensionResponse;
-  if (!response.ok || !response.data) { root.innerHTML = `<p class="eyebrow">Leet Progress</p><h1>Open a LeetCode problem</h1><p>The panel will follow the current problem in this browser profile.</p>`; return; }
+  if (!response.ok || !response.data) {
+    root.innerHTML = `<p class="eyebrow">Leet Progress</p><h1>Open a LeetCode problem</h1><p>The panel will follow the current problem in this browser profile.</p>`;
+    root.append(websiteLink());
+    return;
+  }
   const { problem, intelligence, recommendations, plan, targetReadiness } = response.data;
   const companies = [...new Set(problem.observations.map((item) => item.company))].sort(); root.replaceChildren();
   const eyebrow=document.createElement("p");eyebrow.className="eyebrow";eyebrow.textContent="Current problem";
@@ -33,10 +49,20 @@ async function refresh() {
   else{const empty=document.createElement("p");empty.textContent="Create a plan on the Leet Progress website to add interview context here.";planSection.append(empty);}
 
   const nextTitle=document.createElement("p");nextTitle.className="eyebrow";nextTitle.textContent="Recommended next";
-  const next=document.createElement("section");for(const recommendation of recommendations.slice(0,5)){const item=document.createElement("div");item.className="metric";const left=document.createElement("span");left.textContent=recommendation.title;const right=document.createElement("strong");right.textContent=String(recommendation.priorityScore);item.title=recommendation.reasons.join(", ");item.append(left,right);next.append(item);}
+  const next=document.createElement("section");
+  for(const recommendation of recommendations.slice(0,5)){
+    const item=document.createElement("a");
+    item.className="metric recommendation-link";
+    item.href=`https://leetcode.com/problems/${encodeURIComponent(recommendation.slug)}/`;
+    item.target="_blank";
+    item.rel="noreferrer";
+    const left=document.createElement("span");left.textContent=recommendation.title;
+    const right=document.createElement("strong");right.textContent=String(recommendation.priorityScore);
+    item.title=recommendation.reasons.join(", ");item.append(left,right);next.append(item);
+  }
   const listTitle=document.createElement("p");listTitle.className="eyebrow";listTitle.textContent="Companies";
   const list=document.createElement("div");list.className="chips";for(const company of companies.slice(0,20)){const chip=document.createElement("span");chip.textContent=company;list.append(chip);}
-  root.append(eyebrow,h1,score,meta,metrics,reasonsTitle,reasons,readinessTitle,readiness,planTitle,planSection,nextTitle,next,listTitle,list);
+  root.append(eyebrow,h1,websiteLink(),score,meta,metrics,reasonsTitle,reasons,readinessTitle,readiness,planTitle,planSection,nextTitle,next,listTitle,list);
 }
 
 void refresh();
