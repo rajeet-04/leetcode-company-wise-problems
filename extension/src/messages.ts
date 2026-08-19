@@ -12,7 +12,8 @@ export type GetCurrentRequest = { type: "state:get-current" };
 export type OpenPanelRequest = { type: "panel:open" };
 export type SyncExchangeRequest = { type: "sync:exchange"; protocolVersion: number; installationId: string; knownMutationIds: string[]; mutations: ProgressMutation[] };
 export type SubmissionRequest = { type: "progress:submission"; slug: string; outcome: SubmissionOutcome; fingerprint: string; observedAt: string };
-export type ExtensionRequest = LookupRequest | SetCurrentRequest | GetCurrentRequest | OpenPanelRequest | SyncExchangeRequest | SubmissionRequest;
+export type HistoryImportRequest = { type: "progress:history-import"; slugs: string[]; observedAt: string; requestId?: string };
+export type ExtensionRequest = LookupRequest | SetCurrentRequest | GetCurrentRequest | OpenPanelRequest | SyncExchangeRequest | SubmissionRequest | HistoryImportRequest;
 
 export type ProblemPlanContext = { definition: InterviewPlan; adaptive: AdaptivePlan } | null;
 
@@ -26,11 +27,11 @@ export type ProblemPayload = {
 };
 
 export type ExtensionResponse =
-  | { ok: true; data?: ProblemPayload; slug?: string | null; installationId?: string; mutations?: ProgressMutation[] }
+  | { ok: true; data?: ProblemPayload; slug?: string | null; installationId?: string; mutations?: ProgressMutation[]; imported?: number }
   | { ok: false; error: string };
 
 export function isExtensionRequest(value: unknown): value is ExtensionRequest {
   if (!value || typeof value !== "object" || !("type" in value)) return false;
   const type = (value as { type?: unknown }).type;
-  return ["problem:lookup", "state:set-current", "state:get-current", "panel:open", "sync:exchange", "progress:submission"].includes(String(type));
+  return ["problem:lookup", "state:set-current", "state:get-current", "panel:open", "sync:exchange", "progress:submission", "progress:history-import"].includes(String(type));
 }
