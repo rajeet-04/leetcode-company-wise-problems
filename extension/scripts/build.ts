@@ -10,8 +10,17 @@ const outdir = path.join(extensionRoot, target === "firefox" ? "dist-firefox" : 
 await rm(outdir, { recursive: true, force: true });
 await mkdir(outdir, { recursive: true });
 
-const entryNames = ["content", "service-worker", "popup", "sidepanel", "website-bridge", "page-submission-hook"];
-if (target === "firefox") entryNames.push("page-hook-loader");
+const entryNames = [
+  "content",
+  "service-worker",
+  "popup",
+  "sidepanel",
+  "website-bridge",
+  "page-submission-hook",
+  "progress-import",
+  "page-history-import-hook",
+];
+if (target === "firefox") entryNames.push("page-hook-loader", "page-history-hook-loader");
 
 const result = await Bun.build({
   entrypoints: entryNames.map((name) => path.join(extensionRoot, `src/${name}.ts`)),
