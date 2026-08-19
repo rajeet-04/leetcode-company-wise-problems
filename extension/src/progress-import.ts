@@ -82,7 +82,8 @@ window.addEventListener("message", (event) => {
     slugs: parsed.slugs,
     observedAt: new Date().toISOString(),
     requestId,
-  }).then((response: ExtensionResponse) => {
+  }).then((rawResponse) => {
+    const response = rawResponse as ExtensionResponse;
     if (!response.ok) throw new Error(response.error);
     const imported = response.imported ?? parsed.slugs.length;
     button.disabled = false;
