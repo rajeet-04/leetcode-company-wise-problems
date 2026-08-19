@@ -50,7 +50,7 @@ jobs:
         if: ${{ hashFiles('extension/package.json') != '' }}
         working-directory: extension
         run: bun run test
-      - name: Extension build
+      - name: Extension builds (Chromium + Firefox)
         if: ${{ hashFiles('extension/package.json') != '' }}
         working-directory: extension
-        run: bun run build
+        run: bun run build:all
