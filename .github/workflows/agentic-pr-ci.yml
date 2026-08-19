@@ -3,7 +3,7 @@ name: Agentic Phase PR CI
 on:
   pull_request:
     branches:
-      - docs/agentic-roadmap
+      - main
 
 permissions:
   contents: write
