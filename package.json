@@ -6,7 +6,8 @@
   "workspaces": ["frontend", "extension", "packages/*"],
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "privacy:audit": "node scripts/privacy-audit.mjs"
   },
   "devDependencies": {
     "@leet-progress/analytics": "workspace:*",
