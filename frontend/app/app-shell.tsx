@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Suspense, type ReactNode } from "react";
+import { Suspense, useState, type ReactNode } from "react";
+import { ExtensionImportGuide } from "./extension-import-guide";
 import { useLocalSync } from "./local-sync-bridge";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -76,9 +77,11 @@ function SyncStatus() {
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const [importing, setImporting] = useState(false);
+
   return (
-    <div className="min-h-screen bg-[#f7f7f5] text-[#171717]">
-      <header className="sticky top-0 z-30 border-b border-black/10 bg-[#f7f7f5]/95 backdrop-blur">
+    <div className="app-shell min-h-screen">
+      <header className="app-shell-header sticky top-0 z-30 border-b backdrop-blur">
         <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-6 lg:px-10">
           <Link href="/" className="flex shrink-0 items-center gap-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6878e8]">
             <span className="grid size-9 place-items-center rounded-xl bg-[#171717] text-sm font-bold text-white">LP</span>
@@ -94,12 +97,20 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Suspense>
           </nav>
 
+          <button
+            type="button"
+            onClick={() => setImporting(true)}
+            className="hidden shrink-0 rounded-full bg-[#171717] px-3.5 py-2.5 text-[11px] font-semibold text-white transition focus:outline-none focus:ring-2 focus:ring-[#6878e8] xl:inline-flex"
+          >
+            Import from LeetCode
+          </button>
           <SyncStatus />
           <Link href="/privacy" className="hidden shrink-0 rounded-full px-2 py-2 text-[11px] font-semibold text-black/45 hover:text-black focus:outline-none focus:ring-2 focus:ring-[#6878e8] lg:block">Privacy</Link>
           <ThemeToggle />
         </div>
       </header>
       {children}
+      {importing && <ExtensionImportGuide onClose={() => setImporting(false)} />}
     </div>
   );
 }
