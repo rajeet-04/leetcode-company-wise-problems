@@ -30,7 +30,6 @@ export type FirefoxManifest = Omit<ChromiumManifest, "background" | "side_panel"
 
 const MAIN_WORLD_LOADERS: Record<string, string> = {
   "page-submission-hook.js": "page-hook-loader.js",
-  "page-history-import-hook.js": "page-history-hook-loader.js",
 };
 
 export function toFirefoxManifest(input: ChromiumManifest): FirefoxManifest {
@@ -70,7 +69,7 @@ export function toFirefoxManifest(input: ChromiumManifest): FirefoxManifest {
     content_scripts: contentScripts,
     web_accessible_resources: [
       {
-        resources: ["page-submission-hook.js", "page-history-import-hook.js"],
+        resources: ["page-submission-hook.js"],
         matches: ["https://leetcode.com/*"],
       },
     ],

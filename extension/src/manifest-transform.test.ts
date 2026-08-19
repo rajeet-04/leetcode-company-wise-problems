@@ -11,7 +11,7 @@ describe("Firefox manifest transformation", () => {
       default_panel: "sidepanel.html",
       default_title: "Leet Progress",
     });
-    expect(firefox.permissions.sort()).toEqual(["alarms", "storage"]);
+    expect(firefox.permissions.sort()).toEqual(["alarms", "scripting", "storage"]);
     expect(firefox.host_permissions.sort()).toEqual([
       "https://leet-progress-eta.vercel.app/*",
       "https://leetcode.com/*",
@@ -24,15 +24,14 @@ describe("Firefox manifest transformation", () => {
     expect(submissionLoader).not.toHaveProperty("world");
 
     const historyLoader = firefox.content_scripts.find((script) => script.js.includes("page-history-hook-loader.js"));
-    expect(historyLoader?.matches).toEqual(["https://leetcode.com/*"]);
-    expect(historyLoader).not.toHaveProperty("world");
+    expect(historyLoader).toBeUndefined();
 
     const scope = firefox.content_scripts.find((script) => script.js.includes("panel-scope.js"));
     expect(scope?.matches).toEqual(["https://leetcode.com/*"]);
 
     expect(firefox.web_accessible_resources).toEqual([
       {
-        resources: ["page-submission-hook.js", "page-history-import-hook.js"],
+        resources: ["page-submission-hook.js"],
         matches: ["https://leetcode.com/*"],
       },
     ]);

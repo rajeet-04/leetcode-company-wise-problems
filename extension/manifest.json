@@ -3,7 +3,7 @@
   "name": "Leet Progress",
   "version": "0.1.0",
   "description": "Local-first company intelligence while solving LeetCode problems.",
-  "permissions": ["storage", "sidePanel", "alarms"],
+  "permissions": ["storage", "sidePanel", "alarms", "scripting"],
   "host_permissions": ["https://leetcode.com/*", "https://leet-progress-eta.vercel.app/*"],
   "background": { "service_worker": "service-worker.js" },
   "action": { "default_title": "Leet Progress", "default_popup": "popup.html" },
@@ -12,11 +12,7 @@
     { "matches": ["https://leetcode.com/*"], "js": ["panel-scope.js"], "run_at": "document_idle" },
     { "matches": ["https://leetcode.com/problems/*"], "js": ["page-submission-hook.js"], "run_at": "document_start", "world": "MAIN" },
     { "matches": ["https://leetcode.com/problems/*"], "js": ["content.js"], "css": ["content.css"], "run_at": "document_idle" },
-    { "matches": ["https://leetcode.com/*"], "js": ["page-history-hook-loader.js"], "run_at": "document_start" },
     { "matches": ["https://leetcode.com/progress/*"], "js": ["progress-import.js"], "run_at": "document_idle" },
     { "matches": ["https://leet-progress-eta.vercel.app/*"], "js": ["website-bridge.js"], "run_at": "document_start" }
-  ],
-  "web_accessible_resources": [
-    { "resources": ["page-history-import-hook.js"], "matches": ["https://leetcode.com/*"] }
   ]
 }

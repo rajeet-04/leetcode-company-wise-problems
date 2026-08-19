@@ -5,7 +5,7 @@ import manifest from "../manifest.json";
 
 describe("extension hardening",()=>{
   it("keeps the permission surface narrow",()=>{
-    expect([...manifest.permissions].sort()).toEqual(["alarms","sidePanel","storage"]);
+    expect([...manifest.permissions].sort()).toEqual(["alarms","scripting","sidePanel","storage"]);
     expect([...manifest.host_permissions].sort()).toEqual(["https://leet-progress-eta.vercel.app/*","https://leetcode.com/*"]);
     expect(JSON.stringify(manifest)).not.toContain("storage.sync");
   });

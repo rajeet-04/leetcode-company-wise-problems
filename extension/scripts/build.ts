@@ -21,7 +21,6 @@ const entryNames = [
   "page-submission-hook",
   "progress-import",
   "page-history-import-hook",
-  "page-history-hook-loader",
 ];
 if (target === "firefox") entryNames.push("page-hook-loader");
 
