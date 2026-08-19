@@ -42,7 +42,7 @@ export default function ExtensionSetupPage() {
           <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#6878e8]">Browser extension</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-[-.04em] sm:text-5xl">Install Leet Progress from GitHub.</h1>
           <p className="mt-5 max-w-2xl text-sm leading-7 text-black/55 sm:text-base">
-            Until the extension is published in a browser store, install the signed source build as an unpacked developer extension. The downloadable package and the canonical setup instructions live on GitHub.
+            Until the extension is published in a browser store, install the packaged release build as an unpacked developer extension. The downloadable package and the canonical setup instructions live on GitHub.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a href={CHROMIUM_ZIP} className="rounded-full bg-[#171717] px-5 py-3 text-xs font-semibold text-white focus:outline-none focus:ring-2 focus:ring-[#6878e8]">Download Chromium ZIP</a>

@@ -5,12 +5,11 @@ import { describe, expect, it } from "vitest";
 const root = process.cwd();
 const read = (file: string) => fs.readFileSync(path.join(root, file), "utf8");
 
-const releaseAsset = "https://github.com/rajeet-04/leetcode-company-wise-problems/releases/latest/download/leet-progress-chromium.zip";
-
 describe("extension installer experience", () => {
   it("provides a dedicated visual install guide backed by GitHub releases", () => {
     const page = read("frontend/app/extension/page.tsx");
-    expect(page).toContain(releaseAsset);
+    expect(page).toContain('const REPO = "https://github.com/rajeet-04/leetcode-company-wise-problems"');
+    expect(page).toContain("releases/latest/download/leet-progress-chromium.zip");
     expect(page).toContain("edge://extensions");
     expect(page).toContain("Load unpacked");
     expect(page).toContain("/extension-guide/edge-developer-mode.jpg");
