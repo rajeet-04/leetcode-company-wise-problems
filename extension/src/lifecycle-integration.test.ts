@@ -4,11 +4,14 @@ import { describe, expect, it } from "vitest";
 import manifest from "../manifest.json";
 
 describe("LeetCode-scoped extension lifecycle", () => {
-  it("loads a lightweight scope controller across LeetCode and the history page hook everywhere it may reconcile", () => {
+  it("loads a lightweight scope controller and a page-world history hook loader across LeetCode", () => {
     const scope = manifest.content_scripts.find((script) => script.js.includes("panel-scope.js"));
     expect(scope?.matches).toEqual(["https://leetcode.com/*"]);
-    const historyHook = manifest.content_scripts.find((script) => script.js.includes("page-history-import-hook.js"));
-    expect(historyHook?.matches).toEqual(["https://leetcode.com/*"]);
+    const historyLoader = manifest.content_scripts.find((script) => script.js.includes("page-history-hook-loader.js"));
+    expect(historyLoader?.matches).toEqual(["https://leetcode.com/*"]);
+    expect(manifest.web_accessible_resources).toEqual([
+      { resources: ["page-history-import-hook.js"], matches: ["https://leetcode.com/*"] },
+    ]);
   });
 
   it("keeps launcher mode page-session local and minimizes only after successful open", () => {

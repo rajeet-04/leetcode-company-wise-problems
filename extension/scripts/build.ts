@@ -21,8 +21,9 @@ const entryNames = [
   "page-submission-hook",
   "progress-import",
   "page-history-import-hook",
+  "page-history-hook-loader",
 ];
-if (target === "firefox") entryNames.push("page-hook-loader", "page-history-hook-loader");
+if (target === "firefox") entryNames.push("page-hook-loader");
 
 const result = await Bun.build({
   entrypoints: entryNames.map((name) => path.join(sourceRoot, `${name}.ts`)),
