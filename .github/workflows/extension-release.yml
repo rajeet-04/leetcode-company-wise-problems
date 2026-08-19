@@ -1,0 +1,55 @@
+name: Extension release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "extension/**"
+      - "packages/**"
+      - "artifacts/catalog/extension-catalog.json"
+      - ".github/workflows/extension-release.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: extension-release
+  cancel-in-progress: false
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Build Chromium and Firefox packages
+        run: cd extension && bun run build:all
+      - name: Package release ZIPs
+        shell: bash
+        run: |
+          test -f extension/dist/manifest.json
+          test -f extension/dist/service-worker.js
+          test -f extension/dist-firefox/manifest.json
+          (cd extension/dist && zip -qr ../../leet-progress-chromium.zip .)
+          (cd extension/dist-firefox && zip -qr ../../leet-progress-firefox.zip .)
+          test -s leet-progress-chromium.zip
+          test -s leet-progress-firefox.zip
+      - name: Publish latest GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          tag="extension-$(date -u +%Y%m%d)-${GITHUB_SHA::7}"
+          title="Leet Progress Extension ${GITHUB_SHA::7}"
+          notes="Developer-mode browser packages built from ${GITHUB_SHA}. Download the Chromium ZIP, extract it, then use Load unpacked on edge://extensions or chrome://extensions."
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" leet-progress-chromium.zip leet-progress-firefox.zip --clobber
+            gh release edit "$tag" --latest
+          else
+            gh release create "$tag" leet-progress-chromium.zip leet-progress-firefox.zip --target "$GITHUB_SHA" --title "$title" --notes "$notes" --latest
+          fi

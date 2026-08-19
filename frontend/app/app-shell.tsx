@@ -54,13 +54,26 @@ function NavFallback() {
 
 function SyncStatus() {
   const { diagnostics, syncNow } = useLocalSync();
+
+  if (diagnostics.state === "unavailable") {
+    return (
+      <Link
+        href="/extension"
+        aria-label="Set up the Leet Progress browser extension for local sync"
+        title="Install the Leet Progress extension from GitHub"
+        className="hidden shrink-0 items-center gap-2 rounded-full border border-[#6878e8]/25 bg-[#6878e8]/10 px-3 py-2 text-[11px] font-semibold text-[#5364da] transition hover:border-[#6878e8]/40 focus:outline-none focus:ring-2 focus:ring-[#6878e8] md:flex"
+      >
+        <span aria-hidden="true" className="size-1.5 rounded-full bg-[#6878e8]" />
+        Set up extension
+      </Link>
+    );
+  }
+
   const label = diagnostics.state === "connected"
     ? "Extension linked"
     : diagnostics.state === "checking"
       ? "Checking extension"
-      : diagnostics.state === "unavailable"
-        ? "Local only"
-        : "Sync retry";
+      : "Sync retry";
 
   return (
     <button
