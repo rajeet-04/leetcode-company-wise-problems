@@ -1,18 +1,61 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocalSync } from "./local-sync-bridge";
 import { useProgress } from "./progress-provider";
 
+const FALLBACK_RESULT_TYPE = "LEET_PROGRESS_FALLBACK_RESULT";
+const LEETCODE_ORIGIN = "https://leetcode.com";
+const HISTORY_QUERY = "query userProgressQuestionList($filters: UserProgressQuestionListInput) { userProgressQuestionList(filters: $filters) { totalNum questions { frontendId titleSlug questionStatus } } }";
+
+function buildFallbackScript(appOrigin: string): string {
+  return `(async()=>{const APP_ORIGIN=${JSON.stringify(appOrigin)};const QUERY=${JSON.stringify(HISTORY_QUERY)};const LIMIT=50;let skip=0,total=Infinity;const solved=new Set();try{while(skip<total){const response=await fetch('/graphql/',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json','x-operation-name':'userProgressQuestionList'},body:JSON.stringify({operationName:'userProgressQuestionList',variables:{filters:{skip,limit:LIMIT}},query:QUERY})});if(!response.ok)throw new Error('HTTP '+response.status);const json=await response.json();if(json.errors)throw new Error('LeetCode GraphQL error');const result=json&&json.data&&json.data.userProgressQuestionList;if(!result||typeof result.totalNum!=='number'||!Array.isArray(result.questions))throw new Error('LeetCode progress response changed');total=result.totalNum;for(const item of result.questions){if(item&&item.questionStatus==='SOLVED'&&typeof item.titleSlug==='string'&&item.titleSlug)solved.add(item.titleSlug);}if(!result.questions.length)break;skip+=LIMIT;}if(!window.opener)throw new Error('Open this page from Leet Progress first');window.opener.postMessage({type:'${FALLBACK_RESULT_TYPE}',version:1,ok:true,slugs:[...solved].sort()},APP_ORIGIN);}catch(error){if(window.opener)window.opener.postMessage({type:'${FALLBACK_RESULT_TYPE}',version:1,ok:false,error:error instanceof Error?error.message:'Import failed'},APP_ORIGIN);console.error('Leet Progress fallback import failed',error);}})();`;
+}
+
 export function ExtensionImportGuide({ onClose }: { onClose: () => void }) {
-  const { createLocalBackup, mergeLocalBackup, ready } = useProgress();
+  const { createLocalBackup, importSolved, mergeLocalBackup, ready } = useProgress();
   const { diagnostics, syncNow } = useLocalSync();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const fallbackWindowRef = useRef<Window | null>(null);
   const [status, setStatus] = useState<string | null>(null);
 
-  const openProgress = () => {
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== LEETCODE_ORIGIN || event.source !== fallbackWindowRef.current) return;
+      const data = event.data as { type?: unknown; version?: unknown; ok?: unknown; slugs?: unknown; error?: unknown };
+      if (data?.type !== FALLBACK_RESULT_TYPE || data.version !== 1) return;
+      if (data.ok !== true) {
+        setStatus(typeof data.error === "string" ? `LeetCode import failed: ${data.error}` : "LeetCode import failed.");
+        return;
+      }
+      const slugs = Array.isArray(data.slugs)
+        ? [...new Set(data.slugs.filter((item): item is string => typeof item === "string").map((item) => item.trim().toLowerCase()).filter((item) => /^[a-z0-9-]+$/.test(item)))]
+        : [];
+      importSolved(slugs);
+      setStatus(slugs.length ? `Received ${slugs.length} solved problems from LeetCode and merged them locally.` : "LeetCode returned no solved problems.");
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [importSolved]);
+
+  const openProgressWithExtension = () => {
     window.open("https://leetcode.com/progress/", "_blank", "noopener,noreferrer");
     setStatus("On LeetCode Progress, click the Leet Progress ‘Import solved history’ button. Return here when it finishes.");
+  };
+
+  const openFallbackProgress = () => {
+    const popup = window.open("https://leetcode.com/progress/", "leet-progress-fallback", "popup,width=1200,height=900");
+    fallbackWindowRef.current = popup;
+    setStatus(popup ? "LeetCode Progress opened. Copy the one-time import script below, paste it into that tab’s DevTools Console, and press Enter." : "Popup blocked. Allow popups, then try the no-extension import again.");
+  };
+
+  const copyFallbackScript = async () => {
+    try {
+      await navigator.clipboard.writeText(buildFallbackScript(window.location.origin));
+      setStatus("One-time import script copied. Paste it only into the Console on the LeetCode Progress tab opened from this dialog.");
+    } catch {
+      setStatus("Clipboard access was blocked. Allow clipboard permission and try again.");
+    }
   };
 
   const exportBackup = () => {
@@ -51,30 +94,49 @@ export function ExtensionImportGuide({ onClose }: { onClose: () => void }) {
         : "Extension not detected";
 
   return (
-    <div className="fixed inset-0 z-40 grid place-items-center bg-black/20 p-4 backdrop-blur-sm">
-      <div role="dialog" aria-modal="true" aria-labelledby="import-title" className="w-full max-w-xl rounded-[28px] bg-[#fbfbf9] p-7 shadow-2xl">
+    <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-black/20 p-4 backdrop-blur-sm">
+      <div role="dialog" aria-modal="true" aria-labelledby="import-title" className="my-6 w-full max-w-2xl rounded-[28px] bg-[#fbfbf9] p-6 shadow-2xl sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[.16em] text-[#6878e8]">Local data</p>
-            <h2 id="import-title" className="mt-2 text-2xl font-semibold tracking-tight">Import without DevTools.</h2>
+            <p className="text-xs font-semibold uppercase tracking-[.16em] text-[#6878e8]">LeetCode history</p>
+            <h2 id="import-title" className="mt-2 text-2xl font-semibold tracking-tight">Import solved problems.</h2>
           </div>
           <button type="button" onClick={onClose} aria-label="Close import dialog" className="rounded-full px-2 text-xl text-black/35 focus:outline-none focus:ring-2 focus:ring-[#6878e8]">×</button>
         </div>
 
-        <p className="mt-4 text-sm leading-6 text-black/55">The browser extension imports solved LeetCode slugs directly from your signed-in Progress page and keeps them in this browser profile. No pasted JavaScript, passwords, or cloud progress upload.</p>
+        <p className="mt-4 text-sm leading-6 text-black/55">Choose the path that matches this browser. Both methods keep the imported solved slugs in your local Leet Progress data.</p>
 
-        <section className="mt-6 rounded-2xl border border-black/10 bg-white p-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div><p className="text-sm font-semibold">LeetCode solved history</p><p className="mt-1 text-xs text-black/45">{syncLabel}</p></div>
-            <button type="button" onClick={syncNow} className="rounded-full border border-black/10 px-3 py-2 text-xs font-semibold">Sync now</button>
-          </div>
-          <ol className="mt-4 grid gap-2 text-xs text-black/55 sm:grid-cols-3">
-            <Step n="1" text="Open LeetCode Progress while signed in." />
-            <Step n="2" text="Click ‘Import solved history’ in the Leet Progress card." />
-            <Step n="3" text="Return here; local extension sync updates the website." />
-          </ol>
-          <button type="button" onClick={openProgress} className="mt-4 w-full rounded-full bg-[#171717] py-3 text-xs font-semibold text-white">Open LeetCode Progress</button>
-        </section>
+        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+          <section className="rounded-2xl border border-black/10 bg-white p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div><p className="text-sm font-semibold">With extension</p><p className="mt-1 text-xs text-black/45">{syncLabel}</p></div>
+              <span className="rounded-full bg-[#6878e8]/10 px-2.5 py-1 text-[10px] font-semibold text-[#5364da]">Recommended</span>
+            </div>
+            <ol className="mt-4 grid gap-2 text-xs text-black/55">
+              <Step n="1" text="Open LeetCode Progress while signed in." />
+              <Step n="2" text="Click ‘Import solved history’ in the Leet Progress card." />
+              <Step n="3" text="Return here; local extension sync updates the website." />
+            </ol>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button type="button" onClick={openProgressWithExtension} className="rounded-full bg-[#171717] px-4 py-2.5 text-xs font-semibold text-white">Open LeetCode Progress</button>
+              <button type="button" onClick={syncNow} className="rounded-full border border-black/10 px-3 py-2.5 text-xs font-semibold">Sync now</button>
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-black/10 bg-white p-4">
+            <p className="text-sm font-semibold">Without extension</p>
+            <p className="mt-1 text-xs leading-5 text-black/45">Fallback for browsers where the extension is missing or unavailable. It uses your existing LeetCode session and sends only solved slugs back to this tab.</p>
+            <ol className="mt-4 grid gap-2 text-xs text-black/55">
+              <Step n="1" text="Open LeetCode Progress from the button below." />
+              <Step n="2" text="Copy the one-time import script and paste it into that tab’s DevTools Console." />
+              <Step n="3" text="Press Enter; the solved list returns to this Leet Progress tab." />
+            </ol>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <button type="button" onClick={openFallbackProgress} className="rounded-full bg-[#171717] px-4 py-2.5 text-xs font-semibold text-white">Open fallback tab</button>
+              <button type="button" onClick={copyFallbackScript} className="rounded-full border border-black/10 px-3 py-2.5 text-xs font-semibold">Copy one-time import script</button>
+            </div>
+          </section>
+        </div>
 
         <section className="mt-4 rounded-2xl border border-black/10 bg-white p-4">
           <p className="text-sm font-semibold">Portable local backup</p>
@@ -93,5 +155,5 @@ export function ExtensionImportGuide({ onClose }: { onClose: () => void }) {
 }
 
 function Step({ n, text }: { n: string; text: string }) {
-  return <li className="list-none rounded-xl bg-black/[.035] p-3"><span className="grid size-6 place-items-center rounded-full bg-[#6878e8] text-[11px] font-bold text-white">{n}</span><span className="mt-2 block leading-5">{text}</span></li>;
+  return <li className="flex list-none gap-2 rounded-xl bg-black/[.035] p-3"><span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#6878e8] text-[11px] font-bold text-white">{n}</span><span className="leading-5">{text}</span></li>;
 }
