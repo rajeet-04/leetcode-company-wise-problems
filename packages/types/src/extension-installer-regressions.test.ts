@@ -13,9 +13,9 @@ describe("extension installer experience", () => {
     expect(page).toContain("edge://extensions");
     expect(page).toContain("Load unpacked");
     expect(page).toContain("/extension-guide/edge-developer-mode.jpg");
-    expect(page).toContain("/extension-guide/edge-extension-loaded.jpg");
+    expect(page).toContain("/extension-guide/edge-developer-mode.png");
     expect(fs.existsSync(path.join(root, "frontend/public/extension-guide/edge-developer-mode.jpg"))).toBe(true);
-    expect(fs.existsSync(path.join(root, "frontend/public/extension-guide/edge-extension-loaded.jpg"))).toBe(true);
+    expect(fs.existsSync(path.join(root, "frontend/public/extension-guide/edge-developer-mode.png"))).toBe(true);
   });
 
   it("turns missing-extension sync state into a setup entry point", () => {

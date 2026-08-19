@@ -15,9 +15,9 @@ Leet Progress is currently distributed as a developer-mode unpacked browser exte
 6. Select the extracted folder that directly contains `manifest.json` and `service-worker.js`.
 7. Confirm **Leet Progress** appears in the extensions list and the service worker is available.
 
-![Microsoft Edge extensions page with Developer mode enabled and Load unpacked visible](../frontend/public/extension-guide/edge-developer-mode.jpg)
+![Microsoft Edge extensions page with Developer mode enabled and Load unpacked visible](../frontend/public/extension-guide/edge-developer-mode.png)
 
-![Leet Progress loaded successfully in Microsoft Edge](../frontend/public/extension-guide/edge-extension-loaded.jpg)
+![Leet Progress loaded successfully in Microsoft Edge](../frontend/public/extension-guide/edge-developer-mode.png)
 
 ## First sync
 
