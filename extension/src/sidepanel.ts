@@ -38,4 +38,12 @@ async function refresh() {
   const list=document.createElement("div");list.className="chips";for(const company of companies.slice(0,20)){const chip=document.createElement("span");chip.textContent=company;list.append(chip);}
   root.append(eyebrow,h1,score,meta,metrics,reasonsTitle,reasons,readinessTitle,readiness,planTitle,planSection,nextTitle,next,listTitle,list);
 }
-void refresh(); window.setInterval(()=>void refresh(),1000);
+
+void refresh();
+chrome.storage.onChanged.addListener((_changes, areaName) => {
+  if (areaName === "local") void refresh();
+});
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) void refresh();
+});
+window.addEventListener("focus", () => { void refresh(); });

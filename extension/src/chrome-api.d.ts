@@ -9,7 +9,10 @@ declare const chrome: {
     local: {
       get(keys?: string | string[] | null): Promise<Record<string, unknown>>;
       set(items: Record<string, unknown>): Promise<void>;
-      setAccessLevel(options: { accessLevel: "TRUSTED_CONTEXTS" | "TRUSTED_AND_UNTRUSTED_CONTEXTS" }): Promise<void>;
+      setAccessLevel?: (options: { accessLevel: "TRUSTED_CONTEXTS" | "TRUSTED_AND_UNTRUSTED_CONTEXTS" }) => Promise<void>;
+    };
+    onChanged: {
+      addListener(listener: (changes: Record<string, { oldValue?: unknown; newValue?: unknown }>, areaName: string) => void): void;
     };
   };
   alarms: {
@@ -17,5 +20,6 @@ declare const chrome: {
     create(name: string, alarmInfo: { delayInMinutes?: number; periodInMinutes?: number }): Promise<void>;
     onAlarm: { addListener(listener: (alarm: { name: string }) => void): void };
   };
-  sidePanel: { open(options: { tabId: number }): Promise<void> };
+  sidePanel?: { open(options: { tabId: number }): Promise<void> };
+  sidebarAction?: { open(): Promise<void> };
 };

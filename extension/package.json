@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "scripts": { "build": "bun run scripts/build.ts", "test": "vitest run --config vitest.config.ts" },
+  "scripts": {
+    "build": "bun run build:chromium",
+    "build:chromium": "bun run scripts/build.ts chromium",
+    "build:firefox": "bun run scripts/build.ts firefox",
+    "build:all": "bun run build:chromium && bun run build:firefox",
+    "test": "vitest run --config vitest.config.ts"
+  },
   "dependencies": {
     "@leet-progress/analytics": "workspace:*",
     "@leet-progress/intelligence": "workspace:*",
