@@ -7,6 +7,7 @@ const result = buildCatalogArtifacts({
   rootDir,
   webDataDir: path.join(frontendDir, "src", "data"),
   extensionArtifactPath: path.join(rootDir, "artifacts", "catalog", "extension-catalog.json"),
+  publicCatalogDir: path.join(frontendDir, "public", "catalog"),
 });
 
 console.log(

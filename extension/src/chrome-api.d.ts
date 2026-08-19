@@ -12,5 +12,10 @@ declare const chrome: {
       setAccessLevel(options: { accessLevel: "TRUSTED_CONTEXTS" | "TRUSTED_AND_UNTRUSTED_CONTEXTS" }): Promise<void>;
     };
   };
+  alarms: {
+    get(name: string): Promise<{ name: string } | undefined>;
+    create(name: string, alarmInfo: { delayInMinutes?: number; periodInMinutes?: number }): Promise<void>;
+    onAlarm: { addListener(listener: (alarm: { name: string }) => void): void };
+  };
   sidePanel: { open(options: { tabId: number }): Promise<void> };
 };
