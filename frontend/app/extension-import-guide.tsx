@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useLocalSync } from "./local-sync-bridge";
 import { useProgress } from "./progress-provider";
@@ -40,7 +41,7 @@ export function ExtensionImportGuide({ onClose }: { onClose: () => void }) {
 
   const openProgressWithExtension = () => {
     window.open("https://leetcode.com/progress/", "_blank", "noopener,noreferrer");
-    setStatus("On LeetCode Progress, click the Leet Progress ‘Import solved history’ button. Return here when it finishes.");
+    setStatus("LeetCode Progress opened. With the extension installed, solved history syncs automatically. Return here and use Sync now if the website has not updated yet.");
   };
 
   const openFallbackProgress = () => {
@@ -113,11 +114,12 @@ export function ExtensionImportGuide({ onClose }: { onClose: () => void }) {
               <span className="rounded-full bg-[#6878e8]/10 px-2.5 py-1 text-[10px] font-semibold text-[#5364da]">Recommended</span>
             </div>
             <ol className="mt-4 grid gap-2 text-xs text-black/55">
-              <Step n="1" text="Open LeetCode Progress while signed in." />
-              <Step n="2" text="Click ‘Import solved history’ in the Leet Progress card." />
+              <Step n="1" text="Install the extension once from GitHub if this browser is not linked yet." />
+              <Step n="2" text="Open LeetCode Progress while signed in. Solved history syncs automatically." />
               <Step n="3" text="Return here; local extension sync updates the website." />
             </ol>
             <div className="mt-4 flex flex-wrap gap-2">
+              {diagnostics.state !== "connected" && <Link href="/extension" onClick={onClose} className="rounded-full bg-[#6878e8] px-4 py-2.5 text-xs font-semibold text-white">Install / set up extension</Link>}
               <button type="button" onClick={openProgressWithExtension} className="rounded-full bg-[#171717] px-4 py-2.5 text-xs font-semibold text-white">Open LeetCode Progress</button>
               <button type="button" onClick={syncNow} className="rounded-full border border-black/10 px-3 py-2.5 text-xs font-semibold">Sync now</button>
             </div>
