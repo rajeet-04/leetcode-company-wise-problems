@@ -2,7 +2,15 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "scripts": { "dev": "next dev", "build": "next build", "start": "next start", "lint": "eslint", "catalog": "node scripts/build-catalog.mjs", "typecheck": "tsc --noEmit" },
+  "scripts": {
+    "brand:icons": "bun scripts/generate-brand-icons.ts",
+    "dev": "bun run brand:icons && next dev",
+    "build": "bun run brand:icons && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "catalog": "node scripts/build-catalog.mjs",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@leet-progress/analytics": "workspace:*",
     "@leet-progress/intelligence": "workspace:*",
@@ -11,8 +19,22 @@
     "@leet-progress/recommendations": "workspace:*",
     "@leet-progress/sync": "workspace:*",
     "@leet-progress/types": "workspace:*",
-    "next": "16.3.1", "react": "19.2.8", "react-dom": "19.2.8"
+    "next": "16.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
-  "devDependencies": { "@tailwindcss/postcss": "^4", "@types/node": "^20", "@types/react": "^19", "@types/react-dom": "^19", "eslint": "^9", "eslint-config-next": "16.3.1", "tailwindcss": "^4", "typescript": "^5" },
-  "packageManager": "bun@1.3.14", "ignoreScripts": ["sharp", "unrs-resolver"], "trustedDependencies": ["sharp", "unrs-resolver"]
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.1",
+    "sharp": "^0.34.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "packageManager": "bun@1.3.14",
+  "ignoreScripts": ["sharp", "unrs-resolver"],
+  "trustedDependencies": ["sharp", "unrs-resolver"]
 }
