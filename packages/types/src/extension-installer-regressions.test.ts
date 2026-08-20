@@ -12,10 +12,10 @@ describe("extension installer experience", () => {
     expect(page).toContain("releases/latest/download/leet-progress-chromium.zip");
     expect(page).toContain("edge://extensions");
     expect(page).toContain("Load unpacked");
-    expect(page).toContain("/extension-guide/edge-developer-mode.jpg");
-    expect(page).toContain("/extension-guide/edge-developer-mode.png");
-    expect(fs.existsSync(path.join(root, "frontend/public/extension-guide/edge-developer-mode.jpg"))).toBe(true);
-    expect(fs.existsSync(path.join(root, "frontend/public/extension-guide/edge-developer-mode.png"))).toBe(true);
+    expect(page).toContain("/edge-developer-mode.jpg");
+    expect(page).toContain("/edge-extension-loaded.jpg");
+    expect(fs.existsSync(path.join(root, "frontend/public/edge-developer-mode.jpg"))).toBe(true);
+    expect(fs.existsSync(path.join(root, "frontend/public/edge-extension-loaded.jpg"))).toBe(true);
   });
 
   it("turns missing-extension sync state into a setup entry point", () => {
@@ -43,5 +43,6 @@ describe("extension installer experience", () => {
     expect(doc).toContain("Load unpacked");
     expect(doc).toContain("https://github.com/rajeet-04/leetcode-company-wise-problems/releases/latest");
     expect(doc).toContain("https://leetcode.com/progress/");
+    expect(doc).toContain("https://leet.rajeet.in/");
   });
 });

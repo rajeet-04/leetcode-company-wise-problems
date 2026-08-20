@@ -1,4 +1,4 @@
-export const LEET_PROGRESS_WEBSITE_ORIGIN = "https://leet-progress-eta.vercel.app";
+export const LEET_PROGRESS_WEBSITE_ORIGIN = "https://leet.rajeet.in";
 export const SYNC_REQUEST_NAMESPACE = "LEET_PROGRESS_LOCAL_SYNC";
 export const SYNC_RESPONSE_NAMESPACE = "LEET_PROGRESS_LOCAL_SYNC_RESPONSE";
 

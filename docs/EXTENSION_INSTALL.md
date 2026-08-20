@@ -15,9 +15,9 @@ Leet Progress is currently distributed as a developer-mode unpacked browser exte
 6. Select the extracted folder that directly contains `manifest.json` and `service-worker.js`.
 7. Confirm **Leet Progress** appears in the extensions list and the service worker is available.
 
-![Microsoft Edge extensions page with Developer mode enabled and Load unpacked visible](../frontend/public/extension-guide/edge-developer-mode.png)
+![Microsoft Edge extensions page with Developer mode enabled and Load unpacked visible](../frontend/public/edge-developer-mode.jpg)
 
-![Leet Progress loaded successfully in Microsoft Edge](../frontend/public/extension-guide/edge-developer-mode.png)
+![Leet Progress loaded successfully in Microsoft Edge](../frontend/public/edge-extension-loaded.jpg)
 
 ## First sync
 
@@ -26,7 +26,7 @@ After installation:
 1. Sign in to LeetCode.
 2. Open `https://leetcode.com/progress/`.
 3. Leet Progress automatically reconciles the solved-problem set into local extension storage.
-4. Open `https://leet-progress-eta.vercel.app/` in the same browser profile. The website and extension exchange local mutations through the website bridge.
+4. Open `https://leet.rajeet.in/` in the same browser profile. The website and extension exchange local mutations through the website bridge.
 
 No cloud user-profile backend is required. The extension uses browser-local storage for user state.
 

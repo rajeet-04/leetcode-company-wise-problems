@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-const APP_ORIGIN = "https://leet-progress-eta.vercel.app";
+const APP_ORIGIN = "https://leet.rajeet.in";
 
 type Listener = (event: MessageEvent) => void;
 
