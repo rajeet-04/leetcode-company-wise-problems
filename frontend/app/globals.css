@@ -9,6 +9,13 @@
   --ink-muted: rgba(23, 23, 23, .55);
   --line: rgba(23, 23, 23, .10);
   --accent: #6878e8;
+  --glass-surface: rgba(255, 255, 255, .58);
+  --glass-control: rgba(255, 255, 255, .43);
+  --glass-border: rgba(255, 255, 255, .68);
+  --glass-highlight: rgba(255, 255, 255, .78);
+  --glass-shadow: rgba(37, 35, 30, .07);
+  --ambient-accent: rgba(104, 120, 232, .11);
+  --ambient-warm: rgba(215, 190, 135, .08);
   color-scheme: light;
 }
 
@@ -21,6 +28,13 @@ html.dark {
   --ink-muted: rgba(243, 240, 231, .62);
   --line: rgba(243, 240, 231, .12);
   --accent: #929aff;
+  --glass-surface: rgba(40, 39, 34, .64);
+  --glass-control: rgba(48, 47, 41, .50);
+  --glass-border: rgba(255, 255, 255, .115);
+  --glass-highlight: rgba(255, 255, 255, .075);
+  --glass-shadow: rgba(0, 0, 0, .22);
+  --ambient-accent: rgba(116, 128, 255, .105);
+  --ambient-warm: rgba(208, 176, 116, .055);
   color-scheme: dark;
 }
 
@@ -38,15 +52,32 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   transition: background-color 240ms ease, color 180ms ease;
 }
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 82%, transparent);
+  color: #ffffff;
+}
+.dark ::selection {
+  background: color-mix(in srgb, var(--accent) 86%, transparent);
+  color: #151512;
+}
+
 .app-shell {
-  background: var(--canvas);
+  min-height: 100vh;
   color: var(--ink);
+  background:
+    radial-gradient(circle at 12% -8%, var(--ambient-accent), transparent 31rem),
+    radial-gradient(circle at 90% 18%, var(--ambient-warm), transparent 34rem),
+    var(--canvas);
 }
 .app-shell-header {
-  background-color: var(--canvas);
-  background: color-mix(in srgb, var(--canvas) 94%, transparent);
+  background: color-mix(in srgb, var(--canvas) 78%, transparent);
   border-color: var(--line);
+  backdrop-filter: blur(24px) saturate(165%);
+  -webkit-backdrop-filter: blur(24px) saturate(165%);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--glass-highlight) 72%, transparent);
 }
+
 body::before {
   content: "";
   position: fixed;
@@ -60,6 +91,11 @@ body::before {
 html.dark body::before { opacity: .055; mix-blend-mode: soft-light; }
 button, select, input { font: inherit; }
 
+:where(button, a[href], input, select, summary):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 80%, white 20%);
+  outline-offset: 2px;
+}
+
 header span.grid.size-9 {
   background: transparent url("/leet-progress-mark.png") center / contain no-repeat;
   color: transparent;
@@ -70,44 +106,44 @@ header span.grid.size-9 {
   background-size: 82%;
   border-radius: 10px;
 }
+
 .theme-cycle {
   min-width: 4.5rem;
-  border-color: rgba(255, 255, 255, .62);
-  background: rgba(255, 255, 255, .58);
-  color: rgba(23, 23, 23, .62);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.76), 0 8px 28px rgba(23, 23, 23, .07);
+  border-color: var(--glass-border);
+  background: var(--glass-surface);
+  color: rgba(23, 23, 23, .64);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 8px 28px var(--glass-shadow);
   backdrop-filter: blur(18px) saturate(165%);
+  -webkit-backdrop-filter: blur(18px) saturate(165%);
 }
-.theme-cycle:hover { background: #fff; color: #171717; }
-.dark .theme-cycle {
-  border-color: rgba(243, 240, 231, .12);
-  background: rgba(36, 35, 31, .78);
-  color: rgba(243, 240, 231, .72);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, .22);
-}
-.dark .theme-cycle:hover { background: #2a2924; color: #f3f0e7; }
+.theme-cycle:hover { background: rgba(255, 255, 255, .78); color: #171717; }
+.dark .theme-cycle { color: rgba(243, 240, 231, .74); }
+.dark .theme-cycle:hover { background: rgba(54, 53, 46, .82); color: #f3f0e7; }
+
 @media (max-width: 640px) {
   .theme-cycle { min-width: 3.8rem; padding-inline: .7rem; }
   .header-actions { gap: .35rem; }
   .header-actions > button:last-child { padding-inline: .8rem; font-size: .68rem; }
 }
 
-/* Liquid glass material system. Large surfaces are thicker; controls stay lighter. */
+/* Liquid glass material system. Page cards share one material instead of mode-specific one-off fills. */
 .bg-white,
 .bg-white\/75,
 .bg-\[\#fbfbf9\],
 .bg-\[\#f4f4f2\] {
-  background-color: rgba(255, 255, 255, .54) !important;
-  border-color: rgba(255, 255, 255, .66) !important;
+  background-color: var(--glass-surface) !important;
+  background-image: linear-gradient(145deg, var(--glass-highlight), transparent 48%);
+  border-color: var(--glass-border) !important;
   backdrop-filter: blur(22px) saturate(155%);
   -webkit-backdrop-filter: blur(22px) saturate(155%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 12px 36px rgba(37,35,30,.055);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 12px 36px var(--glass-shadow);
 }
 .bg-\[\#f4f4f2\] {
-  background-color: rgba(255, 255, 255, .42) !important;
+  background-color: var(--glass-control) !important;
+  background-image: linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 72%, transparent), transparent 54%);
   backdrop-filter: blur(14px) saturate(145%);
   -webkit-backdrop-filter: blur(14px) saturate(145%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.58);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--glass-highlight) 82%, transparent);
 }
 .header-actions > button:last-child {
   backdrop-filter: blur(16px) saturate(150%);
@@ -115,38 +151,23 @@ header span.grid.size-9 {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 10px 30px rgba(23,23,23,.12);
 }
 .multi-select[open] > summary {
-  background-color: rgba(255,255,255,.68) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 8px 24px rgba(37,35,30,.08);
+  background-color: color-mix(in srgb, var(--glass-surface) 82%, white 18%) !important;
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 8px 24px var(--glass-shadow);
 }
 .multi-select > div {
   transform-origin: top right;
   animation: glass-materialize 180ms cubic-bezier(.2,.8,.2,1) both;
 }
-.dark .bg-white,
-.dark .bg-white\/75,
-.dark .bg-\[\#fbfbf9\],
-.dark .bg-\[\#f4f4f2\] {
-  background-color: rgba(41, 40, 35, .58) !important;
-  border-color: rgba(255, 255, 255, .11) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 16px 46px rgba(0,0,0,.18);
-}
-.dark .bg-\[\#f4f4f2\] { background-color: rgba(48, 47, 41, .48) !important; }
-.dark .multi-select[open] > summary { background-color: rgba(55,54,47,.72) !important; }
-@keyframes glass-materialize {
-  from { opacity: 0; transform: translateY(-4px) scale(.98); backdrop-filter: blur(8px); }
-  to { opacity: 1; transform: translateY(0) scale(1); backdrop-filter: blur(22px); }
-}
 
-/* Dark materials: preserve the light layout while giving every layer a role. */
-.dark main.bg-\[\#f7f7f5\] { background: var(--canvas); color: var(--ink); }
-.dark .bg-white { background-color: var(--surface); }
-.dark .bg-white\/75 { background-color: rgba(36, 35, 31, .78); }
-.dark .bg-\[\#fbfbf9\] { background-color: var(--surface-raised); }
-.dark .bg-\[\#f4f4f2\] { background-color: var(--surface-control); }
+/* Dark material corrections for Tailwind alpha utilities used throughout the app. */
+.dark main.bg-\[\#f7f7f5\] { background: transparent; color: var(--ink); }
 .dark .bg-\[\#171717\] { background-color: #f3f0e7; }
 .dark .bg-\[\#171717\].text-white { color: #181815 !important; }
+.dark .bg-\[\#171717\].text-white .text-white\/55 { color: rgba(24, 24, 21, .58) !important; }
+.dark .bg-\[\#171717\].text-white .text-white\/65 { color: rgba(24, 24, 21, .70) !important; }
 .dark .bg-\[\#171717\].p-4 {
   background-color: rgba(10, 10, 9, .78) !important;
+  background-image: linear-gradient(145deg, rgba(255,255,255,.045), transparent 48%);
   border: 1px solid rgba(255, 255, 255, .09);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.045), 0 12px 34px rgba(0,0,0,.20);
   backdrop-filter: blur(18px) saturate(130%);
@@ -155,42 +176,122 @@ header span.grid.size-9 {
 .dark .bg-\[\#171717\].p-4 code { color: rgba(243, 240, 231, .78); }
 .dark .bg-\[\#171717\].p-4 .text-white\/45 { color: rgba(243, 240, 231, .52); }
 .dark .bg-\[\#171717\].p-4 button { color: #f3f0e7; background-color: rgba(255,255,255,.10); }
+
 .dark .bg-black\/10 { background-color: rgba(243, 240, 231, .10); }
 .dark .bg-black\/20 { background-color: rgba(0, 0, 0, .56); }
-.dark .bg-black\/\[\.035\], .dark .bg-black\/\[\.05\] { background-color: rgba(243, 240, 231, .055); }
+.dark .bg-black\/\[\.02\],
+.dark .bg-black\/\[\.025\],
+.dark .bg-black\/\[\.035\] { background-color: rgba(243, 240, 231, .045); }
+.dark .bg-black\/\[\.05\],
+.dark .bg-black\/\[\.06\] { background-color: rgba(243, 240, 231, .070); }
+.dark .bg-black\/\[\.09\] { background-color: rgba(243, 240, 231, .105); }
+.dark .divide-black\/\[\.06\] > :not(:last-child) { border-color: rgba(243, 240, 231, .10); }
 
 .dark .text-black, .dark .text-\[\#171717\] { color: var(--ink) !important; }
-.dark .text-black\/30 { color: rgba(243, 240, 231, .38); }
-.dark .text-black\/35 { color: rgba(243, 240, 231, .44); }
-.dark .text-black\/40 { color: rgba(243, 240, 231, .50); }
-.dark .text-black\/45 { color: rgba(243, 240, 231, .58); }
-.dark .text-black\/55 { color: rgba(243, 240, 231, .67); }
-.dark .text-black\/60, .dark .text-black\/65, .dark .text-black\/70 { color: rgba(243, 240, 231, .74); }
+.dark .text-black\/30 { color: rgba(243, 240, 231, .40); }
+.dark .text-black\/35 { color: rgba(243, 240, 231, .46); }
+.dark .text-black\/40 { color: rgba(243, 240, 231, .52); }
+.dark .text-black\/45 { color: rgba(243, 240, 231, .60); }
+.dark .text-black\/50 { color: rgba(243, 240, 231, .64); }
+.dark .text-black\/55 { color: rgba(243, 240, 231, .69); }
+.dark .text-black\/60,
+.dark .text-black\/65,
+.dark .text-black\/70 { color: rgba(243, 240, 231, .76); }
 .dark .text-\[\#5364da\] { color: #a6adff; }
 .dark .text-\[\#6878e8\] { color: var(--accent); }
+.dark .text-amber-700 { color: #f3ca72; }
+.dark .text-rose-600 { color: #fb8ba0; }
+.dark .text-emerald-600 { color: #72dfb4; }
+.dark .text-amber-600 { color: #f5c96a; }
+.dark .bg-emerald-50 { background-color: rgba(45, 190, 135, .12); }
+.dark .bg-rose-50 { background-color: rgba(244, 91, 121, .12); }
+.dark .bg-amber-50 { background-color: rgba(236, 177, 58, .12); }
 
-.dark .border-black\/5, .dark .border-black\/10, .dark .border-black\/15 { border-color: var(--line); }
+.dark .border-black\/5,
+.dark .border-black\/10,
+.dark .border-black\/15 { border-color: var(--line); }
 .dark input, .dark select { color: var(--ink); }
-.dark input::placeholder { color: rgba(243, 240, 231, .42); }
+.dark input::placeholder { color: rgba(243, 240, 231, .44); }
 .dark select option { background: #25241f; color: var(--ink); }
-.dark .group:hover { background-color: rgba(243, 240, 231, .035); }
+.dark .group:hover { background-color: rgba(243, 240, 231, .04); }
 .dark .shadow-sm { box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 14px 40px rgba(0,0,0,.18); }
 .dark .shadow-2xl { box-shadow: 0 28px 90px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06); }
 
+@media (hover: hover) {
+  .dark .hover\:bg-black\/\[\.02\]:hover { background-color: rgba(243, 240, 231, .05) !important; }
+  .dark .hover\:bg-black\/\[\.09\]:hover { background-color: rgba(243, 240, 231, .11) !important; }
+  .dark .hover\:text-black:hover { color: var(--ink) !important; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  main { animation: page-materialize 360ms cubic-bezier(.2,.8,.2,1) both; }
   .group { animation: row-in .35s both; }
-  button { transition: transform 120ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease; }
+  button {
+    transition: transform 120ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  }
+  a[href] {
+    transition: transform 140ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease, opacity 180ms ease;
+  }
+  summary, input, select {
+    transition: transform 140ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+  @media (hover: hover) {
+    button:not(:disabled)[class*="rounded-"]:hover,
+    a[href][class*="rounded-"]:hover,
+    summary[class*="rounded-"]:hover { transform: translateY(-1px); }
+  }
   button:active { transform: scale(.97); }
+  a[href][class*="rounded-"]:active,
+  summary[class*="rounded-"]:active { transform: translateY(0) scale(.985); }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
+
 @media (prefers-reduced-transparency: reduce) {
   body::before { display: none; }
-  .backdrop-blur, .backdrop-blur-sm { backdrop-filter: none; }
+  .app-shell { background: var(--canvas); }
+  .app-shell-header,
+  .theme-cycle,
+  .bg-white,
+  .bg-white\/75,
+  .bg-\[\#fbfbf9\],
+  .bg-\[\#f4f4f2\],
+  .backdrop-blur,
+  .backdrop-blur-sm {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
+
 @media (prefers-contrast: more) {
-  :root { --line: rgba(23,23,23,.28); }
-  html.dark { --line: rgba(255,255,255,.30); }
+  :root { --line: rgba(23,23,23,.28); --glass-border: rgba(23,23,23,.24); }
+  html.dark { --line: rgba(255,255,255,.30); --glass-border: rgba(255,255,255,.30); }
 }
-@keyframes row-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .app-shell-header { background: color-mix(in srgb, var(--canvas) 96%, transparent); }
+  .bg-white,
+  .bg-white\/75,
+  .bg-\[\#fbfbf9\],
+  .bg-\[\#f4f4f2\] { background-color: color-mix(in srgb, var(--surface) 94%, transparent) !important; }
+}
+
+@keyframes glass-materialize {
+  from { opacity: 0; transform: translateY(-4px) scale(.98); backdrop-filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0) scale(1); backdrop-filter: blur(22px); }
+}
+@keyframes page-materialize {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

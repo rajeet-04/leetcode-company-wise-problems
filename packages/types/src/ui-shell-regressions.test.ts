@@ -21,8 +21,31 @@ describe("application shell regressions", () => {
 
     expect(shell).toContain("app-shell");
     expect(shell).toContain("app-shell-header");
-    expect(css).toMatch(/\.app-shell\s*\{[^}]*background:\s*var\(--canvas\)/s);
-    expect(css).toMatch(/\.app-shell-header\s*\{[^}]*background:/s);
+    expect(css).toMatch(/\.app-shell\s*\{[^}]*background:/s);
+    expect(css).toMatch(/\.app-shell-header\s*\{[^}]*backdrop-filter:/s);
+  });
+
+  it("keeps common translucent text and surface utilities readable in dark mode", () => {
+    const css = read("frontend/app/globals.css");
+
+    expect(css).toContain(".dark .text-black\\/50");
+    expect(css).toContain(".dark .bg-black\\/\\[\\.02\\]");
+    expect(css).toContain(".dark .bg-black\\/\\[\\.025\\]");
+    expect(css).toContain(".dark .bg-black\\/\\[\\.06\\]");
+    expect(css).toContain(".dark .divide-black\\/\\[\\.06\\]");
+  });
+
+  it("defines accessible selection, liquid glass, and reduced-motion-safe interaction feedback", () => {
+    const css = read("frontend/app/globals.css");
+
+    expect(css).toMatch(/::selection\s*\{[^}]*background:/s);
+    expect(css).toMatch(/\.dark ::selection\s*\{[^}]*color:/s);
+    expect(css).toContain("--glass-surface");
+    expect(css).toContain("--glass-highlight");
+    expect(css).toContain("@keyframes page-materialize");
+    expect(css).toContain("prefers-reduced-motion: reduce");
+    expect(css).toMatch(/button:active[^}]*transform:/s);
+    expect(css).toMatch(/a\[href\][^}]*transition:/s);
   });
 
   it("offers LeetCode import with and without the extension", () => {
