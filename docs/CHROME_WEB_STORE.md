@@ -14,6 +14,8 @@ This file is the canonical source for Chrome Web Store listing copy, privacy dec
 
 **Support:** https://github.com/rajeet-04/leetcode-company-wise-problems/issues
 
+**Minimum Chrome:** Chrome 116+. The extension programmatically opens the Side Panel, and `chrome.sidePanel.open()` is available from Chrome 116.
+
 **Not affiliated with LeetCode:** Leet Progress is an independent interview-preparation companion and is not endorsed by or affiliated with LeetCode.
 
 ## Single purpose
@@ -62,7 +64,7 @@ Required for two narrowly scoped features: downloading the public JSON problem/c
 
 ## Permissions intentionally not requested
 
-- `tabs`: not requested. Matching LeetCode host permission is sufficient for the scoped tab interactions used by the extension.
+- `tabs`: not requested. The service worker does not enumerate or open browser tabs; tab IDs used for the side panel come from the sender of a user/page interaction.
 - `scripting`: not requested. Page-world observers are packaged static content scripts limited to the exact LeetCode routes that need them.
 - `history`: not requested.
 - `cookies`: not requested.
@@ -98,7 +100,7 @@ Suggested reviewer note:
 
 ## Reviewer test path
 
-1. Install the Chromium ZIP produced from `extension/dist/`.
+1. Install the Chromium ZIP produced from `extension/dist/` on Chrome 116 or newer.
 2. Open any public `https://leetcode.com/problems/<slug>/` page.
 3. Use the Leet Progress launcher/side panel to see catalog-backed company intelligence and recommendations.
 4. Open the extension popup to confirm the same contextual state.
