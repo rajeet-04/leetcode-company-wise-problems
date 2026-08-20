@@ -114,7 +114,7 @@ export default function ExtensionSetupPage() {
           <div className="grid gap-5 xl:grid-cols-2">
             <figure className="overflow-hidden rounded-2xl border border-black/10 bg-black/[.02]">
               <Image
-                src="/extension-guide/edge-developer-mode.png"
+                src="/edge-developer-mode.jpg"
                 alt="Microsoft Edge extensions page with Developer mode enabled and Load unpacked visible"
                 width={1000}
                 height={625}
@@ -128,7 +128,7 @@ export default function ExtensionSetupPage() {
             </figure>
             <figure className="overflow-hidden rounded-2xl border border-black/10 bg-black/[.02]">
               <Image
-                src="/extension-guide/edge-developer-mode.png"
+                src="/edge-extension-loaded.jpg"
                 alt="Leet Progress loaded successfully in Microsoft Edge extensions with a service worker"
                 width={1000}
                 height={625}
