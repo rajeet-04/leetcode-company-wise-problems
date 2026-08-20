@@ -10,7 +10,6 @@ import { CATALOG_REFRESH_ALARM, refreshPublicCatalog } from "./catalog-refresh";
 import { createCatalogIndex, lookupCatalogProblem } from "./catalog-index";
 import { getHistoryReconcileState, setHistoryReconcileNeeded, setHistoryReconcileSuccess } from "./history-reconcile";
 import { createHistoryImportMutations } from "./history-import";
-import { injectHistoryHook } from "./history-hook-injection";
 import { isAllowedLeetCodeUrl } from "./leetcode-origin";
 import { isExtensionRequest, type ExtensionResponse } from "./messages";
 import { getCurrentProblemSlug, setCurrentProblemSlug } from "./storage";
@@ -130,11 +129,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "progress:history-status") {
       if (!isAllowedLeetCodeUrl(sender.url)) return { ok: false, error: "History status origin rejected" };
       return { ok: true, history: await getHistoryReconcileState() };
-    }
-    if (message.type === "progress:history-start") {
-      if (!isAllowedLeetCodeUrl(sender.url) || typeof sender.tab?.id !== "number") return { ok: false, error: "History reconciliation origin rejected" };
-      await injectHistoryHook(sender.tab.id);
-      return { ok: true, history: await setHistoryReconcileNeeded() };
     }
     if (message.type === "sync:exchange") {
       if (!isAllowedWebsiteUrl(sender.url)) return { ok: false, error: "Sync origin rejected" };
