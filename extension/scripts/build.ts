@@ -1,5 +1,6 @@
 import { access, copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { generateBrandIcons } from "../../frontend/scripts/generate-brand-icons";
 import { toFirefoxManifest, type ChromiumManifest } from "../src/manifest-transform";
 
 const extensionRoot = path.resolve(import.meta.dir, "..");
@@ -7,7 +8,9 @@ const sourceRoot = path.join(extensionRoot, "src");
 const repoRoot = path.resolve(extensionRoot, "..");
 const target = process.argv[2] === "firefox" ? "firefox" : "chromium";
 const outdir = path.join(extensionRoot, target === "firefox" ? "dist-firefox" : "dist");
+const canonicalBrandMark = path.join(repoRoot, "frontend/public/leet-progress-mark.png");
 
+await generateBrandIcons({ repoRoot, sourcePath: canonicalBrandMark });
 await rm(outdir, { recursive: true, force: true });
 await mkdir(outdir, { recursive: true });
 
