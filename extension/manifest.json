@@ -2,16 +2,33 @@
   "manifest_version": 3,
   "name": "Leet Progress",
   "version": "0.1.0",
+  "minimum_chrome_version": "116",
   "description": "Local-first company intelligence while solving LeetCode problems.",
-  "permissions": ["storage", "sidePanel", "alarms", "scripting"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": ["storage", "sidePanel", "alarms"],
   "host_permissions": ["https://leetcode.com/*", "https://leet.rajeet.in/*"],
   "background": { "service_worker": "service-worker.js" },
-  "action": { "default_title": "Leet Progress", "default_popup": "popup.html" },
+  "action": {
+    "default_title": "Leet Progress",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
   "side_panel": { "default_path": "sidepanel.html" },
   "content_scripts": [
     { "matches": ["https://leetcode.com/*"], "js": ["panel-scope.js"], "run_at": "document_idle" },
     { "matches": ["https://leetcode.com/problems/*"], "js": ["page-submission-hook.js"], "run_at": "document_start", "world": "MAIN" },
     { "matches": ["https://leetcode.com/problems/*"], "js": ["content.js"], "css": ["content.css"], "run_at": "document_idle" },
+    { "matches": ["https://leetcode.com/progress/*"], "js": ["page-history-import-hook.js"], "run_at": "document_start", "world": "MAIN" },
     { "matches": ["https://leetcode.com/progress/*"], "js": ["progress-import.js"], "run_at": "document_idle" },
     { "matches": ["https://leet.rajeet.in/*"], "js": ["website-bridge.js"], "run_at": "document_start" }
   ]

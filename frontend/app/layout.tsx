@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://leet.rajeet.in"),
   title: "Leet Progress — Company-wise LeetCode prep",
   description: "Local-first company intelligence, progress, plans, and analytics for LeetCode preparation.",
+  icons: {
+    icon: "/leet-progress-icon.png",
+    shortcut: "/leet-progress-icon.png",
+    apple: "/leet-progress-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

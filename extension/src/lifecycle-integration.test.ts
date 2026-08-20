@@ -4,12 +4,17 @@ import { describe, expect, it } from "vitest";
 import manifest from "../manifest.json";
 
 describe("LeetCode-scoped extension lifecycle", () => {
-  it("loads the lightweight scope controller without a CSP-sensitive DOM hook loader", () => {
+  it("loads page-world hooks only on the LeetCode routes that need them", () => {
     const scope = manifest.content_scripts.find((script) => script.js.includes("panel-scope.js"));
     expect(scope?.matches).toEqual(["https://leetcode.com/*"]);
-    const historyLoader = manifest.content_scripts.find((script) => script.js.includes("page-history-hook-loader.js"));
-    expect(historyLoader).toBeUndefined();
-    expect(manifest.web_accessible_resources).toBeUndefined();
+
+    const submissionHook = manifest.content_scripts.find((script) => script.js.includes("page-submission-hook.js"));
+    expect(submissionHook?.matches).toEqual(["https://leetcode.com/problems/*"]);
+    expect(submissionHook?.world).toBe("MAIN");
+
+    const historyHook = manifest.content_scripts.find((script) => script.js.includes("page-history-import-hook.js"));
+    expect(historyHook?.matches).toEqual(["https://leetcode.com/progress/*"]);
+    expect(historyHook?.world).toBe("MAIN");
   });
 
   it("keeps launcher mode page-session local and minimizes only after successful open", () => {
@@ -20,9 +25,14 @@ describe("LeetCode-scoped extension lifecycle", () => {
     expect(content).toContain('dataset.mode = "minimized"');
   });
 
-  it("grants only the permissions needed for local state, UI, alarms, and page-world history injection", () => {
-    expect([...manifest.permissions].sort()).toEqual(["alarms", "scripting", "sidePanel", "storage"]);
+  it("requests and uses only the least-privilege browser APIs", () => {
+    expect([...manifest.permissions].sort()).toEqual(["alarms", "sidePanel", "storage"]);
     expect([...manifest.host_permissions].sort()).toEqual(["https://leet.rajeet.in/*", "https://leetcode.com/*"]);
+    expect(manifest.permissions).not.toContain("scripting");
     expect(manifest.permissions).not.toContain("tabs");
+
+    const worker = readFileSync(path.resolve(import.meta.dirname, "service-worker.ts"), "utf8");
+    expect(worker).not.toContain("chrome.scripting");
+    expect(worker).not.toContain("chrome.tabs");
   });
 });
