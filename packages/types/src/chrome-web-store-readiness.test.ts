@@ -12,8 +12,9 @@ function pngSize(file: string): [number, number] {
 }
 
 describe("Chrome Web Store readiness", () => {
-  it("ships the required raster icon sizes and declares them in the manifest", () => {
+  it("ships the required raster icon sizes and targets a compatible Chrome version", () => {
     const manifest = JSON.parse(read("extension/manifest.json")) as {
+      minimum_chrome_version?: string;
       icons?: Record<string, string>;
       action?: { default_icon?: Record<string, string> };
     };
@@ -23,6 +24,7 @@ describe("Chrome Web Store readiness", () => {
       "48": "icons/icon-48.png",
       "128": "icons/icon-128.png",
     };
+    expect(manifest.minimum_chrome_version).toBe("116");
     expect(manifest.icons).toEqual(expected);
     expect(manifest.action?.default_icon).toEqual(expected);
     for (const size of [16, 32, 48, 128] as const) {
@@ -50,6 +52,7 @@ describe("Chrome Web Store readiness", () => {
     const store = read("docs/CHROME_WEB_STORE.md");
     expect(store).toContain("Single purpose");
     expect(store).toContain("Remote code: No");
+    expect(store).toContain("Chrome 116+");
     expect(store).toContain("https://leet.rajeet.in/privacy");
     expect(store).toContain("storage");
     expect(store).toContain("sidePanel");
