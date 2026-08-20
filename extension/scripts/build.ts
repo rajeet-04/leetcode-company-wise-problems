@@ -22,7 +22,7 @@ const entryNames = [
   "progress-import",
   "page-history-import-hook",
 ];
-if (target === "firefox") entryNames.push("page-hook-loader");
+if (target === "firefox") entryNames.push("page-hook-loader", "page-history-hook-loader");
 
 const result = await Bun.build({
   entrypoints: entryNames.map((name) => path.join(sourceRoot, `${name}.ts`)),
@@ -40,6 +40,12 @@ if (!result.success) {
 
 for (const file of ["popup.html", "sidepanel.html", "content.css", "ui.css"]) {
   await copyFile(path.join(extensionRoot, file), path.join(outdir, file));
+}
+
+const iconDir = path.join(outdir, "icons");
+await mkdir(iconDir, { recursive: true });
+for (const size of [16, 32, 48, 128]) {
+  await copyFile(path.join(extensionRoot, "icons", `icon-${size}.png`), path.join(iconDir, `icon-${size}.png`));
 }
 
 if (target === "firefox") {
@@ -63,7 +69,8 @@ async function assertBuiltFile(relativePath: string) {
 
 const builtManifest = JSON.parse(await readFile(path.join(outdir, "manifest.json"), "utf8")) as {
   background?: { service_worker?: string; scripts?: string[] };
-  action?: { default_popup?: string };
+  icons?: Record<string, string>;
+  action?: { default_popup?: string; default_icon?: Record<string, string> };
   side_panel?: { default_path?: string };
   sidebar_action?: { default_panel?: string };
   content_scripts?: Array<{ js?: string[]; css?: string[] }>;
@@ -73,7 +80,9 @@ const builtManifest = JSON.parse(await readFile(path.join(outdir, "manifest.json
 const referencedFiles = new Set<string>();
 if (builtManifest.background?.service_worker) referencedFiles.add(builtManifest.background.service_worker);
 for (const script of builtManifest.background?.scripts ?? []) referencedFiles.add(script);
+for (const icon of Object.values(builtManifest.icons ?? {})) referencedFiles.add(icon);
 if (builtManifest.action?.default_popup) referencedFiles.add(builtManifest.action.default_popup);
+for (const icon of Object.values(builtManifest.action?.default_icon ?? {})) referencedFiles.add(icon);
 if (builtManifest.side_panel?.default_path) referencedFiles.add(builtManifest.side_panel.default_path);
 if (builtManifest.sidebar_action?.default_panel) referencedFiles.add(builtManifest.sidebar_action.default_panel);
 for (const script of builtManifest.content_scripts ?? []) {
