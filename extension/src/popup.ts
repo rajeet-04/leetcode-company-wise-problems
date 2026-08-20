@@ -1,6 +1,6 @@
 import type { ExtensionResponse } from "./messages";
 
-const WEBSITE_URL = "https://leet-progress-eta.vercel.app/";
+const WEBSITE_URL = "https://leet.rajeet.in/";
 
 function websiteLink() {
   const link = document.createElement("a");
