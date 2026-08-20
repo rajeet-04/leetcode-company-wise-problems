@@ -33,9 +33,6 @@ function requestSolvedHistoryFromPage(): Promise<string[]> {
 }
 
 async function runReconciliation(): Promise<HistoryReconcileResult> {
-  const started = await chrome.runtime.sendMessage({ type: "progress:history-start" }) as ExtensionResponse;
-  if (!started.ok) throw new Error(started.error);
-
   const slugs = await requestSolvedHistoryFromPage();
   const observedAt = new Date().toISOString();
   const response = await chrome.runtime.sendMessage({
