@@ -21,10 +21,6 @@ declare const chrome: {
     create(name: string, alarmInfo: { delayInMinutes?: number; periodInMinutes?: number }): Promise<void>;
     onAlarm: { addListener(listener: (alarm: { name: string }) => void): void };
   };
-  tabs?: {
-    query(queryInfo: { url?: string | string[] }): Promise<Array<{ id?: number; url?: string }>>;
-    sendMessage(tabId: number, message: unknown): Promise<unknown>;
-  };
   sidePanel?: {
     open(options: { tabId: number }): Promise<void>;
     setOptions(options: { tabId?: number; path?: string; enabled?: boolean }): Promise<void>;
