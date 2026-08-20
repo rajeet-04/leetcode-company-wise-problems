@@ -41,7 +41,7 @@ describe("Chrome Web Store readiness", () => {
       "not sold",
       "not shared with advertisers",
       "delete",
-      "support@rajeet.in",
+      "github.com/rajeet-04/leetcode-company-wise-problems/issues",
       "Last updated",
     ]) expect(privacy).toContain(phrase);
   });
