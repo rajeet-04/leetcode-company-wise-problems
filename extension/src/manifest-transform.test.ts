@@ -11,27 +11,29 @@ describe("Firefox manifest transformation", () => {
       default_panel: "sidepanel.html",
       default_title: "Leet Progress",
     });
-    expect(firefox.permissions.sort()).toEqual(["alarms", "scripting", "storage"]);
+    expect(firefox.permissions.sort()).toEqual(["alarms", "storage"]);
     expect(firefox.host_permissions.sort()).toEqual([
       "https://leet.rajeet.in/*",
       "https://leetcode.com/*",
     ]);
     expect(JSON.stringify(firefox)).not.toContain("side_panel");
     expect(JSON.stringify(firefox)).not.toContain("sidePanel");
+    expect(firefox.permissions).not.toContain("scripting");
 
     const submissionLoader = firefox.content_scripts.find((script) => script.js.includes("page-hook-loader.js"));
     expect(submissionLoader?.matches).toEqual(["https://leetcode.com/problems/*"]);
     expect(submissionLoader).not.toHaveProperty("world");
 
     const historyLoader = firefox.content_scripts.find((script) => script.js.includes("page-history-hook-loader.js"));
-    expect(historyLoader).toBeUndefined();
+    expect(historyLoader?.matches).toEqual(["https://leetcode.com/progress/*"]);
+    expect(historyLoader).not.toHaveProperty("world");
 
     const scope = firefox.content_scripts.find((script) => script.js.includes("panel-scope.js"));
     expect(scope?.matches).toEqual(["https://leetcode.com/*"]);
 
     expect(firefox.web_accessible_resources).toEqual([
       {
-        resources: ["page-submission-hook.js"],
+        resources: ["page-submission-hook.js", "page-history-import-hook.js"],
         matches: ["https://leetcode.com/*"],
       },
     ]);
@@ -45,6 +47,7 @@ describe("Firefox manifest transformation", () => {
     expect(first).toEqual(second);
     expect(source.background).toEqual({ service_worker: "service-worker.js" });
     expect(source.permissions).toContain("sidePanel");
+    expect(source.permissions).not.toContain("scripting");
     expect(source.content_scripts[1]?.world).toBe("MAIN");
   });
 });
