@@ -11,7 +11,6 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://leet.rajeet.in"),
-  alternates: { canonical: "/" },
   title: "Leet Progress — Company-wise LeetCode prep",
   description: "Local-first company intelligence, progress, plans, and analytics for LeetCode preparation.",
 };
