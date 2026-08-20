@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <header className="app-shell-header sticky top-0 z-30 border-b backdrop-blur">
         <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-6 lg:px-10">
           <Link href="/" className="flex shrink-0 items-center gap-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6878e8]">
-            <span className="grid size-9 place-items-center rounded-xl bg-[#171717] text-sm font-bold text-white">LP</span>
+            <img src="/leet-progress-icon.png" alt="" width={36} height={36} className="size-9 shrink-0 rounded-xl" />
             <span className="hidden sm:block">
               <span className="block text-sm font-semibold">Leet Progress</span>
               <span className="block text-[11px] text-black/45">Local-first interview intelligence</span>
