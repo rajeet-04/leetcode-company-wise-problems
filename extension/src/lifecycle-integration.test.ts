@@ -25,10 +25,14 @@ describe("LeetCode-scoped extension lifecycle", () => {
     expect(content).toContain('dataset.mode = "minimized"');
   });
 
-  it("requests only permissions needed for local state, side panel UI, and catalog refresh", () => {
+  it("requests and uses only the least-privilege browser APIs", () => {
     expect([...manifest.permissions].sort()).toEqual(["alarms", "sidePanel", "storage"]);
     expect([...manifest.host_permissions].sort()).toEqual(["https://leet.rajeet.in/*", "https://leetcode.com/*"]);
     expect(manifest.permissions).not.toContain("scripting");
     expect(manifest.permissions).not.toContain("tabs");
+
+    const worker = readFileSync(path.resolve(import.meta.dirname, "service-worker.ts"), "utf8");
+    expect(worker).not.toContain("chrome.scripting");
+    expect(worker).not.toContain("chrome.tabs");
   });
 });
