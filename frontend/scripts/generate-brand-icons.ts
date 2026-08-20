@@ -1,8 +1,11 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
-const DEFAULT_REPO_ROOT = path.resolve(import.meta.dir, "../..");
+const MODULE_PATH = fileURLToPath(import.meta.url);
+const MODULE_DIR = path.dirname(MODULE_PATH);
+const DEFAULT_REPO_ROOT = path.resolve(MODULE_DIR, "../..");
 const EXTENSION_ICON_SIZES = [16, 32, 48, 128] as const;
 const WEBSITE_ICON_SIZE = 512;
 const TILE_COLOR = "#f3f0e7";
@@ -73,7 +76,8 @@ export async function generateBrandIcons(options: BrandIconOptions = {}): Promis
   ]);
 }
 
-if (import.meta.main) {
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
+if (invokedPath === MODULE_PATH) {
   await generateBrandIcons();
   console.log("Generated canonical Leet Progress website and extension icons.");
 }
