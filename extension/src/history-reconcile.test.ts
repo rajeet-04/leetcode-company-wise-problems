@@ -11,13 +11,14 @@ describe("history reconciliation", () => {
     expect(markHistoryReconcileNeeded(success)).toEqual({ ...success, needed: true });
   });
 
-  it("auto-starts on Progress and never opens hidden tabs", () => {
+  it("auto-starts on Progress and schedules later reconciliation without tab enumeration", () => {
     const progress = readFileSync(path.resolve(import.meta.dirname, "progress-import.ts"), "utf8");
     const worker = readFileSync(path.resolve(import.meta.dirname, "service-worker.ts"), "utf8");
     expect(progress).toContain("void runReconciliation(panel)");
     expect(progress).toContain('type !== "progress:reconcile-now"');
     expect(worker).toContain("chrome.runtime.onStartup.addListener");
-    expect(worker).toContain('query({ url: "https://leetcode.com/*" })');
-    expect(worker).not.toContain("chrome.tabs.create");
+    expect(worker).toContain("setHistoryReconcileNeeded()");
+    expect(worker).not.toContain("chrome.tabs");
+    expect(worker).not.toContain("chrome.scripting");
   });
 });
