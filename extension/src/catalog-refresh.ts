@@ -2,7 +2,7 @@ import type { CatalogProblem } from "@leet-progress/types";
 import { loadCachedCatalog, saveCachedCatalog } from "./catalog-cache";
 import { parseRemoteCatalogMetadata, validateRemoteCatalog } from "./catalog-update";
 
-export const PUBLIC_CATALOG_BASE = "https://leet-progress-eta.vercel.app/catalog";
+export const PUBLIC_CATALOG_BASE = "https://leet.rajeet.in/catalog";
 export const CATALOG_REFRESH_ALARM = "leet-progress-public-catalog-refresh";
 
 export async function refreshPublicCatalog(): Promise<CatalogProblem[] | null> {
