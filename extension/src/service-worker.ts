@@ -52,24 +52,6 @@ async function ensureCatalogAlarm() {
   if (!existing) await chrome.alarms.create(CATALOG_REFRESH_ALARM, { delayInMinutes: 5, periodInMinutes: 360 });
 }
 
-async function requestHistoryReconcileFromOpenLeetCodeTab() {
-  const tabsApi = chrome.tabs;
-  if (!tabsApi) return;
-  const tabs = await tabsApi.query({ url: "https://leetcode.com/*" });
-  const tab = tabs.find((item) => typeof item.id === "number");
-  if (!tab?.id) return;
-  try {
-    await tabsApi.sendMessage(tab.id, { type: "progress:reconcile-now" });
-  } catch {
-    // Existing tabs may not have the latest content scripts yet; pending state remains true.
-  }
-}
-
-async function markHistoryNeededAndRequest() {
-  await setHistoryReconcileNeeded();
-  await requestHistoryReconcileFromOpenLeetCodeTab();
-}
-
 function planSlugs(adaptive: ReturnType<typeof buildAdaptivePlan>): string[] {
   return [...new Set([...adaptive.dailyQueue, ...adaptive.buckets.mustSolve, ...adaptive.buckets.highPriority, ...adaptive.buckets.revision, ...adaptive.buckets.weakArea])];
 }
@@ -99,10 +81,10 @@ chrome.alarms.onAlarm.addListener((alarm) => { if (alarm.name === CATALOG_REFRES
 chrome.runtime.onInstalled.addListener(() => {
   void restrictExtensionStorageAccess().catch((error) => console.warn("Leet Progress storage access hardening unavailable", error));
   void refreshCatalogSafely();
-  void markHistoryNeededAndRequest().catch((error) => console.warn("Leet Progress history reconciliation scheduling failed", error));
+  void setHistoryReconcileNeeded().catch((error) => console.warn("Leet Progress history reconciliation scheduling failed", error));
 });
 chrome.runtime.onStartup.addListener(() => {
-  void markHistoryNeededAndRequest().catch((error) => console.warn("Leet Progress history reconciliation scheduling failed", error));
+  void setHistoryReconcileNeeded().catch((error) => console.warn("Leet Progress history reconciliation scheduling failed", error));
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
