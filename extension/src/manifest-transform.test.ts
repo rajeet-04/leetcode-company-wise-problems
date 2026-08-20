@@ -13,7 +13,7 @@ describe("Firefox manifest transformation", () => {
     });
     expect(firefox.permissions.sort()).toEqual(["alarms", "scripting", "storage"]);
     expect(firefox.host_permissions.sort()).toEqual([
-      "https://leet-progress-eta.vercel.app/*",
+      "https://leet.rajeet.in/*",
       "https://leetcode.com/*",
     ]);
     expect(JSON.stringify(firefox)).not.toContain("side_panel");
