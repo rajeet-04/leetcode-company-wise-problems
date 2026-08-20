@@ -64,7 +64,7 @@ export default function PrivacyPage() {
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-5 sm:p-6">
         <h2 className="text-xl font-semibold">Sale, advertising and sharing</h2>
         <div className="mt-3 space-y-3 text-sm leading-7 text-black/55">
-          <p>Personal preparation data is not sold, rented, or shared with advertisers.</p>
+          <p>Personal preparation data is not sold. It is not shared with advertisers or rented to data brokers.</p>
           <p>Leet Progress does not use personal progress for personalized advertising and does not upload hidden progress telemetry or remote user profiles.</p>
           <p>LeetCode remains a separate third-party service. Requests needed to read your own progress or observe your own submission result stay within your existing LeetCode browsing session.</p>
         </div>
