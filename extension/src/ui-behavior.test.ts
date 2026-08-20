@@ -18,7 +18,7 @@ describe("extension UI behavior", () => {
 
   it("offers an Open Leet Progress link from popup and side panel", () => {
     for (const file of [popup, sidepanel]) {
-      expect(file).toContain('https://leet-progress-eta.vercel.app/');
+      expect(file).toContain('https://leet.rajeet.in/');
       expect(file).toContain('Open Leet Progress ↗');
     }
   });
@@ -30,6 +30,6 @@ describe("extension UI behavior", () => {
   });
 
   it("keeps OTA catalog refresh pinned to the production website", () => {
-    expect(catalogRefresh).toContain('PUBLIC_CATALOG_BASE = "https://leet-progress-eta.vercel.app/catalog"');
+    expect(catalogRefresh).toContain('PUBLIC_CATALOG_BASE = "https://leet.rajeet.in/catalog"');
   });
 });
