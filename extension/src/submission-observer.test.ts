@@ -13,4 +13,34 @@ describe("LeetCode submission adapter", () => {
     expect(submissionFingerprint(payload)).toBe(submissionFingerprint({ ...payload }));
     expect(submissionFingerprint(payload)).toContain("123");
   });
+
+  it("emits terminal outcomes only for judge ids started by Submit, never Run Code", async () => {
+    const module = await import("./submission-observer");
+    const createTracker = (module as typeof module & {
+      createSubmissionResponseTracker?: () => {
+        inspect: (url: string, payload: unknown) => ReturnType<typeof classifySubmissionPayload>;
+      };
+    }).createSubmissionResponseTracker;
+
+    expect(createTracker).toBeTypeOf("function");
+    const tracker = createTracker!();
+
+    expect(tracker.inspect(
+      "https://leetcode.com/problems/two-sum/interpret_solution/",
+      { interpret_id: 7001 },
+    )).toBeNull();
+    expect(tracker.inspect(
+      "https://leetcode.com/submissions/detail/7001/check/",
+      { status_msg: "Accepted", submission_id: 7001, runtime: "1 ms" },
+    )).toBeNull();
+
+    expect(tracker.inspect(
+      "https://leetcode.com/problems/two-sum/submit/",
+      { submission_id: 8001 },
+    )).toBeNull();
+    expect(tracker.inspect(
+      "https://leetcode.com/submissions/detail/8001/check/",
+      { status_msg: "Accepted", submission_id: 8001, runtime: "2 ms" },
+    )).toEqual({ kind: "accepted", reason: "Accepted" });
+  });
 });
