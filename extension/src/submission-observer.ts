@@ -81,13 +81,13 @@ export function createSubmissionResponseTracker() {
 
       const judgeId = pollJudgeIdFromUrl(url);
       if (!judgeId) return null;
-      const source = sourceByJudgeId.get(judgeId);
-      if (!source) return null;
+      const trackedSource = sourceByJudgeId.get(judgeId);
+      if (!trackedSource) return null;
 
       const outcome = classifySubmissionPayload(payload);
       if (!outcome) return null;
       sourceByJudgeId.delete(judgeId);
-      return source === "submit" ? outcome : null;
+      return trackedSource === "submit" ? outcome : null;
     },
   };
 }
