@@ -1,10 +1,11 @@
-import { classifySubmissionPayload, isLikelySubmissionResponseUrl, submissionFingerprint } from "./submission-observer";
+import { createSubmissionResponseTracker, isSubmissionLifecycleUrl, submissionFingerprint } from "./submission-observer";
 
 const NAMESPACE = "LEET_PROGRESS_SUBMISSION_OBSERVED";
 const seen = new Set<string>();
+const tracker = createSubmissionResponseTracker();
 
-function inspectPayload(payload: unknown) {
-  const outcome = classifySubmissionPayload(payload);
+function inspectPayload(url: string, payload: unknown) {
+  const outcome = tracker.inspect(url, payload);
   if (!outcome) return;
   const fingerprint = submissionFingerprint(payload);
   if (seen.has(fingerprint)) return;
@@ -13,8 +14,8 @@ function inspectPayload(payload: unknown) {
 }
 
 function inspectResponse(response: Response) {
-  if (!isLikelySubmissionResponseUrl(response.url)) return;
-  void response.clone().json().then(inspectPayload).catch(() => undefined);
+  if (!isSubmissionLifecycleUrl(response.url)) return;
+  void response.clone().json().then((payload) => inspectPayload(response.url, payload)).catch(() => undefined);
 }
 
 const originalFetch = window.fetch.bind(window);
@@ -36,10 +37,10 @@ XMLHttpRequest.prototype.open = function(method: string, url: string | URL, ...r
 XMLHttpRequest.prototype.send = function(...args: unknown[]) {
   this.addEventListener("load", () => {
     const url = xhrUrls.get(this) ?? "";
-    if (!isLikelySubmissionResponseUrl(url)) return;
+    if (!isSubmissionLifecycleUrl(url)) return;
     try {
       const payload = this.responseType === "json" ? this.response : JSON.parse(this.responseText);
-      inspectPayload(payload);
+      inspectPayload(url, payload);
     } catch { /* Ignore unrelated/non-JSON responses. */ }
   }, { once: true });
   return (originalSend as (...args: unknown[]) => void).apply(this, args);
