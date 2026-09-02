@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { AppShell } from "./app-shell";
 import { LocalSyncProvider } from "./local-sync-bridge";
 import { ProgressProvider } from "./progress-provider";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <AppShell>{children}</AppShell>
           </LocalSyncProvider>
         </ProgressProvider>
+        <Analytics />
       </body>
     </html>
   );
