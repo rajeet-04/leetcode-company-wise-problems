@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "catalogVersion": "v2-17e01e676ae684f7",
-  "generatedAt": "2026-10-20T08:27:53.329Z",
-  "sourceRows": 37714,
-  "uniqueProblems": 3392,
-  "companies": 429,
-  "checksum": "17e01e676ae684f7d2f902ec141ee5640951fae1b56427d4f04d8681d1e806a1",
-  "mergedDuplicates": 34322
+  "catalogVersion": "v2-27354e88d08d21ba",
+  "generatedAt": "2026-10-21T08:30:10.677Z",
+  "sourceRows": 36347,
+  "uniqueProblems": 3396,
+  "companies": 423,
+  "checksum": "27354e88d08d21ba2489aaa54f1c9782e8bd26499aecaec5c4b992c31a589b5d",
+  "mergedDuplicates": 32951
 }
